@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import useScrollToTop from 'hooks/useScrollToTop';
 
 function App() {
+  useScrollToTop();
+   
   return (
     <div className="App">
       <header className="App-header">
