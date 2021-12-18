@@ -13,6 +13,7 @@ interface IButton {
   rightIcon?: React.ReactNode;
   loading?: boolean;
   isDisabled?: boolean;
+  full?: boolean;
 }
 
 const Button: React.FC<IButton> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<IButton> = ({
   className = '',
   loading = false,
   isDisabled = false,
+  full=false,
   ...rest
 }) => {
   // let style: string;
@@ -31,16 +33,17 @@ const Button: React.FC<IButton> = ({
   //   style = 'bg-primary text-white';
   // } else if (variant === 'outlined') {
   //   style = 'text-primary border-primary border';
-  // }
+  // }ull
   return (
     <button
       disabled={loading || isDisabled}
       className={cn(
-        `text-center w-full py-5 border font-bold rounded-xl text-sm flex justify-center items-center ${className}`,
+        `btn-primary-shadow text-left py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center hover:bg-white hover:text-primary duration-300 transition-all border-primary ${className}`,
         {
           'bg-primary text-white': variant === 'contained' && !isDisabled,
           'bg-light-shade-gray text-white':
             isDisabled && variant !== 'outlined',
+            'w-full':  full,
           'text-primary border-primary border': variant === 'outlined',
           'text-primary': variant === 'text',
           'border-none': variant === 'text',

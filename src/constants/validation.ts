@@ -3,7 +3,7 @@ import {isValidPhoneNumber} from 'libphonenumber-js';
 import * as yup from 'yup';
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email().required('Please Enter your email'),
+  matricNo: yup.string().required('Please Enter your email'),
   password: yup
     .string()
     .min(8)
