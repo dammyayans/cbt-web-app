@@ -1,0 +1,10 @@
+.opt-btn {
+  transition: all cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s;
+}
+.opt-btn-unselected:hover {
+  transform: translateX(5px);
+}
+
+.opt-btn-selected {
+  box-shadow: 0px 11px 21px rgba(3, 1, 125, 0.21);
+}

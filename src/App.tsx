@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router';
 import Login from 'pages/login';
 import SelectExam from 'pages/selectExam';
 import PrivateRoute from './PrivateRoute';
+import Test from 'pages/test';
 
 function App() {
   useScrollToTop();
@@ -18,6 +19,14 @@ function App() {
             </PrivateRoute>
           }
           path="/select-exam"
+        />
+        <Route
+          element={
+            <PrivateRoute>
+              <Test />
+            </PrivateRoute>
+          }
+          path="/test"
         />
 
         {/* </Route> */}

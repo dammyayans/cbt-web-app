@@ -22,6 +22,11 @@ module.exports = {
         gray: '#666666',
         royalblue: '#3F3CD7',
         'border-gray': '#C6C5E0',
+        dimgray: '#686868',
+        darkslategray: '#2E282A',
+        whitesmoke: '#f3f3f6',
+        mediumblue: '#1612D3',
+        lightsteelblue: '#bcbbe1',
       },
     },
     variants: {

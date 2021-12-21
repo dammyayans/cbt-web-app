@@ -16,6 +16,7 @@ const AnimatedContainer = ({children, ...rest}) => {
       initial="hidden"
       animate="enter"
       exit="exit"
+      className="h-screen"
       variants={variants}
       transition={{type: 'linear'}}
       {...rest}>
