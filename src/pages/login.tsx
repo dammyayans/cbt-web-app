@@ -9,8 +9,8 @@ import Button from 'components/Button';
 // import API from 'constants/api';
 import validation from 'constants/validation';
 import {useUser} from 'context/user-context';
-import AnimatedContainer from 'components/AnimatedContainer';
 import Layout from 'components/Layout';
+import {Navigate, useLocation} from 'react-router-dom';
 
 interface IFormValue {
   matricNo: string;
@@ -18,17 +18,32 @@ interface IFormValue {
 }
 
 const Login = () => {
-  const {authenticate} = useAuth();
+  const {authenticate, login} = useAuth();
   const {user} = useUser();
-  const [redirectToReferrer, setRedirectToReferrer] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm<IFormValue>({resolver: validation.loginSchema});
-
+  const [redirectToReferrer, setRedirectToReferrer] = useState(false);
+  const {state} = useLocation();
   // const {post: postLogin, loading} = useFetch(API.login);
+
+  const onSubmit = async (data: IFormValue) => {
+    login('student');
+    setRedirectToReferrer(true);
+
+    //   const res = await postLogin(data);
+    //   if (res?.code === 200) {
+    //     authenticate(res.data._token,'student');
+    //     setRedirectToReferrer(true);
+    //   } else {
+    //     setShowModal(true);
+    //   }
+  };
+
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     if (user) {
@@ -36,22 +51,23 @@ const Login = () => {
     }
   }, [user]);
 
-  // const onSubmit = async (data: IFormValue) => {
-  //   const res = await postLogin(data);
-  //   if (res?.code === 200) {
-  //     authenticate(res.data._token);
-  //     setRedirectToReferrer(true);
-  //   } else {
-  //     setShowModal(true);
-  //   }
-  // };
-
-  const toggleShowPassword = () => setShowPassword(!showPassword);
+  if (redirectToReferrer === true) {
+    return (
+      <Navigate to={screens.selectExam} />
+      // <Redirect
+      //   to={
+      //     state.from === screens.planSuccess
+      //       ? screens.home
+      //       : state?.from || screens.home
+      //   }
+      // />
+    );
+  }
 
   return (
     <Layout>
       <form
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="px-4 md:pl-10 max-w-[417px]">
         <div>
           <h1 className="font-bold text-black text-4xl">Login</h1>
@@ -59,7 +75,7 @@ const Login = () => {
             login to your account and start your exam
           </p>
         </div>
-        <div className="mb-4">
+        <div className="">
           <p className="text-black mb-2 text-[18px]">Matric No</p>
           <input
             {...register('matricNo')}
@@ -69,7 +85,7 @@ const Login = () => {
         <span className="text-red-600 text-xs mb-2 pl-2 block">
           {errors.matricNo && errors.matricNo.message}
         </span>
-        <div className="relative">
+        <div className="relative mt-4">
           <p className="text-black mb-2 text-[18px]">Password</p>
           <input
             {...register('password')}

@@ -1,9 +1,12 @@
 import cn from 'classnames';
 import Button from 'components/Button';
 import Layout from 'components/Layout';
+import screens from 'constants/screens';
 import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 const SelectExam = () => {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
   return (
     <Layout>
@@ -30,7 +33,10 @@ const SelectExam = () => {
             </button>
           ))}
         </div>
-        <Button className="mt-14" onClick={() => null} type="submit">
+        <Button
+          className="mt-14"
+          onClick={() => navigate(screens.test)}
+          type="submit">
           Start
         </Button>
       </div>

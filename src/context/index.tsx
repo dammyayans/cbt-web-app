@@ -8,6 +8,8 @@ import {AuthProvider} from './auth-context';
 import {UserProvider} from './user-context';
 
 import isJwtExpired from 'constants/isJwtExpired';
+import {LecturerProvider} from './lecturer-context';
+import {AdminProvider} from './admin-context';
 
 const AppProviders: React.FC = ({children}) => {
   const [, , removeCookies] = useCookies(['token']);
@@ -17,6 +19,7 @@ const AppProviders: React.FC = ({children}) => {
       request: async ({options}) => {
         const cookies = new Cookies();
         const token = cookies.get('token');
+
         // if (isExpired(token)) {
         //   token = await getNewToken()
         //   setToken(token)
@@ -31,8 +34,9 @@ const AppProviders: React.FC = ({children}) => {
         return options; // returning the `options` is important
       },
       response: async ({response}) => {
-        // console.log(response);
-        if (response.data.error) {
+        const cookies = new Cookies();
+        const type = cookies.get('type');
+        if (response.data.status === 'fail') {
           toast.dismiss();
           toast.error(
             typeof response?.data.message === 'string'
@@ -41,9 +45,16 @@ const AppProviders: React.FC = ({children}) => {
           );
           return {data: null};
         }
+        if (response.data.status === '"success"') {
+          toast.success(response.data.message);
+        }
         if (response.status === 401) {
-          // console.log('UnAuth');
-          window.location.pathname = '/login';
+          window.location.pathname =
+            type === 'lecturer'
+              ? 'lecturer/login'
+              : type === 'admin'
+              ? 'admin/login'
+              : '/login';
         }
         return response; // returning the `response` is important
       },
@@ -65,7 +76,11 @@ const AppProviders: React.FC = ({children}) => {
   return (
     <Provider options={fetchOptions}>
       <AuthProvider>
-        <UserProvider>{children}</UserProvider>
+        <AdminProvider>
+          <LecturerProvider>
+            <UserProvider>{children}</UserProvider>
+          </LecturerProvider>
+        </AdminProvider>
       </AuthProvider>
     </Provider>
   );

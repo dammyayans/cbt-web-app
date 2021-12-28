@@ -15,29 +15,29 @@ import {ContextValueType, PropsType} from '../types';
 // import API from 'constants/api';
 // import screens from 'constants/screens';
 
-export const UserContext = createContext<ContextValueType>({});
-export const useUser = () => useContext(UserContext);
+export const LecturerContext = createContext<ContextValueType>({});
+export const useLecturer = () => useContext(LecturerContext);
 
-export const ProtectRoute = ({children}) => {
-  const {user, loading} = useUser();
+export const ProtectLRoute = ({children}) => {
+  const {lecturer, loading} = useLecturer();
   const navigate = useNavigate();
   const location = useLocation();
   const [cookies] = useCookies(['token']);
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !lecturer) {
       //
-      if (location.pathname !== '/login') {
-        navigate('/login');
+      if (location.pathname !== '/lecturer/login') {
+        navigate('/lecturer/login');
       }
       const {token} = cookies;
 
       if (token) toast.error('Expire session!');
     }
-  }, [cookies, history, loading, user]);
+  }, [cookies, history, loading, lecturer]);
 
-  // if (loading || (!user && window.location.pathname !== '/login')) {
-  // if (loading || (!user && location.pathname !== '/login')) {
+  // if (loading || (!lecturer && window.location.pathname !== '/login')) {
+  // if (loading || (!lecturer && location.pathname !== '/lecturer/login')) {
   //   return (
   //     <div className="flex flex-col h-screen justify-center items-center text-primary">
   //       <div
@@ -51,49 +51,49 @@ export const ProtectRoute = ({children}) => {
   return children;
 };
 
-export const UserProvider: React.FC = ({children}: PropsType) => {
-  const [user, setUser] = useState(null);
+export const LecturerProvider: React.FC = ({children}: PropsType) => {
+  const [lecturer, setLecturer] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // const [cookies, , removeCookies] = useCookies(['token', 'refreshToken']);
-  // const {get: getUserProfile} = useFetch(API.userProfile);
+  // const {get: getLecturerProfile} = useFetch(API.lecturerProfile);
 
-  // const loadUserFromCookies = useCallback(async () => {
+  // const loadLecturerFromCookies = useCallback(async () => {
   //   const {token} = cookies;
   //   if (!isJwtExpired(token)) {
   //     try {
   //       setLoading(true);
-  //       const res = await getUserProfile();
-  //       if (res?.data) setUser(res.data.user);
+  //       const res = await getLecturerProfile();
+  //       if (res?.data) setLecturer(res.data.user);
   //     } catch (error) {
   //       removeCookies('token');
-  //       setUser(null);
+  //       setLecturer(null);
   //     } finally {
   //       setLoading(false);
   //     }
   //   } else {
   //     setLoading(false);
-  //     setUser(null);
+  //     setLecturer(null);
   //   }
   //   // setIsLoading(false);
-  // }, [cookies, getUserProfile, history, removeCookies]);
+  // }, [cookies, getLecturerProfile, history, removeCookies]);
 
   // useEffect(() => {
-  //   loadUserFromCookies();
+  //   loadLecturerFromCookies();
   //   //   const token = Cookies.get("token");
   //   // if (!token) return;
   //   // authenticate(token);
-  // }, [loadUserFromCookies]);
+  // }, [loadLecturerFromCookies]);
   return (
-    <UserContext.Provider
+    <LecturerContext.Provider
       value={{
         loading,
         setLoading,
-        user,
-        setUser,
-        // loadUserFromCookies,
+        lecturer,
+        setLecturer,
+        // loadLecturerFromCookies,
       }}>
       {children}
-    </UserContext.Provider>
+    </LecturerContext.Provider>
   );
 };

@@ -10,38 +10,48 @@ export const AuthContext = createContext<ContextValueType>({});
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC = ({children}: PropsType) => {
-  const [, setCookies, removeCookies] = useCookies(['token', 'refreshToken']);
+  const [, setCookies, removeCookies] = useCookies([
+    'token',
+    'type',
+    'adminDetails',
+  ]);
   const [isAuth, setIsAuth] = useState(() => {
     const cookies = new Cookies();
     const token = cookies.get('token');
-    return !isJwtExpired(token);
+    const type = cookies.get('type');
+    return !isJwtExpired(token) ? type : '';
   });
 
-  const login = () => {
-    setIsAuth(true);
-    // setTimeout(cb, 100); // fake async
-  };
-  const signOut = () => {
-    removeCookies('token');
-    setIsAuth(false);
+  const login = type => {
+    setIsAuth(type);
+    setCookies('type', type);
     // setTimeout(cb, 100); // fake async
   };
 
-  const authenticate = async (token: string) => {
+  const signOut = () => {
+    removeCookies('token');
+    removeCookies('type');
+    removeCookies('adminDetails');
+    setIsAuth('');
+    // setTimeout(cb, 100); // fake async
+  };
+
+  const authenticate = async (
+    token: string,
+    type: string,
+    details?: Object,
+  ) => {
     try {
-      console.log('authenticating', token);
+      // console.log('authenticating', token);
       setCookies('token', token);
-      // setCookies('refreshToken', refreshToken);
-      // setUser(userData);
-      setIsAuth(true);
-      //  const {data: userData} = await api.get(API.profile);
-      //  console.log(userData);
-      //  return userData.data;
+      setCookies('type', type);
+      if (type === 'admin') setCookies('adminDetails', details);
+      setIsAuth(type);
       return Promise.resolve('');
     } catch (error) {
       console.log({error});
       removeCookies('token');
-      // removeCookies('refreshToken');
+      removeCookies('type');
       return null;
     }
   };

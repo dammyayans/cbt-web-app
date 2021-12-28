@@ -3,7 +3,7 @@ import {isValidPhoneNumber} from 'libphonenumber-js';
 import * as yup from 'yup';
 
 const loginSchema = yup.object().shape({
-  matricNo: yup.string().required('Please Enter your email'),
+  matricNo: yup.string().required('Please Enter your matric No'),
   password: yup
     .string()
     .min(8)
@@ -12,6 +12,31 @@ const loginSchema = yup.object().shape({
       // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+    ),
+});
+
+const loginLSchema = yup.object().shape({
+  staffID: yup.string().required('Please Enter your staff ID'),
+  password: yup
+    .string()
+    .min(8)
+    .required('Please Enter your password')
+    .matches(
+      // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+    ),
+});
+
+const loginASchema = yup.object().shape({
+  username: yup.string().required('Please Enter your username'),
+  password: yup
+    .string()
+    .min(8)
+    .required('Please Enter your password')
+    .matches(
+      /^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{8,}$/,
+      'Must Contain 8 Characters and One Number',
     ),
 });
 
@@ -253,6 +278,8 @@ const profilePersonalInfo = yupResolver(
 
 const validation = {
   loginSchema: yupResolver(loginSchema),
+  loginLSchema: yupResolver(loginLSchema),
+  loginASchema: yupResolver(loginASchema),
   forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   resetPassword: yupResolver(resetPassword),
   changePassword: yupResolver(changePassword),
