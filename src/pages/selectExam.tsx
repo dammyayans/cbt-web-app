@@ -22,6 +22,7 @@ const SelectExam = () => {
           ].map((c, _) => (
             <button
               onClick={() => setSelected(_)}
+              key={_}
               className={cn(
                 `w-full rounded-[10px] border-2 py-4 px-4 text-sm text-black mb-6 cursor-pointer`,
                 {

@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react';
 
 import useInterval from './useInterval';
 
-const useCountDownTimer = (props): [string, () => void] => {
+const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   // For Total seconds
   const [timeStamp, setTimeStamp] = useState(
     props.timestamp ? props.timestamp : 0,
@@ -18,6 +18,11 @@ const useCountDownTimer = (props): [string, () => void] => {
 
   // Flag for informing parent component when timer is over
   const [sendOnce, setSendOnce] = useState(true);
+  // Flag for timer less than 10 minutes
+  const [lessThan10, setLessThan10] = useState(false);
+
+  //Flag for timeup
+  const [timeup, setTimeup] = useState(false);
 
   // Flag for final display time format
   const [finalDisplayTime, setFinalDisplayTime] = useState('');
@@ -34,6 +39,7 @@ const useCountDownTimer = (props): [string, () => void] => {
       setSendOnce(false);
     }
 
+    if (timeStamp < 600) setLessThan10(true);
     let delta = timeStamp;
 
     // calculate (and subtract) whole days
@@ -50,7 +56,6 @@ const useCountDownTimer = (props): [string, () => void] => {
 
     // what's left is seconds
     const _seconds = delta % 60;
-
     setDays(_days);
     setHours(_hours);
     setMinutes(_minutes);
@@ -64,19 +69,23 @@ const useCountDownTimer = (props): [string, () => void] => {
     let displayTime = '';
 
     if (days !== 0) {
-      displayTime = `${days}:${hr}:${min}:${sec}`;
+      displayTime = `${days}day ${hr}hr ${min}min ${sec}sec`;
     }
 
     if (days === 0 && hours !== 0) {
-      displayTime = `${hr}:${min}:${sec}`;
+      displayTime = `${hr}hr ${min}min ${sec}sec`;
     }
 
     if (hours === 0 && minutes !== 0) {
-      displayTime = `${min}:${sec}`;
+      displayTime = `${min}min ${sec}sec`;
     }
 
     if (minutes === 0 && seconds !== 0) {
-      displayTime = `${min}:${sec}`;
+      displayTime = `${min}min ${sec}sec`;
+    }
+    if (hours === 0 && minutes === 0 && seconds === 0 && timeStamp === 0) {
+      displayTime = '00min 00sec';
+      setTimeup(true);
     }
 
     setFinalDisplayTime(displayTime);
@@ -93,7 +102,7 @@ const useCountDownTimer = (props): [string, () => void] => {
     setSendOnce(true);
   }, [props.days, props.hours, props.minutes, props.seconds, props.timestamp]);
 
-  return [finalDisplayTime, resetTimer];
+  return [finalDisplayTime, lessThan10, timeup, resetTimer];
 };
 
 export default useCountDownTimer;
