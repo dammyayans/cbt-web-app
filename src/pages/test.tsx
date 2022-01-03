@@ -10,7 +10,7 @@ import OverviewBox from 'components/OverviewBox';
 import useCountDownTimer from 'hooks/useCountDownTimer';
 import classNames from 'classnames';
 import questions from 'constants/Questions';
-import ConfirmModal from 'components/ConfirmModal';
+import ConfirmModal from 'components/SmallModal';
 const Test = () => {
   // state for question indicators
   const [overview, setOverview] = useState(
@@ -47,7 +47,11 @@ const Test = () => {
 
   return (
     <AnimatedContainer>
-      <ConfirmModal isVisible={showModal} onClose={() => setShowModal(false)} />
+      <ConfirmModal
+        type="confirm"
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
+      />
       <Header
         avatar="https://image.shutterstock.com/z/stock-photo-inmage-of-pensive-concentrated-woman-doctor-sitting-at-table-and-working-on-laptop-computer-2083183264.jpg"
         firstname="Grey"

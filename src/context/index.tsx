@@ -45,8 +45,11 @@ const AppProviders: React.FC = ({children}) => {
           );
           return {data: null};
         }
-        if (response.data.status === '"success"') {
-          toast.success(response.data.message);
+        if (
+          response.data.status === 'success' ||
+          response.data.status === 'Success'
+        ) {
+          response.data.message ? toast.success(response.data.message) : null;
         }
         if (response.status === 401) {
           window.location.pathname =

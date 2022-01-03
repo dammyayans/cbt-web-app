@@ -2,6 +2,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import cn from 'classnames';
+import Loader from 'components/Loader';
 
 interface IButton {
   type?: 'button' | 'submit' | 'reset';
@@ -37,13 +38,15 @@ const Button: React.FC<IButton> = ({
     <button
       disabled={loading || isDisabled}
       className={cn(
-        `btn-primary-shadow text-left py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center hover:bg-white hover:text-primary duration-300 transition-all border-primary children:border-white hover:children:border-primary ${className}`,
+        `text-left py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center hover:bg-white hover:text-primary duration-300 transition-all border-primary children:border-white hover:children:border-primary ${className}`,
         {
-          'bg-primary text-white': variant === 'contained' && !isDisabled,
-          'bg-light-shade-gray text-white':
+          'bg-primary text-white btn-primary-shadow':
+            variant === 'contained' && !isDisabled,
+          'bg-light-shade-gray text-white btn-primary-shadow':
             isDisabled && variant !== 'outlined',
           'w-full': full,
-          'text-primary border-primary border': variant === 'outlined',
+          'text-primary border-primary border btn-primary-shadow':
+            variant === 'outlined',
           'text-primary': variant === 'text',
           'border-none': variant === 'text',
         },
@@ -53,10 +56,7 @@ const Button: React.FC<IButton> = ({
       {...rest}>
       {leftIcon && leftIcon}
       {loading ? (
-        <div
-          style={{borderTopColor: 'transparent'}}
-          className="w-5 ml-5 h-5 border-2 rotate  border-solid rounded-full animate-spin"
-        />
+        <Loader />
       ) : (
         <>
           {children}

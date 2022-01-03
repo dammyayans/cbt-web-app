@@ -11,10 +11,13 @@ export const API = {
   changePassword: `${BASE_URL}/api/auth/change-password`,
 
   // admin
-  getPlans: `${BASE_URL}/api/investors/plans`,
-  getPlanDetails: `${BASE_URL}/api/investors/plan/:id`,
-  // with auth
   adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
+  // with auth
+  addLecturer: `${BASE_URL}/api/v1/auth/admins/lecturers`,
+  getLecturers: `${BASE_URL}/api/v1/auth/admins/lecturers`,
+  addCourse: `${BASE_URL}/api/v1/auth/admins/courses`,
+  getCourses: `${BASE_URL}/api/v1/auth/admins/courses`,
+
   // verifyPayment: (id: string) => `${BASE_URL}/api/investors/payment/${id}`,
 };
 

@@ -14,7 +14,7 @@ const PrivateRoute = ({children, type, ...rest}) => {
       <>
         {isAuth === 'student' ? (
           // children
-          <ProtectRoute> {children}</ProtectRoute>
+          <ProtectRoute>{children}</ProtectRoute>
         ) : (
           <Navigate to="/login" />
         )}
@@ -25,7 +25,7 @@ const PrivateRoute = ({children, type, ...rest}) => {
       <>
         {isAuth === 'lecturer' ? (
           // children
-          <ProtectLRoute> {children}</ProtectLRoute>
+          <ProtectLRoute>{children}</ProtectLRoute>
         ) : (
           <Navigate to="/lecturer/login" />
         )}
@@ -36,7 +36,7 @@ const PrivateRoute = ({children, type, ...rest}) => {
       <>
         {isAuth === 'admin' ? (
           // children
-          <ProtectARoute> {children}</ProtectARoute>
+          <ProtectARoute>{children}</ProtectARoute>
         ) : (
           <Navigate to="/admin/login" />
         )}

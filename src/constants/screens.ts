@@ -9,6 +9,10 @@ const screens = {
   // admin
   adminLogin: '/admin/login',
   adminDashboard: '/admin/dashboard',
+  adminlecturers: '/admin/lecturers',
+  adminCourses: '/admin/courses',
+  adminCourseDetails: '/admin/courses/:id',
+  adminResults: '/admin/results',
   // uploadDocuments: (type = ':type') => `/profile/upload-document/${type}`,
   resetPassword: '/reset-password',
 };

@@ -6,10 +6,13 @@ import PrivateRoute from './PrivateRoute';
 import Test from 'pages/test';
 import LecturerLogin from 'pages/Lecturer/login';
 import DashboardHome from 'pages/Lecturer/DashboardHome';
-import ADashboardHome from 'pages/admin/DashboardHome';
+import ADashboardHome from 'pages/admin/dashboard';
+import Lecturers from 'pages/admin/lecturers';
 import screens from 'constants/screens';
 import AdminLogin from 'pages/admin/login';
 import {Toaster} from 'react-hot-toast';
+import Courses from 'pages/admin/courses';
+import CourseDetails from 'pages/admin/courseDetails';
 
 function App() {
   useScrollToTop();
@@ -56,6 +59,30 @@ function App() {
             </PrivateRoute>
           }
           path={screens.adminDashboard}
+        />
+        <Route
+          element={
+            <PrivateRoute type="admin">
+              <Lecturers />
+            </PrivateRoute>
+          }
+          path={screens.adminlecturers}
+        />
+        <Route
+          element={
+            <PrivateRoute type="admin">
+              <Courses />
+            </PrivateRoute>
+          }
+          path={screens.adminCourses}
+        />
+        <Route
+          element={
+            <PrivateRoute type="admin">
+              <CourseDetails />
+            </PrivateRoute>
+          }
+          path={screens.adminCourseDetails}
         />
 
         {/* </Route> */}

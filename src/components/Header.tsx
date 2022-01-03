@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from 'assets/images/unilorin-logo.png';
 
-const Header = ({avatar, firstname, lastname, matricNo}) => {
+const Header = ({avatar, firstname, lastname = '', matricNo = ''}) => {
   return (
     <div className="bg-white fixed w-full border-b-4 border-b-primary">
       <div className="px-4 md:px-14">

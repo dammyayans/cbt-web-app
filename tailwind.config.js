@@ -21,6 +21,7 @@ module.exports = {
         warning: '#FFC107',
         gray: '#666666',
         royalblue: '#3F3CD7',
+        lightblue: '#C5CCFF',
         'border-gray': '#C6C5E0',
         dimgray: '#686868',
         darkslategray: '#2E282A',
