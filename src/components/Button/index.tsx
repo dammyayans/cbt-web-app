@@ -13,6 +13,7 @@ interface IButton {
   rightIcon?: React.ReactNode;
   loading?: boolean;
   isDisabled?: boolean;
+  hoverStyle?: boolean;
   full?: boolean;
 }
 
@@ -26,6 +27,7 @@ const Button: React.FC<IButton> = ({
   loading = false,
   isDisabled = false,
   full = false,
+  hoverStyle = true,
   ...rest
 }) => {
   // let style: string;
@@ -38,8 +40,9 @@ const Button: React.FC<IButton> = ({
     <button
       disabled={loading || isDisabled}
       className={cn(
-        `text-left py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center hover:bg-white hover:text-primary duration-300 transition-all border-primary children:border-white hover:children:border-primary ${className}`,
+        `text-left py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center duration-300 transition-all border-primary children:border-white hover:children:border-primary ${className}`,
         {
+          'hover:bg-white hover:text-primary': hoverStyle,
           'bg-primary text-white btn-primary-shadow':
             variant === 'contained' && !isDisabled,
           'bg-light-shade-gray text-white btn-primary-shadow':

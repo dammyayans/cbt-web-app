@@ -6,7 +6,7 @@ const tableStyling: ItableStyle = {
   top: {
     // title:"text-red-700"
     elements: {
-      main: 'flew-row-im item-center',
+      main: 'flew-row-im item-center bg-[#E5E5E5] mt-0 mb-0 pb-5 px-0',
       search:
         'px-6 pt-3 pb-2 text-xs border bg-white border-border-gray rounded-[10px] outline-none w-full',
       bulk_select: {

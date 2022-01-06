@@ -123,7 +123,7 @@ const Test = () => {
                   'opacity-40': !lessThan10,
                 })}
                 onClick={() => setShowModal(true)}>
-                Submit
+                End Exam
               </Button>
             </div>
           </div>

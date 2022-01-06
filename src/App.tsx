@@ -6,6 +6,7 @@ import PrivateRoute from './PrivateRoute';
 import Test from 'pages/test';
 import LecturerLogin from 'pages/Lecturer/login';
 import DashboardHome from 'pages/Lecturer/DashboardHome';
+import LCourses from 'pages/Lecturer/courses';
 import ADashboardHome from 'pages/admin/dashboard';
 import Lecturers from 'pages/admin/lecturers';
 import screens from 'constants/screens';
@@ -48,6 +49,14 @@ function App() {
             </PrivateRoute>
           }
           path={screens.lecturerDashboard}
+        />
+        <Route
+          element={
+            <PrivateRoute type="lecturer">
+              <LCourses />
+            </PrivateRoute>
+          }
+          path={screens.lecturerCourses}
         />
 
         {/* admin routes */}
