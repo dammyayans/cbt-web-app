@@ -36,7 +36,10 @@ const AppProviders: React.FC = ({children}) => {
       response: async ({response}) => {
         const cookies = new Cookies();
         const type = cookies.get('type');
-        if (response.data.status === 'fail') {
+        if (
+          response.data.status === 'fail' ||
+          response.data.status === 'error'
+        ) {
           toast.dismiss();
           toast.error(
             typeof response?.data.message === 'string'

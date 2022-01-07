@@ -63,3 +63,11 @@ input[type='number'] {
 .table-footer-main div {
   border: none;
 }
+
+.mt-00 {
+  margin-top: 0 !important;
+}
+
+.text-blackk {
+  color: black !important;
+}

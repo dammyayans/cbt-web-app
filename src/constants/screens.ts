@@ -12,6 +12,7 @@ const screens = {
   adminDashboard: '/admin/dashboard',
   adminlecturers: '/admin/lecturers',
   adminCourses: '/admin/courses',
+  adminStudents: '/admin/students',
   adminCourseDetails: '/admin/courses/:id',
   adminResults: '/admin/results',
   // uploadDocuments: (type = ':type') => `/profile/upload-document/${type}`,

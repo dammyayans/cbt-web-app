@@ -14,6 +14,7 @@ import AdminLogin from 'pages/admin/login';
 import {Toaster} from 'react-hot-toast';
 import Courses from 'pages/admin/courses';
 import CourseDetails from 'pages/admin/courseDetails';
+import Students from 'pages/admin/students';
 
 function App() {
   useScrollToTop();
@@ -92,6 +93,14 @@ function App() {
             </PrivateRoute>
           }
           path={screens.adminCourseDetails}
+        />
+        <Route
+          element={
+            <PrivateRoute type="admin">
+              <Students />
+            </PrivateRoute>
+          }
+          path={screens.adminStudents}
         />
 
         {/* </Route> */}

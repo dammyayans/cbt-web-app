@@ -35,17 +35,21 @@ const col = [
     use: 'Last Name',
   },
   {
-    field: 'phoneNumber',
-    use: 'Phone Number',
-    use_in_search: false,
-  },
-  {
     field: 'faculty',
     use: 'Faculty',
   },
   {
     field: 'department',
     use: 'Department',
+  },
+  {
+    field: 'email',
+    use: 'Email',
+  },
+  {
+    field: 'phoneNumber',
+    use: 'Phone Number',
+    use_in_search: false,
   },
 ];
 

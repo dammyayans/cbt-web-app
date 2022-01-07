@@ -15,8 +15,11 @@ export const API = {
   // with auth
   addLecturer: `${BASE_URL}/api/v1/auth/admins/lecturers`,
   getLecturers: `${BASE_URL}/api/v1/auth/admins/lecturers`,
+  getStudents: `${BASE_URL}/api/v1/auth/admins/students`,
   addCourse: `${BASE_URL}/api/v1/auth/admins/courses`,
   getCourses: `${BASE_URL}/api/v1/auth/admins/courses`,
+  addStudent: `${BASE_URL}/api/v1/auth/admins/students`,
+  uploadStudents: `${BASE_URL}/api/v1/auth/admins/students/uploads`,
 
   // verifyPayment: (id: string) => `${BASE_URL}/api/investors/payment/${id}`,
 };

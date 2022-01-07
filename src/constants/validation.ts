@@ -295,6 +295,47 @@ const addCourseSchema = yupResolver(
       .typeError('Please Select a Lecturer'),
   }),
 );
+const addStudentSchema = yupResolver(
+  yup.object().shape({
+    email: yup.string().email().required('Please Enter their Email'),
+    phoneNumber: yup
+      .string()
+      .required('Phone number is required')
+      .typeError('Please Enter a Number')
+      .matches(
+        /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
+        'Enter a valid phone number',
+      )
+      .min(10, 'Phone number must be at least 10 characters')
+      .max(15, 'Phone number must be at most 15 characters'),
+    firstName: yup
+      .string()
+      .required('Please Enter their First Name')
+      .min(3, 'First name must be at least 3 characters'),
+    lastName: yup
+      .string()
+      .required('Please Enter their Last Name')
+      .typeError('Please Enter their Last Name')
+      .min(3, 'Last name must be at least 3 characters'),
+    faculty: yup
+      .string()
+      .required('Please Select a faculty')
+      .typeError('Please Select a faculty'),
+    department: yup
+      .string()
+      .required('Please Select a department')
+      .typeError('Please Select a department'),
+    level: yup
+      .string()
+      .required('Please Select a level')
+      .typeError('Please Select a level'),
+    matric: yup
+      .string()
+      .required('Please Enter their Matric Number')
+      .typeError('Please Enter their Matric Number')
+      .min(3, 'Last name must be at least 3 characters'),
+  }),
+);
 
 const validation = {
   loginSchema: yupResolver(loginSchema),
@@ -302,6 +343,7 @@ const validation = {
   loginASchema: yupResolver(loginASchema),
   addLecturerSchema,
   addCourseSchema,
+  addStudentSchema,
 
   // forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   // resetPassword: yupResolver(resetPassword),

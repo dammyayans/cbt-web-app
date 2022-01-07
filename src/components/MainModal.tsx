@@ -11,7 +11,7 @@ const MainModal: React.FC<ModalProps> = ({children, isVisible, title}) => (
   <div
     className={cn(
       'fixed top-0 left-0 w-full h-full bg-[#999999] bg-opacity-70 z-10 flex flex-col items-center justify-end transition-all duration-500 md:justify-center',
-      {'transform translate-y-full': !isVisible},
+      {'transform translate-y-full ': !isVisible},
     )}>
     <div
       className={cn(
