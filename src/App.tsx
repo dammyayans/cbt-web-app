@@ -4,9 +4,9 @@ import Login from 'pages/login';
 import SelectExam from 'pages/selectExam';
 import PrivateRoute from './PrivateRoute';
 import Test from 'pages/test';
-import LecturerLogin from 'pages/Lecturer/login';
-import DashboardHome from 'pages/Lecturer/DashboardHome';
-import LCourses from 'pages/Lecturer/courses';
+import LecturerLogin from 'pages/lecturer/login';
+import DashboardHome from 'pages/lecturer/dashboard';
+import LCourses from 'pages/lecturer/courses';
 import ADashboardHome from 'pages/admin/dashboard';
 import Lecturers from 'pages/admin/lecturers';
 import screens from 'constants/screens';
@@ -15,6 +15,7 @@ import {Toaster} from 'react-hot-toast';
 import Courses from 'pages/admin/courses';
 import CourseDetails from 'pages/admin/courseDetails';
 import Students from 'pages/admin/students';
+import Settings from 'pages/lecturer/settings';
 
 function App() {
   useScrollToTop();
@@ -58,6 +59,14 @@ function App() {
             </PrivateRoute>
           }
           path={screens.lecturerCourses}
+        />
+        <Route
+          element={
+            <PrivateRoute type="lecturer">
+              <Settings />
+            </PrivateRoute>
+          }
+          path={screens.lecturerSettings}
         />
 
         {/* admin routes */}

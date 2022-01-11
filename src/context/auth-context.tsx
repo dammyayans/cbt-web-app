@@ -14,6 +14,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     'token',
     'type',
     'adminDetails',
+    'lecturerDetails',
   ]);
   const [isAuth, setIsAuth] = useState(() => {
     const cookies = new Cookies();
@@ -32,6 +33,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     removeCookies('token');
     removeCookies('type');
     removeCookies('adminDetails');
+    removeCookies('lecturerDetails');
     setIsAuth('');
     // setTimeout(cb, 100); // fake async
   };
@@ -46,6 +48,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
       setCookies('token', token);
       setCookies('type', type);
       if (type === 'admin') setCookies('adminDetails', details);
+      if (type === 'lecturer') setCookies('lecturerDetails', details);
       setIsAuth(type);
       return Promise.resolve('');
     } catch (error) {

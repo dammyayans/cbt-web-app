@@ -123,7 +123,7 @@ const Courses = () => {
   };
 
   return (
-    <DashboardLayout type="admin">
+    <DashboardLayout type="lec">
       <MainModal isVisible={showModal} title="Upload Questions">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-[15px]">

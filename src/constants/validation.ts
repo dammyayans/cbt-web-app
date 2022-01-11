@@ -16,15 +16,15 @@ const loginSchema = yup.object().shape({
 });
 
 const loginLSchema = yup.object().shape({
-  staffID: yup.string().required('Please Enter your staff ID'),
+  email: yup.string().email().required('Please Enter your Email'),
   password: yup
     .string()
     .min(8)
     .required('Please Enter your password')
     .matches(
       // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+      /(?=.{8,})/,
+      'Must Contain 8 Characters',
     ),
 });
 
@@ -53,28 +53,7 @@ const loginASchema = yup.object().shape({
 //     .string()
 //     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 // });
-// const changePassword = yup.object().shape({
-//   oldPassword: yup
-//     .string()
-//     .min(8)
-//     .required('Password is required')
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-//   newPassword: yup
-//     .string()
-//     .min(8)
-//     .required('Password is required')
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-//   confirmNewPassword: yup
-//     .string()
-//     .required('Please Confirm Password')
-//     .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
-// });
+
 // const forgotPasswordSchema = yup.object().shape({
 //   email: yup.string().email().required('Please Enter your Email'),
 // });
@@ -337,6 +316,23 @@ const addStudentSchema = yupResolver(
   }),
 );
 
+const changeLPassword = yup.object().shape({
+  oldPassword: yup
+    .string()
+    .min(8)
+    .required('Old Password is required')
+    .matches(/^(?=.{8,})/, 'Must Contain 8 Characters'),
+  password: yup
+    .string()
+    .min(8)
+    .required('Password is required')
+    .matches(/^(?=.{8,})/, 'Must Contain 8 Characters'),
+  confirmPassword: yup
+    .string()
+    .required('Please Confirm Password')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+});
+
 const validation = {
   loginSchema: yupResolver(loginSchema),
   loginLSchema: yupResolver(loginLSchema),
@@ -344,6 +340,7 @@ const validation = {
   addLecturerSchema,
   addCourseSchema,
   addStudentSchema,
+  changeLPassword: yupResolver(changeLPassword),
 
   // forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   // resetPassword: yupResolver(resetPassword),

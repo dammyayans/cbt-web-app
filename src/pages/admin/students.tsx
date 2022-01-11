@@ -379,7 +379,7 @@ const Students = () => {
         </form>
       </MainModal>
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-        <h3 className="font-bold text-3xl">Students</h3>
+        <h3 className="font-bold text-3xl pt-8">Students</h3>
         <div className="flex mt-6 justify-between items-center">
           <div className="flex-auto w-1/2">
             <div className="relative">

@@ -1,26 +1,26 @@
 /* eslint-disable no-underscore-dangle */
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-// import useFetch from 'use-http';
+import useFetch from 'use-http';
 
 import {useAuth} from 'context/auth-context';
 import screens from 'constants/screens';
 import Button from 'components/Button';
-// import API from 'constants/api';
+import API from 'constants/api';
 import validation from 'constants/validation';
-import Layout from 'components/Layout';
 import {useLecturer} from 'context/lecturer-context';
 import AnimatedContainer from 'components/AnimatedContainer';
 import {Navigate} from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface IFormValue {
-  staffID: string;
+  email: string;
   password: string;
 }
 
 const LecturerLogin = () => {
-  const {authenticate, login} = useAuth();
-  const {lecturer} = useLecturer();
+  const {authenticate} = useAuth();
+  const {lecturer, setLecturer} = useLecturer();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -29,17 +29,19 @@ const LecturerLogin = () => {
   } = useForm<IFormValue>({resolver: validation.loginLSchema});
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
 
-  // const {post: postLogin, loading} = useFetch(API.login);
+  const {post: postLogin, loading} = useFetch(API.lecLogin);
 
   const onSubmit = async (data: IFormValue) => {
-    // const res = await postLogin(data);
-    // if (res?.code === 200) {
-    login('lecturer');
-    setRedirectToReferrer(true);
-    // authenticate(res.data._token,'student');
-    // } else {
-    //   setShowModal(true);
-    // }
+    try {
+      const res = await postLogin(data);
+      if (res?.status === 'success') {
+        setRedirectToReferrer(true);
+        await authenticate(res.token, 'lecturer', res.user);
+        setLecturer(res.user);
+      }
+    } catch (e) {
+      toast.error(String(e));
+    }
   };
 
   useEffect(() => {
@@ -50,16 +52,7 @@ const LecturerLogin = () => {
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
   if (redirectToReferrer === true) {
-    return (
-      <Navigate to={screens.lecturerDashboard} />
-      // <Redirect
-      //   to={
-      //     state.from === screens.planSuccess
-      //       ? screens.home
-      //       : state?.from || screens.home
-      //   }
-      // />
-    );
+    return <Navigate to={screens.lecturerDashboard} />;
   }
   return (
     <AnimatedContainer>
@@ -74,14 +67,14 @@ const LecturerLogin = () => {
             </p>
           </div>
           <div className="">
-            <p className="text-black mb-2 text-[18px]">Staff ID</p>
+            <p className="text-black mb-2 text-[18px]">Email</p>
             <input
-              {...register('staffID')}
+              {...register('email')}
               className=" px-6 py-2 border bg-white border-border-gray rounded-[10px] outline-none w-full"
             />
           </div>
           <span className="text-red-600 text-xs mb-2 pl-2 block">
-            {errors.staffID && errors.staffID.message}
+            {errors.email && errors.email.message}
           </span>
           <div className="relative mt-4">
             <p className="text-black mb-2 text-[18px]">Password</p>
@@ -114,7 +107,11 @@ const LecturerLogin = () => {
           <span className="text-red-600 text-xs mb-2 pl-2 block">
             {errors.password && errors.password.message}
           </span>
-          <Button className="mt-14" onClick={() => null} type="submit">
+          <Button
+            loading={loading}
+            className="mt-14"
+            onClick={() => null}
+            type="submit">
             Login
           </Button>
         </form>

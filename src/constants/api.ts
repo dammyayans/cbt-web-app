@@ -6,12 +6,11 @@ export const API = {
   login: `${BASE_URL}/api/auth/login`,
 
   // lecturer
-  lecLogin: `${BASE_URL}/api/auth/login`,
-  forgotPassword: `${BASE_URL}/api/auth/forgot-password`,
-  changePassword: `${BASE_URL}/api/auth/change-password`,
+  lecLogin: `${BASE_URL}/api/v1/auth/lecturers/login`,
+  changePassword: `${BASE_URL}/api/v1/auth/lecturers/password`,
 
   // admin
-  adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
+  adminLogin: `${BASE_URL}/api/v1/auth/admins/lecturers/login`,
   // with auth
   addLecturer: `${BASE_URL}/api/v1/auth/admins/lecturers`,
   getLecturers: `${BASE_URL}/api/v1/auth/admins/lecturers`,

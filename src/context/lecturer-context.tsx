@@ -10,6 +10,7 @@ import {useNavigate, useLocation} from 'react-router';
 import toast from 'react-hot-toast';
 
 import {ContextValueType, PropsType} from '../types';
+import isJwtExpired from 'constants/isJwtExpired';
 
 // import isJwtExpired from 'constants/isJwtExpired';
 // import API from 'constants/api';
@@ -55,35 +56,32 @@ export const LecturerProvider: React.FC = ({children}: PropsType) => {
   const [lecturer, setLecturer] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // const [cookies, , removeCookies] = useCookies(['token', 'refreshToken']);
-  // const {get: getLecturerProfile} = useFetch(API.lecturerProfile);
+  const [cookies, , removeCookies] = useCookies(['token', 'lecturerDetails']);
+  // const {get: getAdminProfile} = useFetch(API.adminProfile);
 
-  // const loadLecturerFromCookies = useCallback(async () => {
-  //   const {token} = cookies;
-  //   if (!isJwtExpired(token)) {
-  //     try {
-  //       setLoading(true);
-  //       const res = await getLecturerProfile();
-  //       if (res?.data) setLecturer(res.data.user);
-  //     } catch (error) {
-  //       removeCookies('token');
-  //       setLecturer(null);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     setLoading(false);
-  //     setLecturer(null);
-  //   }
-  //   // setIsLoading(false);
-  // }, [cookies, getLecturerProfile, history, removeCookies]);
+  const loadAdminFromCookies = useCallback(async () => {
+    const {token, lecturerDetails} = cookies;
+    if (!isJwtExpired(token) && lecturerDetails) {
+      try {
+        setLoading(true);
 
-  // useEffect(() => {
-  //   loadLecturerFromCookies();
-  //   //   const token = Cookies.get("token");
-  //   // if (!token) return;
-  //   // authenticate(token);
-  // }, [loadLecturerFromCookies]);
+        setLecturer(lecturerDetails);
+      } catch (error) {
+        removeCookies('token');
+        removeCookies('lecturerDetails');
+        setLecturer(null);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      setLecturer(null);
+    }
+  }, [cookies, removeCookies]);
+
+  useEffect(() => {
+    loadAdminFromCookies();
+  }, [loadAdminFromCookies]);
   return (
     <LecturerContext.Provider
       value={{

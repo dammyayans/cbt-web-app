@@ -226,7 +226,7 @@ const Courses = () => {
         </form>
       </MainModal>
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-        <h3 className="font-bold text-3xl">Courses</h3>
+        <h3 className="font-bold text-3xl pt-8">Courses</h3>
         <div className="flex mt-6 justify-between">
           <div className="flex-auto w-2/3">
             <div className="relative">
