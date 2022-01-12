@@ -110,7 +110,7 @@ const Courses = () => {
 
   return (
     <DashboardLayout type="admin">
-      <MainModal isVisible={showModal} title="Add Lecturer">
+      <MainModal isVisible={showModal} title="Add Course">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-[15px]">
             <p className="text-black mb-2 text-[13px]">Course Code</p>
@@ -210,6 +210,7 @@ const Courses = () => {
           <div className="flex mt-12">
             <Button
               type="submit"
+              hoverStyle={false}
               onClick={() => null}
               loading={loading}
               className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none">

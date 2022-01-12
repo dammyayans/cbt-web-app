@@ -58,91 +58,6 @@ const loginASchema = yup.object().shape({
 //   email: yup.string().email().required('Please Enter your Email'),
 // });
 
-// // sign up screen 1
-// const signupWithEmailFirstname = yup.object().shape({
-//   email: yup.string().email().required('Please enter your email'),
-//   firstName: yup
-//     .string()
-//     .required('Please enter your first name')
-//     .matches(/^[a-zA-Z]+$/, 'Enter only your name'),
-//   // .test('is-jimmy', '${path} is not Jimmy', value => value === 'jimmy'),
-// });
-
-// const authSchema = yup.object().shape({
-//   phoneNumber: yup
-//     .string()
-//     .required('Phone number is required')
-//     .typeError('Please Enter your Number')
-//     .matches(
-//       /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
-//       'Enter a valid phone number',
-//     )
-//     .min(10, 'Phone number must be at least 10 characters')
-//     .max(15, 'Phone number must be at most 15 characters'),
-//   countryCode: yup.string().required(''),
-//   password: yup
-//     .string()
-//     .min(8)
-//     .required('Please Enter your password')
-//     .matches(
-//       // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-// });
-
-// const changePasswordSchema = yup.object().shape({
-//   oldPassword: yup
-//     .string()
-//     .required('Password is required')
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-//   password: yup
-//     .string()
-//     .min(8)
-//     .required('Password is required')
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-//   confirmPassword: yup
-//     .string()
-//     .oneOf([yup.ref('password'), null], 'Passwords must match'),
-//   // confirmPassword: yup
-//   //   .string()
-//   //   .test("passwords-match", "Passwords must match", function (value) {
-//   //     return this.parent.password === value;
-//   //   }),
-// });
-
-// const signupSchema = yup.object().shape({
-//   email: yup.string().email().required('Please Enter your Email'),
-//   username: yup.string().required('Please Enter your username'),
-//   phoneNumber: yup
-//     .string()
-//     .required('Phone number is required')
-//     .typeError('Please Enter your Number')
-//     .matches(
-//       /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
-//       'Enter a valid phone number',
-//     )
-//     .min(10, 'Phone number must be at least 10 characters')
-//     .max(15, 'Phone number must be at most 15 characters'),
-//   firstName: yup.string().required().typeError('Please Enter your First Name'),
-//   lastName: yup.string().required().typeError('Please Enter your Last Name'),
-//   countryCode: yup.string().required(''),
-//   password: yup
-//     .string()
-//     .min(8)
-//     .required('Please Enter your password')
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-//       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-//     ),
-// });
-
 // const registerUserDetails = yup.object().shape({
 //   // phoneNumber: yup
 //   //   .string()
@@ -182,44 +97,6 @@ const loginASchema = yup.object().shape({
 //     }),
 //   // .isValidPhoneNumber('Invalid phone number')
 // });
-
-// const uploadDocSchema = yup.object().shape({
-//   homeNo: yup
-//     .string()
-//     .required('Home Number is required')
-//     .typeError('Please Enter your Home Number'),
-//   streetName: yup
-//     .string()
-//     .required('Street Number is required')
-//     .typeError('Please Enter your Street Number'),
-//   // state: yup
-//   //   .string()
-//   //   .required('State is required')
-//   //   .typeError('Please Enter your State'),
-// });
-
-// const changeProfileSchema = yupResolver(
-//   yup.object().shape({
-//     email: yup.string().email().required('Please Enter your Email'),
-//     username: yup.string().required('Please Enter your username'),
-//     phoneNumber: yup
-//       .string()
-//       .required('Phone number is required')
-//       .typeError('Please Enter your Number')
-//       .matches(
-//         /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
-//         'Enter a valid phone number',
-//       )
-//       .min(10, 'Phone number must be at least 10 characters')
-//       .max(15, 'Phone number must be at most 15 characters'),
-//     firstName: yup
-//       .string()
-//       .required()
-//       .typeError('Please Enter your First Name'),
-//     lastName: yup.string().required().typeError('Please Enter your Last Name'),
-//     countryCode: yup.string().required(''),
-//   }),
-// );
 
 const addLecturerSchema = yupResolver(
   yup.object().shape({
@@ -333,6 +210,35 @@ const changeLPassword = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
+const addQuestionSchema = yupResolver(
+  yup.object().shape({
+    excelFile: yup.object(),
+    // .shape({
+    //   name: yup.string().required(),
+    // })
+    // .required('File required')
+    // .typeError('Please Select a file'),
+    duration: yup
+      .string()
+      .required('Please enter a duration')
+      .typeError('Please enter a valid duration')
+      .matches(/^[0-9]*$/, 'Must be a valid duration'),
+    amount: yup
+      .string()
+      .required(
+        'Please Enter the amount of questions to be answered by students',
+      )
+      .typeError(
+        'Please Enter the amount of questions to be answered by students',
+      )
+      .matches(/^[0-9]*$/, 'Must be a number'),
+    type: yup
+      .string()
+      .required('Please Select question type')
+      .typeError('Please Select question type'),
+  }),
+);
+
 const validation = {
   loginSchema: yupResolver(loginSchema),
   loginLSchema: yupResolver(loginLSchema),
@@ -341,6 +247,7 @@ const validation = {
   addCourseSchema,
   addStudentSchema,
   changeLPassword: yupResolver(changeLPassword),
+  addQuestionSchema,
 
   // forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   // resetPassword: yupResolver(resetPassword),

@@ -13,13 +13,15 @@ import screens from 'constants/screens';
 import Table from 'react-tailwind-table';
 import tableStyling from 'constants/tableStyling';
 import Loader from 'components/Loader';
+import {ReactComponent as AddFile} from 'assets/icons/add-file.svg';
+import {ReactComponent as DownloadIcon} from 'assets/icons/download-icon.svg';
+import {useDropzone} from 'react-dropzone';
 
 interface IFormValue {
-  courseCode: string;
-  courseTitle: string;
-  unit: string;
-  status: string;
-  lecturerID: string;
+  excelFile: object;
+  duration: string;
+  amount: string;
+  type: string;
 }
 
 const col = [
@@ -36,18 +38,10 @@ const col = [
     use: 'Unit',
     use_in_search: false,
   },
-  {
-    field: 'status',
-    use: 'Status',
-  },
-  {
-    field: 'lecturer.firstName',
-    use: 'Lecturer',
-  },
-  {
-    field: 'lecturer.lastName',
-    use: ' ',
-  },
+  // {
+  //   field: 'status',
+  //   use: 'Status',
+  // },
   {
     field: 'action',
     use: 'Action',
@@ -56,19 +50,18 @@ const col = [
 
 const Courses = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  const {post: postCourse, loading} = useFetch(API.addCourse);
+  const [uploadModal, setUploadModal] = useState(false);
+  const [questionsFile, setQuestionsFile] = useState(null);
+  const [courseId, setCourseID] = useState(null);
+
+  const {post: postQuestions, loading} = useFetch(API.addQuestions(courseId));
   const {
     data,
     loading: gLoading,
     get,
   } = useFetch(
-    API.getCourses,
+    API.getMyCourses,
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
-  );
-  const {data: allLecturers, loading: lLoading} = useFetch(
-    `${API.getLecturers}?fields=firstName,lastName`,
     [],
   );
 
@@ -77,41 +70,48 @@ const Courses = () => {
     handleSubmit,
     formState: {errors},
     reset,
-  } = useForm<IFormValue>({resolver: validation.addCourseSchema});
+  } = useForm<IFormValue>({resolver: validation.addQuestionSchema});
 
-  const onSubmit = async (data: IFormValue) => {
-    try {
-      const res = await postCourse(data);
-      if (res?.status.toLowerCase() === 'success') {
-        get();
-        setShowModal(false);
-        reset();
-        navigate(screens.adminCourses);
-      }
-    } catch (e) {
-      toast.error(String(e));
-    }
-  };
+  const {getRootProps, getInputProps} = useDropzone({
+    multiple: false,
+    accept:
+      '.xlsx,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    onDropAccepted: res => {
+      setQuestionsFile(res[0]);
+    },
+    onDropRejected: files => {
+      // console.log(files);
+      files[0]?.errors.forEach(err => {
+        if (err.code === 'file-invalid-type')
+          toast.error('Invalid file format');
+        else toast.error(err.message);
+      });
+    },
+  });
 
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'action') {
       return (
         <div className="flex">
           <Button
-            // onClick={() => navigate(row.courseID)}
-            className="py-1 rounded-[5px] px-1 text-black bg-lightblue mr-[15px]"
+            onClick={() => {
+              setCourseID(row.courseID);
+              setUploadModal(true);
+            }}
+            // variant="outlined"
+            className="py-1 rounded-[5px] text-[10px] border-0 px-1 text-blackk bg-lightblue mr-[15px]"
             hoverStyle={false}>
             Upload questions
           </Button>
           <Button
             // onClick={() => navigate(row.courseID)}
-            className="py-1 rounded-[5px] px-1 text-black bg-lightblue mr-[15px]"
+            className="py-1 rounded-[5px] text-[10px] px-1 border-0 text-blackk bg-lightblue mr-[15px]"
             hoverStyle={false}>
             View questions
           </Button>
           <Button
             // onClick={() => navigate(row.courseID)}
-            className="py-1 rounded-[5px] px-1"
+            className="py-1 text-[10px] border-0 rounded-[5px] px-1"
             hoverStyle={false}>
             View results
           </Button>
@@ -122,56 +122,121 @@ const Courses = () => {
     return display_value;
   };
 
+  const onSubmit = async (data: IFormValue) => {
+    if (questionsFile) {
+      const {amount, duration, type} = data;
+      const formData = new FormData();
+      formData.append('amount', amount);
+      formData.append('duration', duration);
+      formData.append('type', type);
+      formData.append('excelFile', questionsFile);
+      try {
+        const res = await postQuestions(formData);
+        if (res?.status.toLowerCase() === 'success') {
+          get();
+          setUploadModal(false);
+          reset();
+          setQuestionsFile(null);
+          navigate(screens.lecturerCourses);
+        }
+      } catch (e) {
+        toast.error(String(e));
+      }
+    } else {
+      toast.error('Please upload a file');
+    }
+  };
+
   return (
     <DashboardLayout type="lec">
-      <MainModal isVisible={showModal} title="Upload Questions">
+      {/* upload students modal */}
+      <MainModal isVisible={uploadModal} title="Upload Questions">
+        <div className="flex justify-end">
+          <a href="/question.xlsx" target="_blank" download>
+            <button className="flex items-center">
+              <DownloadIcon />
+              <p className="ml-[5px] text-primary text-[15px]">
+                Download format
+              </p>
+            </button>
+          </a>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-[15px]">
-            <p className="text-black mb-2 text-[13px]">Course Code</p>
-            <input
-              {...register('courseCode')}
-              className=" px-4 py-2 text-sm border bg-white border-border-gray rounded outline-none md:w-2/3 w-full uppercase"
-              placeholder="CPE 565"
-            />
+          <div>
+            <button
+              type="button"
+              {...getRootProps({
+                className:
+                  'w-full grid place-items-center mt-5 py-10 border-primary bg-[#F5F6FF] mb-[27px]',
+                style: {
+                  borderStyle: 'dashed',
+                  borderWidth: '1px',
+                },
+              })}>
+              <input {...register('excelFile')} {...getInputProps()} />
+              <AddFile />
+              <p className="text-[13px] mt-[15px]">
+                Drag and drop or{' '}
+                <span className="text-primary underline">browse</span> your
+                files
+              </p>
+            </button>
+            {questionsFile ? (
+              <div className="flex items-center">
+                <svg
+                  width="16"
+                  height="20"
+                  viewBox="0 0 16 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M15.5 17.5V5.625L9.875 0H3C2.33696 0 1.70107 0.263392 1.23223 0.732233C0.763392 1.20107 0.5 1.83696 0.5 2.5V17.5C0.5 18.163 0.763392 18.7989 1.23223 19.2678C1.70107 19.7366 2.33696 20 3 20H13C13.663 20 14.2989 19.7366 14.7678 19.2678C15.2366 18.7989 15.5 18.163 15.5 17.5ZM9.875 3.75C9.875 4.24728 10.0725 4.72419 10.4242 5.07583C10.7758 5.42746 11.2527 5.625 11.75 5.625H14.25V17.5C14.25 17.8315 14.1183 18.1495 13.8839 18.3839C13.6495 18.6183 13.3315 18.75 13 18.75H3C2.66848 18.75 2.35054 18.6183 2.11612 18.3839C1.8817 18.1495 1.75 17.8315 1.75 17.5V2.5C1.75 2.16848 1.8817 1.85054 2.11612 1.61612C2.35054 1.3817 2.66848 1.25 3 1.25H9.875V3.75Z"
+                    fill="black"
+                  />
+                </svg>
+                <p className="ml-2 text-[13px]">{questionsFile?.path}</p>
+              </div>
+            ) : null}
             <span className="text-red-600 text-xs mb-2 pl-2 block">
-              {errors.courseCode && errors.courseCode.message}
+              {/* {errors.excelFile && errors.excelFile?.name.message} */}
             </span>
           </div>
           <div className="mb-[15px]">
-            <p className="text-black mb-2 text-[13px]">Course Title</p>
+            <p className="text-black mb-2 text-[13px]">Duration (minutes)</p>
             <input
-              {...register('courseTitle')}
+              {...register('duration')}
+              type="number"
               className=" px-4 py-2 text-sm border bg-white border-border-gray rounded outline-none md:w-2/3 w-full"
-              placeholder="Introduction to Robotics"
             />
             <span className="text-red-600 text-xs mb-2 pl-2 block">
-              {errors.courseTitle && errors.courseTitle.message}
+              {errors.duration && errors.duration.message}
             </span>
           </div>
           <div className="mb-[15px]">
-            <p className="text-black mb-2 text-[13px]">Course Unit</p>
+            <p className="text-black mb-2 text-[13px]">
+              Questions to be shown to the student
+            </p>
             <input
-              {...register('unit')}
+              {...register('amount')}
+              type="number"
               className=" px-4 py-2 text-sm border bg-white border-border-gray rounded outline-none md:w-2/3 w-full"
             />
             <span className="text-red-600 text-xs mb-2 pl-2 block">
-              {errors.unit && errors.unit.message}
+              {errors.amount && errors.amount.message}
             </span>
           </div>
-
           <div className="mb-[15px]">
-            <p className="text-black mb-2 text-[13px]">Status</p>
+            <p className="text-black mb-2 text-[13px]">Question type</p>
 
             <div className="relative md:w-2/3 w-full">
               <select
-                {...register('status')}
                 className="block appearance-none bg-gray-200 border border-border-gray py-2 px-4 pr-8 rounded w-full focus:outline-none text-sm"
                 id="grid-state"
+                {...register('type')}
                 placeholder="">
                 <option value="">Select an option</option>
-                <option value="C">C</option>
-                <option value="R">R</option>
-                <option value="E">E</option>
+                <option value="ca">CA</option>
+                <option value="exam">Exam</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
                 <svg
@@ -183,54 +248,23 @@ const Courses = () => {
               </div>
             </div>
             <span className="text-red-600 text-xs mb-2 pl-2 block">
-              {errors.status && errors.status.message}
-            </span>
-          </div>
-          <div className="mb-[15px]">
-            <p className="text-black mb-2 text-[13px]">Assign Lecturer</p>
-
-            <div className="relative md:w-2/3 w-full">
-              <select
-                {...register('lecturerID')}
-                className="block appearance-none bg-gray-200 border border-border-gray py-2 px-4 pr-8 rounded w-full focus:outline-none text-sm"
-                id="grid-state"
-                placeholder=""
-                // disabled={!faculty}
-              >
-                <option value="">Select an option</option>
-                {!lLoading
-                  ? allLecturers && allLecturers.lecturers
-                    ? allLecturers.lecturers.map(e => (
-                        <option value={e.uuid} key={e.uuid}>
-                          {e.firstName} {e.lastName}
-                        </option>
-                      ))
-                    : null
-                  : null}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-            <span className="text-red-600 text-xs mb-2 pl-2 block">
-              {errors.lecturerID && errors.lecturerID.message}
+              {errors.type && errors.type.message}
             </span>
           </div>
           <div className="flex mt-12">
             <Button
               type="submit"
               onClick={() => null}
+              hoverStyle={false}
               loading={loading}
-              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none">
-              Add
+              className="bg-primary mr-2 hover:bg-primary border-none hover:text-white rounded-[7px]">
+              Submit
             </Button>
             <Button
-              onClick={() => setShowModal(false)}
+              onClick={() => {
+                setQuestionsFile(null);
+                setUploadModal(false);
+              }}
               type="button"
               variant="text"
               className="text-primary">
@@ -252,9 +286,9 @@ const Courses = () => {
             </div>
           </div>
           <div className="flex-auto flex justify-end w-1/3">
-            <Button type="button" onClick={() => setShowModal(true)}>
+            {/* <Button type="button" onClick={() => setShowModal(true)}>
               Add Course
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="my-8 relative">
@@ -264,9 +298,9 @@ const Courses = () => {
           <Table
             columns={col}
             per_page={
-              data && data.courses && data.courses.length > 0 ? 10 : undefined
+              data && data.data && data.data.length > 0 ? 10 : undefined
             }
-            rows={data && data.courses ? data.courses : []}
+            rows={data && data.data ? data.data : []}
             styling={tableStyling}
             hovered={true}
             row_render={rowcheck}

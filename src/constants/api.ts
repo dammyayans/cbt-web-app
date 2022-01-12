@@ -8,9 +8,13 @@ export const API = {
   // lecturer
   lecLogin: `${BASE_URL}/api/v1/auth/lecturers/login`,
   changePassword: `${BASE_URL}/api/v1/auth/lecturers/password`,
+  // with auth
+  getMyCourses: `${BASE_URL}/api/v1/auth/lecturers/courses`,
+  addQuestions: courseId =>
+    `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions`,
 
   // admin
-  adminLogin: `${BASE_URL}/api/v1/auth/admins/lecturers/login`,
+  adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
   // with auth
   addLecturer: `${BASE_URL}/api/v1/auth/admins/lecturers`,
   getLecturers: `${BASE_URL}/api/v1/auth/admins/lecturers`,

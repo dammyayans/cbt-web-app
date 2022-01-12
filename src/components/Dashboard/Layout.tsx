@@ -64,7 +64,6 @@ const DashboardLayout = ({children, type}) => {
     // console.log(router);
     // if (isOpen) setIsOpen(false);
   }, [isOpen, location.pathname]);
-
   return (
     <>
       <div className="dashboard">
@@ -161,7 +160,7 @@ const DashboardLayout = ({children, type}) => {
                     </svg>
                   }
                   to={screens.lecturerSettings}>
-                  My Settings
+                  Settings
                 </NavLink>
               </div>
             ) : (
@@ -315,7 +314,7 @@ const DashboardLayout = ({children, type}) => {
               ) : (
                 <DashboardHeader
                   avatar="https://www.svgrepo.com/show/165876/avatar.svg"
-                  name={lecturer?.role}
+                  name={lecturer?.firstName}
                 />
               )}
               {children}
