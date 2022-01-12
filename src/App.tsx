@@ -16,6 +16,7 @@ import Courses from 'pages/admin/courses';
 import CourseDetails from 'pages/admin/courseDetails';
 import Students from 'pages/admin/students';
 import Settings from 'pages/lecturer/settings';
+import CourseDetailsL from 'pages/lecturer/courseDetails';
 
 function App() {
   useScrollToTop();
@@ -67,6 +68,14 @@ function App() {
             </PrivateRoute>
           }
           path={screens.lecturerSettings}
+        />
+        <Route
+          element={
+            <PrivateRoute type="lecturer">
+              <CourseDetailsL />
+            </PrivateRoute>
+          }
+          path={screens.lecturerCourseDetails}
         />
 
         {/* admin routes */}

@@ -104,7 +104,7 @@ const Courses = () => {
             Upload questions
           </Button>
           <Button
-            // onClick={() => navigate(row.courseID)}
+            onClick={() => navigate(row.courseID)}
             className="py-1 rounded-[5px] text-[10px] px-1 border-0 text-blackk bg-lightblue mr-[15px]"
             hoverStyle={false}>
             View questions

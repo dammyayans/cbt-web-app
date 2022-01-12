@@ -12,6 +12,8 @@ export const API = {
   getMyCourses: `${BASE_URL}/api/v1/auth/lecturers/courses`,
   addQuestions: courseId =>
     `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions`,
+  courseDetails: (courseId, type) =>
+    `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions?type=${type}`,
 
   // admin
   adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
@@ -23,6 +25,8 @@ export const API = {
   getCourses: `${BASE_URL}/api/v1/auth/admins/courses`,
   addStudent: `${BASE_URL}/api/v1/auth/admins/students`,
   uploadStudents: `${BASE_URL}/api/v1/auth/admins/students/uploads`,
+  adminCourseDetails: (courseId, type) =>
+    `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/questions?type=${type}`,
 
   // verifyPayment: (id: string) => `${BASE_URL}/api/investors/payment/${id}`,
 };

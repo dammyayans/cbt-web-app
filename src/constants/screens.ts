@@ -7,6 +7,7 @@ const screens = {
   lecturerDashboard: '/lecturer/dashboard',
   lecturerCourses: '/lecturer/courses',
   lecturerSettings: '/lecturer/settings',
+  lecturerCourseDetails: '/lecturer/courses/:id',
   // admin
   adminLogin: '/admin/login',
   adminDashboard: '/admin/dashboard',

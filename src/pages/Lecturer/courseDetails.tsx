@@ -12,7 +12,7 @@ import useFetch, {CachePolicies} from 'use-http';
 import ConfirmModal from 'components/SmallModal';
 import toast from 'react-hot-toast';
 
-const CourseDetails = () => {
+const CourseDetailsL = () => {
   const [openTab, setOpenTab] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
@@ -21,17 +21,17 @@ const CourseDetails = () => {
     loading,
     get: getCA,
   } = useFetch(
-    API.adminCourseDetails(params.id, 'ca'),
+    API.courseDetails(params.id, 'ca'),
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
   const {data: data2, get: getExam} = useFetch(
-    API.adminCourseDetails(params.id, 'exam'),
+    API.courseDetails(params.id, 'exam'),
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
   const {delete: deleteQuestions, loading: delLoading} = useFetch(
-    API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
+    API.courseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
   );
 
   const course = data?.data.course;
@@ -50,7 +50,7 @@ const CourseDetails = () => {
     }
   };
   return (
-    <DashboardLayout type="admin">
+    <DashboardLayout type="lec">
       <ConfirmModal
         type="confirm"
         isDelete
@@ -122,22 +122,13 @@ const CourseDetails = () => {
                 )}
                 <div className="flex mt-4 justify-end">
                   {caQuestions?.length ? (
-                    <div className="flex">
-                      <Button
-                        type="button"
-                        className="mr-2 px-2 bg-danger border-0"
-                        hoverStyle={false}
-                        onClick={() => setShowModal(true)}>
-                        Deline Questions
-                      </Button>
-                      <Button
-                        type="button"
-                        className=" px-2 bg-success border-0"
-                        hoverStyle={false}
-                        onClick={() => setShowModal(true)}>
-                        Approve Questions
-                      </Button>
-                    </div>
+                    <Button
+                      type="button"
+                      className="mr-2 px-2 bg-danger border-0"
+                      hoverStyle={false}
+                      onClick={() => setShowModal(true)}>
+                      Delete Questions
+                    </Button>
                   ) : null}
                 </div>
               </div>
@@ -175,4 +166,4 @@ const CourseDetails = () => {
   );
 };
 
-export default CourseDetails;
+export default CourseDetailsL;

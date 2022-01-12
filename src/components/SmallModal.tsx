@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import cn from 'classnames';
 import Button from './Button';
 
@@ -5,9 +6,21 @@ type ModalProps = {
   isVisible: boolean;
   onClose: () => void;
   type: 'submit' | 'confirm';
+  onYes?: () => void;
+  loading?: boolean;
+  message?: string;
+  isDelete?: boolean;
 };
 
-const SmallModal = ({isVisible, onClose, type}: ModalProps) => (
+const SmallModal = ({
+  isVisible,
+  onClose,
+  type,
+  onYes,
+  loading,
+  message,
+  isDelete = false,
+}: ModalProps) => (
   <div
     className={cn(
       'fixed top-0 left-0 w-full h-full bg-[#999999] bg-opacity-70 z-10 flex flex-col items-center justify-end transition-all duration-500 md:justify-center',
@@ -24,18 +37,30 @@ const SmallModal = ({isVisible, onClose, type}: ModalProps) => (
         <div>
           <p className="text-xl">Confirmation</p>
           <p className="text-[15px] mt-2">
-            Are you sure you want to submit now?
+            {message ? message : 'Are you sure you want to submit now?'}
           </p>
           <div className="flex justify-center mt-12">
             <Button
               type="button"
-              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none">
+              loading={loading}
+              onClick={onYes}
+              hoverStyle={false}
+              className={classNames(
+                'mr-7 border-none hover:text-white rounded-none',
+                {'bg-danger': isDelete},
+                {'bg-primary': !isDelete},
+              )}>
               YES
             </Button>
             <Button
               onClick={onClose}
               type="button"
-              className="bg-danger hover:bg-danger border-none hover:text-white rounded-none">
+              hoverStyle={false}
+              className={classNames(
+                'border-none hover:text-white rounded-none',
+                {'bg-danger': !isDelete},
+                {'bg-gray': isDelete},
+              )}>
               NO
             </Button>
           </div>
