@@ -114,9 +114,25 @@ const CourseDetailsL = () => {
             <div>
               <div className="bg-white rounded-b-[15px] p-7 mb-4">
                 {caQuestions?.length ? (
-                  caQuestions.map((q, ind) => (
-                    <AdminQuestion key={q.id} details={q} sn={ind + 1} />
-                  ))
+                  <div>
+                    <p className="text-lg text-right">
+                      Status:{' '}
+                      <span
+                        className={cn('font-bold capitalize', {
+                          'text-warning':
+                            caQuestions[0].approvalStatus === 'pending',
+                          'text-danger':
+                            caQuestions[0].approvalStatus === 'declined',
+                          'text-success':
+                            caQuestions[0].approvalStatus === 'approved',
+                        })}>
+                        {caQuestions[0].approvalStatus}
+                      </span>
+                    </p>
+                    {caQuestions.map((q, ind) => (
+                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}
@@ -140,9 +156,25 @@ const CourseDetailsL = () => {
                   'bg-white rounded-b-[15px] p-7 mb-4 transition-opacity',
                 )}>
                 {examQuestions?.length ? (
-                  examQuestions.map((q, ind) => (
-                    <AdminQuestion key={q.id} details={q} sn={ind + 1} />
-                  ))
+                  <div>
+                    <p className="text-lg text-right">
+                      Status:{' '}
+                      <span
+                        className={cn('font-bold capitalize', {
+                          'text-warning':
+                            examQuestions[0].approvalStatus === 'pending',
+                          'text-danger':
+                            examQuestions[0].approvalStatus === 'declined',
+                          'text-success':
+                            examQuestions[0].approvalStatus === 'approved',
+                        })}>
+                        {examQuestions[0].approvalStatus}
+                      </span>
+                    </p>
+                    {examQuestions.map((q, ind) => (
+                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}

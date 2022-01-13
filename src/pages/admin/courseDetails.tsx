@@ -5,16 +5,15 @@ import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
 import Loader from 'components/Loader';
 import API from 'constants/api';
-import questions from 'constants/Questions';
 import React, {useState} from 'react';
 import {useParams} from 'react-router';
 import useFetch, {CachePolicies} from 'use-http';
-import ConfirmModal from 'components/SmallModal';
 import toast from 'react-hot-toast';
 
 const CourseDetails = () => {
   const [openTab, setOpenTab] = useState(1);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState('');
   const params = useParams();
   const {
     data,
@@ -30,7 +29,7 @@ const CourseDetails = () => {
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
-  const {delete: deleteQuestions, loading: delLoading} = useFetch(
+  const {post: postStatus, loading: pLoading} = useFetch(
     API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
   );
 
@@ -38,12 +37,14 @@ const CourseDetails = () => {
   const caQuestions = data?.data.questions;
   const examQuestions = data2?.data.questions;
 
-  const onDelete = async () => {
+  const handleStatus = async status => {
+    setStatus(status);
     try {
-      const res = await deleteQuestions();
+      const res = await postStatus({
+        approvalStatus: status,
+      });
       if (res?.status.toLowerCase() === 'success') {
         openTab === 1 ? getCA() : getExam();
-        setShowModal(false);
       }
     } catch (e) {
       toast.error(String(e));
@@ -51,7 +52,7 @@ const CourseDetails = () => {
   };
   return (
     <DashboardLayout type="admin">
-      <ConfirmModal
+      {/* <ConfirmModal
         type="confirm"
         isDelete
         message={`Are you sure you want to Delete ${course?.courseTitle} Questions?`}
@@ -59,7 +60,7 @@ const CourseDetails = () => {
         loading={delLoading}
         isVisible={showModal}
         onClose={() => setShowModal(false)}
-      />
+      /> */}
       {loading ? (
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full h-screen flex justify-center items-center">
           <div className="flex justify-center items-center flex-col animate-bounce">
@@ -114,9 +115,25 @@ const CourseDetails = () => {
             <div>
               <div className="bg-white rounded-b-[15px] p-7 mb-4">
                 {caQuestions?.length ? (
-                  caQuestions.map((q, ind) => (
-                    <AdminQuestion key={q.id} details={q} sn={ind + 1} />
-                  ))
+                  <div>
+                    <p className="text-lg text-right">
+                      Status:{' '}
+                      <span
+                        className={cn('font-bold capitalize', {
+                          'text-warning':
+                            caQuestions[0].approvalStatus === 'pending',
+                          'text-danger':
+                            caQuestions[0].approvalStatus === 'declined',
+                          'text-success':
+                            caQuestions[0].approvalStatus === 'approved',
+                        })}>
+                        {caQuestions[0].approvalStatus}
+                      </span>
+                    </p>
+                    {caQuestions.map((q, ind) => (
+                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}
@@ -127,14 +144,18 @@ const CourseDetails = () => {
                         type="button"
                         className="mr-2 px-2 bg-danger border-0"
                         hoverStyle={false}
-                        onClick={() => setShowModal(true)}>
-                        Deline Questions
+                        isDisabled={loading}
+                        loading={pLoading && status === 'declined'}
+                        onClick={() => handleStatus('declined')}>
+                        Decline Questions
                       </Button>
                       <Button
                         type="button"
                         className=" px-2 bg-success border-0"
                         hoverStyle={false}
-                        onClick={() => setShowModal(true)}>
+                        isDisabled={loading}
+                        loading={pLoading && status === 'approved'}
+                        onClick={() => handleStatus('approved')}>
                         Approve Questions
                       </Button>
                     </div>
@@ -149,21 +170,50 @@ const CourseDetails = () => {
                   'bg-white rounded-b-[15px] p-7 mb-4 transition-opacity',
                 )}>
                 {examQuestions?.length ? (
-                  examQuestions.map((q, ind) => (
-                    <AdminQuestion key={q.id} details={q} sn={ind + 1} />
-                  ))
+                  <div>
+                    <p className="text-lg text-right">
+                      Status:{' '}
+                      <span
+                        className={cn('font-bold capitalize', {
+                          'text-warning':
+                            examQuestions[0].approvalStatus === 'pending',
+                          'text-danger':
+                            examQuestions[0].approvalStatus === 'declined',
+                          'text-success':
+                            examQuestions[0].approvalStatus === 'approved',
+                        })}>
+                        {examQuestions[0].approvalStatus}
+                      </span>
+                    </p>
+                    {examQuestions.map((q, ind) => (
+                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}
                 <div className="flex my-4 justify-end">
                   {examQuestions?.length ? (
-                    <Button
-                      type="button"
-                      className="mr-2 px-2 bg-danger border-0"
-                      hoverStyle={false}
-                      onClick={() => setShowModal(true)}>
-                      Delete Questions
-                    </Button>
+                    <div className="flex">
+                      <Button
+                        type="button"
+                        className="mr-2 px-2 bg-danger border-0"
+                        hoverStyle={false}
+                        isDisabled={loading}
+                        loading={pLoading && status === 'declined'}
+                        onClick={() => handleStatus('declined')}>
+                        Decline Questions
+                      </Button>
+                      <Button
+                        type="button"
+                        className=" px-2 bg-success border-0"
+                        hoverStyle={false}
+                        isDisabled={loading}
+                        loading={pLoading && status === 'approved'}
+                        onClick={() => handleStatus('approved')}>
+                        Approve Questions
+                      </Button>
+                    </div>
                   ) : null}
                 </div>
               </div>
