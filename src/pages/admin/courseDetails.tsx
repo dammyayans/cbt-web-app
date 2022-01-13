@@ -74,7 +74,7 @@ const CourseDetails = () => {
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
           <h3 className="font-bold text-3xl pt-8">{course?.courseTitle}</h3>
           <div className="flex mt-6 justify-between items-center">
-            <div className="flex-auto w-2/3">
+            <div className="flex-auto w-1/2">
               <div className="relative">
                 <p className="text-xl mb-2">{course?.courseCode}</p>
 
@@ -84,14 +84,21 @@ const CourseDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-auto flex justify-end w-1/3">
-              {/* <Button
+            <div className="flex-auto flex justify-end w-1/2">
+              <Button
+                hoverStyle={false}
+                type="button"
+                className="px-2 mr-2"
+                onClick={() => null}>
+                Show Exam
+              </Button>
+              <Button
                 hoverStyle={false}
                 type="button"
                 className="px-2"
                 onClick={() => null}>
-                Show Exam
-              </Button> */}
+                Show CA
+              </Button>
             </div>
           </div>
           <h3 className="font-bold text-3xl mt-6 mb-4">Questions</h3>
@@ -131,7 +138,11 @@ const CourseDetails = () => {
                       </span>
                     </p>
                     {caQuestions.map((q, ind) => (
-                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                      <AdminQuestion
+                        key={q.questionID}
+                        details={q}
+                        sn={ind + 1}
+                      />
                     ))}
                   </div>
                 ) : (
@@ -151,7 +162,7 @@ const CourseDetails = () => {
                       </Button>
                       <Button
                         type="button"
-                        className=" px-2 bg-success border-0"
+                        className=" px-2 border-0"
                         hoverStyle={false}
                         isDisabled={loading}
                         loading={pLoading && status === 'approved'}
@@ -186,7 +197,11 @@ const CourseDetails = () => {
                       </span>
                     </p>
                     {examQuestions.map((q, ind) => (
-                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                      <AdminQuestion
+                        key={q.questionID}
+                        details={q}
+                        sn={ind + 1}
+                      />
                     ))}
                   </div>
                 ) : (
@@ -206,7 +221,7 @@ const CourseDetails = () => {
                       </Button>
                       <Button
                         type="button"
-                        className=" px-2 bg-success border-0"
+                        className=" px-2  border-0"
                         hoverStyle={false}
                         isDisabled={loading}
                         loading={pLoading && status === 'approved'}
