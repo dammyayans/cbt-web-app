@@ -14,6 +14,7 @@ const CourseDetails = () => {
   const [openTab, setOpenTab] = useState(1);
   // const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState('');
+  const [startStatus, setStartStatus] = useState('');
   const params = useParams();
   const {
     data,
@@ -32,6 +33,9 @@ const CourseDetails = () => {
   const {post: postStatus, loading: pLoading} = useFetch(
     API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
   );
+  const {post: postStartCourse, loading: sLoading} = useFetch(
+    API.adminStartCourse(params.id),
+  );
 
   const course = data?.data.course;
   const caQuestions = data?.data.questions;
@@ -45,6 +49,20 @@ const CourseDetails = () => {
       });
       if (res?.status.toLowerCase() === 'success') {
         openTab === 1 ? getCA() : getExam();
+      }
+    } catch (e) {
+      toast.error(String(e));
+    }
+  };
+
+  const handleStartStatus = async (status, start) => {
+    setStartStatus(status);
+    try {
+      const res = await postStartCourse(`start?type=${status}`, {
+        isStarted: start,
+      });
+      if (res?.status.toLowerCase() === 'success') {
+        status === 'ca' ? getCA() : getExam();
       }
     } catch (e) {
       toast.error(String(e));
@@ -85,20 +103,38 @@ const CourseDetails = () => {
               </div>
             </div>
             <div className="flex-auto flex justify-end w-1/2">
-              <Button
-                hoverStyle={false}
-                type="button"
-                className="px-2 mr-2"
-                onClick={() => null}>
-                Show Exam
-              </Button>
-              <Button
-                hoverStyle={false}
-                type="button"
-                className="px-2"
-                onClick={() => null}>
-                Show CA
-              </Button>
+              {examQuestions?.length &&
+              examQuestions[0].approvalStatus === 'approved' ? (
+                <Button
+                  hoverStyle={false}
+                  type="button"
+                  loading={startStatus === 'exam' && sLoading}
+                  className="px-2 mr-2 bg-lightblue border-0 text-blackk"
+                  onClick={() =>
+                    handleStartStatus(
+                      'exam',
+                      !examQuestions[0].isStarted ? true : false,
+                    )
+                  }>
+                  {examQuestions[0].isStarted ? 'Hide' : 'Show'} Exam
+                </Button>
+              ) : null}
+              {caQuestions?.length &&
+              caQuestions[0].approvalStatus === 'approved' ? (
+                <Button
+                  hoverStyle={false}
+                  type="button"
+                  loading={startStatus === 'ca' && sLoading}
+                  className="px-2"
+                  onClick={() =>
+                    handleStartStatus(
+                      'ca',
+                      !caQuestions[0].isStarted ? true : false,
+                    )
+                  }>
+                  {caQuestions[0].isStarted ? 'Hide' : 'Show'} CA
+                </Button>
+              ) : null}
             </div>
           </div>
           <h3 className="font-bold text-3xl mt-6 mb-4">Questions</h3>

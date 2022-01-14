@@ -27,6 +27,8 @@ export const API = {
   uploadStudents: `${BASE_URL}/api/v1/auth/admins/students/uploads`,
   adminCourseDetails: (courseId, type) =>
     `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/questions?type=${type}`,
+  adminStartCourse: courseId =>
+    `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/questions`,
 
   // verifyPayment: (id: string) => `${BASE_URL}/api/investors/payment/${id}`,
 };

@@ -40,9 +40,10 @@ const Button: React.FC<IButton> = ({
     <button
       disabled={loading || isDisabled}
       className={cn(
-        ` py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center duration-300 transition-all children:border-white  ${className}`,
+        `py-3 px-11 border font-bold rounded-xl text-sm flex justify-center items-center duration-300 transition-all children:border-white bg-none  ${className}`,
         {
-          'border-primary bg-primary': !className.includes('bg-'),
+          'border-primary bg-primary':
+            !className.includes('bg-') && variant !== 'text',
           'hover:bg-white hover:text-primary hover:children:border-primary':
             hoverStyle,
           ' text-white btn-primary-shadow':
