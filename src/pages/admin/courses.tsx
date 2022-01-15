@@ -97,12 +97,16 @@ const Courses = () => {
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'action') {
       return (
-        <Button
-          onClick={() => navigate(row.courseID)}
-          className="py-1 rounded-none px-2">
-          More
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            onClick={() => navigate(row.courseID)}
+            className="py-1 rounded-none px-2">
+            More
+          </Button>
+        </div>
       );
+    } else if (column.field === 'courseCode') {
+      return display_value.toUpperCase();
     }
 
     return display_value;
@@ -228,7 +232,7 @@ const Courses = () => {
       </MainModal>
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
         <h3 className="font-bold text-3xl pt-8">Courses</h3>
-        <div className="flex mt-6 justify-between">
+        <div className="flex flex-wrap mt-6 justify-between">
           <div className="flex-auto w-2/3">
             <div className="relative">
               {/* <input

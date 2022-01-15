@@ -3,7 +3,8 @@ export const BASE_URL = process.env.REACT_APP_API_URL;
 export const API = {
   base: BASE_URL,
   // student
-  login: `${BASE_URL}/api/auth/login`,
+  login: `${BASE_URL}/api/v1/auth/students/login`,
+  getStartedCourses: `${BASE_URL}/api/v1/auth/students/assessments/start`,
 
   // lecturer
   lecLogin: `${BASE_URL}/api/v1/auth/lecturers/login`,

@@ -15,6 +15,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     'type',
     'adminDetails',
     'lecturerDetails',
+    'studentDetails',
   ]);
   const [isAuth, setIsAuth] = useState(() => {
     const cookies = new Cookies();
@@ -29,13 +30,18 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     // setTimeout(cb, 100); // fake async
   };
 
-  const signOut = () => {
-    removeCookies('token');
-    removeCookies('type');
-    removeCookies('adminDetails');
-    removeCookies('lecturerDetails');
-    setIsAuth('');
-    // setTimeout(cb, 100); // fake async
+  const signOut = type => {
+    try {
+      removeCookies('token');
+      removeCookies('type');
+      type === 'admin' && removeCookies('adminDetails');
+      type === 'lecturer' && removeCookies('lecturerDetails');
+      type === 'student' && removeCookies('studentDetails');
+      setIsAuth('');
+      // setTimeout(cb, 100); // fake async
+    } catch (e) {
+      console.log({object: e});
+    }
   };
 
   const authenticate = async (
@@ -49,10 +55,11 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
       setCookies('type', type);
       if (type === 'admin') setCookies('adminDetails', details);
       if (type === 'lecturer') setCookies('lecturerDetails', details);
+      if (type === 'student') setCookies('studentDetails', details);
       setIsAuth(type);
       return Promise.resolve('');
     } catch (error) {
-      console.log({error});
+      // console.log({error});
       removeCookies('token');
       removeCookies('type');
       return null;

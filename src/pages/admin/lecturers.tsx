@@ -206,7 +206,7 @@ const Lecturers = () => {
               type="submit"
               onClick={() => null}
               loading={loading}
-              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none">
+              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white  rounded-[7px]">
               Add
             </Button>
             <Button

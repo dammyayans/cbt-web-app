@@ -2,7 +2,7 @@ import {ItableStyle} from 'react-tailwind-table';
 const tableStyling: ItableStyle = {
   base_bg_color: 'bg-primary',
   base_text_color: 'text-primary',
-  main: 'noboxshadow',
+  main: 'noboxshadow table-overflow',
   top: {
     // title:"text-red-700"
     elements: {

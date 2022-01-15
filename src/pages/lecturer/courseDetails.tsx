@@ -130,7 +130,11 @@ const CourseDetailsL = () => {
                       </span>
                     </p>
                     {caQuestions.map((q, ind) => (
-                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                      <AdminQuestion
+                        key={q.questionID}
+                        details={q}
+                        sn={ind + 1}
+                      />
                     ))}
                   </div>
                 ) : (
@@ -172,7 +176,11 @@ const CourseDetailsL = () => {
                       </span>
                     </p>
                     {examQuestions.map((q, ind) => (
-                      <AdminQuestion key={q.id} details={q} sn={ind + 1} />
+                      <AdminQuestion
+                        key={q.questionID}
+                        details={q}
+                        sn={ind + 1}
+                      />
                     ))}
                   </div>
                 ) : (

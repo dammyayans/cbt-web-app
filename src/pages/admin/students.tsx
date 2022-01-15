@@ -363,7 +363,7 @@ const Students = () => {
               hoverStyle={false}
               loading={uLoading}
               className="bg-primary mr-2 hover:bg-primary border-none hover:text-white rounded-[7px]">
-              upload
+              Upload
             </Button>
             <Button
               onClick={() => {

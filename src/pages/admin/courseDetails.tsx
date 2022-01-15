@@ -91,8 +91,8 @@ const CourseDetails = () => {
       ) : (
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
           <h3 className="font-bold text-3xl pt-8">{course?.courseTitle}</h3>
-          <div className="flex mt-6 justify-between items-center">
-            <div className="flex-auto w-1/2">
+          <div className="flex flex-wrap mt-6 justify-between items-center">
+            <div className="flex-auto w-full md:w-1/2">
               <div className="relative">
                 <p className="text-xl mb-2">{course?.courseCode}</p>
 
@@ -102,7 +102,7 @@ const CourseDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-auto flex justify-end w-1/2">
+            <div className="flex-auto flex justify-end w-full md:w-1/2">
               {examQuestions?.length &&
               examQuestions[0].approvalStatus === 'approved' ? (
                 <Button
@@ -141,14 +141,14 @@ const CourseDetails = () => {
           <div className="d">
             <button
               onClick={() => setOpenTab(1)}
-              className={cn('py-2 px-8 mr-2 text-sm', {
+              className={cn('py-4 px-14 mr-2 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 1,
               })}>
               CA
             </button>
             <button
               onClick={() => setOpenTab(2)}
-              className={cn('py-2 px-8 text-sm', {
+              className={cn('py-4 px-14 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 2,
               })}>
               Exam

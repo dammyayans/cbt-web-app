@@ -1,25 +1,26 @@
 /* eslint-disable no-underscore-dangle */
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-// import useFetch from 'use-http';
+import useFetch from 'use-http';
 
 import {useAuth} from 'context/auth-context';
 import screens from 'constants/screens';
 import Button from 'components/Button';
-// import API from 'constants/api';
+import API from 'constants/api';
 import validation from 'constants/validation';
 import {useUser} from 'context/user-context';
 import Layout from 'components/Layout';
-import {Navigate, useLocation} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface IFormValue {
-  matricNo: string;
+  matric: string;
   password: string;
 }
 
 const Login = () => {
-  const {authenticate, login} = useAuth();
-  const {user} = useUser();
+  const {authenticate} = useAuth();
+  const {user, setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -27,20 +28,19 @@ const Login = () => {
     formState: {errors},
   } = useForm<IFormValue>({resolver: validation.loginSchema});
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-  const {state} = useLocation();
-  // const {post: postLogin, loading} = useFetch(API.login);
+  const {post: postLogin, loading} = useFetch(API.login);
 
   const onSubmit = async (data: IFormValue) => {
-    login('student');
-    setRedirectToReferrer(true);
-
-    //   const res = await postLogin(data);
-    //   if (res?.code === 200) {
-    //     authenticate(res.data._token,'student');
-    //     setRedirectToReferrer(true);
-    //   } else {
-    //     setShowModal(true);
-    //   }
+    try {
+      const res = await postLogin(data);
+      if (res?.status === 'success') {
+        setRedirectToReferrer(true);
+        await authenticate(res.token, 'student', res.user);
+        setUser(res.user);
+      }
+    } catch (e) {
+      toast.error(String(e));
+    }
   };
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -52,16 +52,7 @@ const Login = () => {
   }, [user]);
 
   if (redirectToReferrer === true) {
-    return (
-      <Navigate to={screens.selectExam} />
-      // <Redirect
-      //   to={
-      //     state.from === screens.planSuccess
-      //       ? screens.home
-      //       : state?.from || screens.home
-      //   }
-      // />
-    );
+    return <Navigate to={screens.selectExam} />;
   }
 
   return (
@@ -78,12 +69,12 @@ const Login = () => {
         <div className="">
           <p className="text-black mb-2 text-[18px]">Matric No</p>
           <input
-            {...register('matricNo')}
+            {...register('matric')}
             className=" px-6 py-2 border bg-white border-border-gray rounded-[10px] outline-none w-full"
           />
         </div>
         <span className="text-red-600 text-xs mb-2 pl-2 block">
-          {errors.matricNo && errors.matricNo.message}
+          {errors.matric && errors.matric.message}
         </span>
         <div className="relative mt-4">
           <p className="text-black mb-2 text-[18px]">Password</p>
@@ -116,7 +107,11 @@ const Login = () => {
         <span className="text-red-600 text-xs mb-2 pl-2 block">
           {errors.password && errors.password.message}
         </span>
-        <Button className="mt-14" onClick={() => null} type="submit">
+        <Button
+          loading={loading}
+          className="mt-14"
+          onClick={() => null}
+          type="submit">
           Login
         </Button>
       </form>

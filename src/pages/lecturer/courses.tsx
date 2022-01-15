@@ -92,7 +92,7 @@ const Courses = () => {
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'action') {
       return (
-        <div className="flex">
+        <div className="flex justify-end">
           <Button
             onClick={() => {
               setCourseID(row.courseID);
@@ -117,6 +117,8 @@ const Courses = () => {
           </Button>
         </div>
       );
+    } else if (column.field === 'courseCode') {
+      return display_value.toUpperCase();
     }
 
     return display_value;

@@ -71,3 +71,17 @@ input[type='number'] {
 .text-blackk {
   color: black !important;
 }
+
+.table-overflow .overflow-x-auto {
+  overflow-x: scroll !important;
+}
+.table-overflow tbody tr td:last-child {
+  /* float: right; */
+}
+.table-overflow tbody tr td.text-center {
+  text-align: center !important;
+}
+
+.active-shadow {
+  box-shadow: 0px 11px 21px rgba(16, 13, 170, 0.21);
+}

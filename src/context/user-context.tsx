@@ -10,6 +10,7 @@ import {useNavigate, useLocation} from 'react-router';
 import toast from 'react-hot-toast';
 
 import {ContextValueType, PropsType} from '../types';
+import isJwtExpired from 'constants/isJwtExpired';
 
 // import isJwtExpired from 'constants/isJwtExpired';
 // import API from 'constants/api';
@@ -55,35 +56,31 @@ export const UserProvider: React.FC = ({children}: PropsType) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // const [cookies, , removeCookies] = useCookies(['token', 'refreshToken']);
-  // const {get: getUserProfile} = useFetch(API.userProfile);
+  const [cookies, , removeCookies] = useCookies(['token', 'studentDetails']);
+  const loadAdminFromCookies = useCallback(async () => {
+    const {token, studentDetails} = cookies;
+    if (!isJwtExpired(token) && studentDetails) {
+      try {
+        setLoading(true);
 
-  // const loadUserFromCookies = useCallback(async () => {
-  //   const {token} = cookies;
-  //   if (!isJwtExpired(token)) {
-  //     try {
-  //       setLoading(true);
-  //       const res = await getUserProfile();
-  //       if (res?.data) setUser(res.data.user);
-  //     } catch (error) {
-  //       removeCookies('token');
-  //       setUser(null);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     setLoading(false);
-  //     setUser(null);
-  //   }
-  //   // setIsLoading(false);
-  // }, [cookies, getUserProfile, history, removeCookies]);
+        setUser(studentDetails);
+      } catch (error) {
+        removeCookies('token');
+        removeCookies('studentDetails');
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+      setUser(null);
+    }
+  }, [cookies, removeCookies]);
 
-  // useEffect(() => {
-  //   loadUserFromCookies();
-  //   //   const token = Cookies.get("token");
-  //   // if (!token) return;
-  //   // authenticate(token);
-  // }, [loadUserFromCookies]);
+  useEffect(() => {
+    loadAdminFromCookies();
+  }, [loadAdminFromCookies]);
+
   return (
     <UserContext.Provider
       value={{

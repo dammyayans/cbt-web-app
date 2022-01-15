@@ -3,24 +3,19 @@ import {isValidPhoneNumber} from 'libphonenumber-js';
 import * as yup from 'yup';
 
 const loginSchema = yup.object().shape({
-  matricNo: yup.string().required('Please Enter your matric No'),
+  matric: yup.string().required('Please enter your matric number'),
   password: yup
     .string()
-    .min(8)
-    .required('Please Enter your password')
-    .matches(
-      // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-    ),
+    .required('Please enter your password')
+    .matches(/(?=.{3,})/, 'Must contain 3 characters'),
 });
 
 const loginLSchema = yup.object().shape({
-  email: yup.string().email().required('Please Enter your Email'),
+  email: yup.string().email().required('Please enter your Email'),
   password: yup
     .string()
-    .min(8)
-    .required('Please Enter your password')
+    .min(8, 'Password must be at least 8 characters')
+    .required('Please enter your password')
     .matches(
       // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       /(?=.{8,})/,
@@ -32,7 +27,6 @@ const loginASchema = yup.object().shape({
   username: yup.string().required('Please Enter your username'),
   password: yup
     .string()
-    .min(8)
     .required('Please Enter your password')
     .matches(
       /^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -196,17 +190,18 @@ const addStudentSchema = yupResolver(
 const changeLPassword = yup.object().shape({
   oldPassword: yup
     .string()
-    .min(8)
+    .min(8, 'Old Password must be at least 8 characters')
     .required('Old Password is required')
-    .matches(/^(?=.{8,})/, 'Must Contain 8 Characters'),
+    .matches(/^(?=.{8,})/, 'Must contain 8 characters'),
   password: yup
     .string()
-    .min(8)
+    .min(8, 'Password must be at least 8 characters')
     .required('Password is required')
-    .matches(/^(?=.{8,})/, 'Must Contain 8 Characters'),
+    .typeError('Password is required')
+    .matches(/^(?=.{8,})/, 'Must contain 8 characters'),
   confirmPassword: yup
     .string()
-    .required('Please Confirm Password')
+    .required('Please confirm password')
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
@@ -226,16 +221,16 @@ const addQuestionSchema = yupResolver(
     amount: yup
       .string()
       .required(
-        'Please Enter the amount of questions to be answered by students',
+        'Please enter the amount of questions to be answered by students',
       )
       .typeError(
-        'Please Enter the amount of questions to be answered by students',
+        'Please enter the amount of questions to be answered by students',
       )
       .matches(/^[0-9]*$/, 'Must be a number'),
     type: yup
       .string()
-      .required('Please Select question type')
-      .typeError('Please Select question type'),
+      .required('Please sselect question type')
+      .typeError('Please select question type'),
   }),
 );
 
