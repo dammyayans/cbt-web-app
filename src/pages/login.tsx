@@ -2,7 +2,6 @@
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import useFetch from 'use-http';
-
 import {useAuth} from 'context/auth-context';
 import screens from 'constants/screens';
 import Button from 'components/Button';
