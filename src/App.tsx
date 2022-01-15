@@ -40,7 +40,7 @@ function App() {
               <Test />
             </PrivateRoute>
           }
-          path="/test"
+          path="/test/:id/:type"
         />
 
         {/* lecturer routes */}

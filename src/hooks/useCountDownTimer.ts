@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import useInterval from './useInterval';
 
@@ -7,6 +7,9 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   const [timeStamp, setTimeStamp] = useState(
     props.timestamp ? props.timestamp : 0,
   );
+  useEffect(() => {
+    setTimeStamp(props.timestamp);
+  }, [props.timestamp]);
   // Delay Required
   const [delay] = useState(props.delay ? props.delay : 1000);
 

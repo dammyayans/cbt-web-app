@@ -85,3 +85,12 @@ input[type='number'] {
 .active-shadow {
   box-shadow: 0px 11px 21px rgba(16, 13, 170, 0.21);
 }
+
+/* .questionsBox::-webkit-scrollbar {
+  display: none !important;
+}
+
+.questionsBox {
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+} */
