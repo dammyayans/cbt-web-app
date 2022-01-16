@@ -6,7 +6,7 @@ import useInterval from './useInterval';
 const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   // For Total seconds
   const [timeStamp, setTimeStamp] = useState(
-    props.timestamp ? props.timestamp : 0,
+    props.timestamp ? props.timestamp : 50,
   );
   const currentDuration = getItemFromLocalStorage(props.durationKey);
   useEffect(() => {

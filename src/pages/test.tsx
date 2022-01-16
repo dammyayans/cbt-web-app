@@ -57,7 +57,9 @@ const Test = () => {
 
   // timer hook
   const [timer, lessThan10, timeUp] = useCountDownTimer({
-    timestamp: 60 * questionsDetails?.duration,
+    timestamp: questionsDetails?.duration
+      ? 60 * questionsDetails?.duration
+      : 50,
     durationKey,
   });
 
@@ -166,6 +168,13 @@ const Test = () => {
         onYes={handleSubmit}
         loading={sLoading}
       />
+      <MainModal isVisible={timeUp} title="Time Up!!">
+        <div>
+          <Loader className="mb-4 w-7 h-6 text-primary" />
+          <p className="text-danger">Submitting..</p>
+        </div>
+      </MainModal>
+
       <MainModal isVisible={Boolean(error)} title="Message">
         <div>
           <p>

@@ -33,7 +33,7 @@ export const ProtectRoute = ({children}) => {
       }
       const {token} = cookies;
 
-      if (token) toast.error('Expire session!');
+      // if (token) toast.error('Expire session!');
     }
   }, [cookies, history, loading, user]);
 

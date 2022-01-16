@@ -30,7 +30,7 @@ const MainModal: React.FC<ModalProps> = ({
       <div>
         <h3
           className={cn('text-xl font-bold mb-7', {
-            'text-danger': title === 'Message',
+            'text-danger': title === 'Message' || title === 'Time Up!!',
           })}>
           {title}
         </h3>
