@@ -59,10 +59,9 @@ const Test = () => {
   const [timer, lessThan10, timeUp] = useCountDownTimer({
     timestamp: questionsDetails?.duration
       ? 60 * questionsDetails?.duration
-      : 50,
+      : undefined,
     durationKey,
   });
-
   // state for confirm modal
   const [showModal, setShowModal] = useState(false);
 
@@ -75,7 +74,6 @@ const Test = () => {
       setQuestionsDetatils(data?.data);
       localStorage.setItem(userQuestionslKey, JSON.stringify(data?.data));
     }
-
     // setQuestionsDetatils()
   }, [data]);
 
@@ -153,11 +151,13 @@ const Test = () => {
       handleSubmit();
     }
   }, [timeUp]);
+
   useEffect(() => {
     if (error) {
-      setTimeout(() => logOut(''), 4000);
+      setTimeout(() => logOut(''), 3000);
     }
-  }, [timeUp]);
+  }, [error]);
+
   return (
     <AnimatedContainer>
       <ConfirmModal
@@ -208,7 +208,7 @@ const Test = () => {
                     {questionsDetails?.courseTitle}
                   </h2>
                 </div>
-                <div className="h-[62%] overflow-y-scroll px-4 md:px-14">
+                <div className="h-[50vh] overflow-y-scroll px-4 md:px-14">
                   {questionsDetails?.questions?.length ? (
                     <Question
                       number={currentQuestionIndex + 1}
@@ -235,28 +235,30 @@ const Test = () => {
             </div>
             <div className="mt-[72px]">
               <div className="mt-10 px-4 md:px-14 h-full">
-                <div className="flex animate-pulse">
-                  {lessThan10 ? <TimerIconDanger /> : <TimerIcon />}
-                  <div className="ml-3">
-                    <p
-                      className={classNames('text-3xl', {
-                        'text-danger': lessThan10,
-                      })}>
-                      {timer}
-                    </p>
-                    <p
-                      className={classNames('text-xl', {
-                        'text-[#666666]': !lessThan10,
-                        'text-danger': lessThan10,
-                      })}>
-                      remaining
-                    </p>
+                <div className="h-[28vh] overflow-y-scroll">
+                  <div className="flex animate-pulse">
+                    {lessThan10 ? <TimerIconDanger /> : <TimerIcon />}
+                    <div className="ml-3">
+                      <p
+                        className={classNames('text-3xl', {
+                          'text-danger': lessThan10,
+                        })}>
+                        {timer}
+                      </p>
+                      <p
+                        className={classNames('text-xl', {
+                          'text-[#666666]': !lessThan10,
+                          'text-danger': lessThan10,
+                        })}>
+                        remaining
+                      </p>
+                    </div>
                   </div>
+                  <p className="mt-5 text-danger text-[15px] h-[20%]">
+                    {lessThan10 ? 'You have less than 10 minutes!' : ''}
+                  </p>
                 </div>
-                <p className="mt-5 text-danger text-[15px] h-[20%]">
-                  {lessThan10 ? 'You have less than 10 minutes!' : ''}
-                </p>
-                <div className="h-[47.5%] overflow-y-scroll">
+                <div className="h-[43vh] overflow-y-scroll">
                   <p className="text-[15px]">You have answered:</p>
                   <p className="mb-7 text-xl">
                     {overview?.filter(ov => ov.type === 'done')?.length} of{' '}
@@ -285,6 +287,7 @@ const Test = () => {
                 <div className="flex justify-center mt-4 mb-4">
                   <Button
                     isDisabled={!lessThan10}
+                    hoverStyle={lessThan10}
                     className={classNames('py-[10px]', {
                       'opacity-40': !lessThan10,
                     })}

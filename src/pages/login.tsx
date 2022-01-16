@@ -25,7 +25,7 @@ const Login = () => {
   const {authenticate} = useAuth();
   const {user, setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
-  const [modal, setModal] = useState(params.name ? true : false);
+  const [modal, setModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -54,6 +54,12 @@ const Login = () => {
       setRedirectToReferrer(true);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (params.name) {
+      setModal(true);
+    }
+  }, [params]);
 
   if (redirectToReferrer === true) {
     return <Navigate to={screens.selectExam} />;

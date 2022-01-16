@@ -17,9 +17,9 @@ const Option = ({text, selected, ...props}) => {
           )}
         />
       </div>
-      <p className={`text-xl text-${selected ? 'primary' : 'darkslategray'}`}>
-        {text}
-      </p>
+      <p
+        className={`text-xl text-${selected ? 'primary' : 'darkslategray'}`}
+        dangerouslySetInnerHTML={{__html: text}}></p>
     </div>
   );
 };

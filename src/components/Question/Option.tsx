@@ -17,9 +17,9 @@ const Option = ({text, selected, ...props}) => {
           {'border-[#AFAFAF]': !selected},
         )}
       />
-      <p className={`text-xl text-${selected ? 'white' : 'darkslategray'}`}>
-        {text}
-      </p>
+      <p
+        className={`text-xl text-${selected ? 'white' : 'darkslategray'}`}
+        dangerouslySetInnerHTML={{__html: text}}></p>
     </button>
   );
 };

@@ -6,7 +6,7 @@ import useInterval from './useInterval';
 const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   // For Total seconds
   const [timeStamp, setTimeStamp] = useState(
-    props.timestamp ? props.timestamp : 50,
+    props.timestamp ? props.timestamp : undefined,
   );
   const currentDuration = getItemFromLocalStorage(props.durationKey);
   useEffect(() => {
@@ -47,51 +47,61 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
 
     if (timeStamp < 600) setLessThan10(true);
     let delta = timeStamp;
-
-    // calculate (and subtract) whole days
-    const _days = Math.floor(delta / 86400);
-    delta -= _days * 86400;
-
-    // calculate (and subtract) whole hours
-    const _hours = Math.floor(delta / 3600) % 24;
-    delta -= _hours * 3600;
-
-    // calculate (and subtract) whole minutes
-    const _minutes = Math.floor(delta / 60) % 60;
-    delta -= _minutes * 60;
-
-    // what's left is seconds
-    const _seconds = delta % 60;
-    setDays(_days);
-    setHours(_hours);
-    setMinutes(_minutes);
-    setSeconds(_seconds);
-
-    // Formatting Time for Display Purpose
-    const hr = hours < 10 ? `0${hours}` : hours;
-    const min = minutes < 10 ? `0${minutes}` : minutes;
-    const sec = seconds < 10 ? `0${seconds}` : seconds;
-
     let displayTime = '';
 
-    if (days !== 0) {
-      displayTime = `${days}day ${hr}hr ${min}min ${sec}sec`;
-    }
+    if (delta !== undefined) {
+      // calculate (and subtract) whole days
+      const _days = Math.floor(delta / 86400);
+      delta -= _days * 86400;
 
-    if (days === 0 && hours !== 0) {
-      displayTime = `${hr}hr ${min}min ${sec}sec`;
-    }
+      // calculate (and subtract) whole hours
+      const _hours = Math.floor(delta / 3600) % 24;
+      delta -= _hours * 3600;
 
-    if (hours === 0 && minutes !== 0) {
-      displayTime = `${min}min ${sec}sec`;
-    }
+      // calculate (and subtract) whole minutes
+      const _minutes = Math.floor(delta / 60) % 60;
+      delta -= _minutes * 60;
 
-    if (minutes === 0 && seconds !== 0) {
-      displayTime = `${min}min ${sec}sec`;
-    }
-    if (hours === 0 && minutes === 0 && seconds === 0 && timeStamp === 0) {
+      // what's left is seconds
+      const _seconds = delta % 60;
+      setDays(_days);
+      setHours(_hours);
+      setMinutes(_minutes);
+      setSeconds(_seconds);
+
+      // Formatting Time for Display Purpose
+      const hr = hours < 10 ? `0${hours}` : hours;
+      const min = minutes < 10 ? `0${minutes}` : minutes;
+      const sec = seconds < 10 ? `0${seconds}` : seconds;
+
+      if (days !== 0) {
+        displayTime = `${days}day ${hr}hr ${min}min ${sec}sec`;
+      }
+
+      if (days === 0 && hours !== 0) {
+        displayTime = `${hr}hr ${min}min ${sec}sec`;
+      }
+
+      if (hours === 0 && minutes !== 0) {
+        displayTime = `${min}min ${sec}sec`;
+      }
+
+      if (minutes === 0 && seconds !== 0) {
+        displayTime = `${min}min ${sec}sec`;
+      }
+
+      if (
+        hours === 0 &&
+        minutes === 0 &&
+        seconds === 0 &&
+        timeStamp === 0 &&
+        timeStamp !== undefined
+      ) {
+        displayTime = '00min 00sec';
+        setTimeup(true);
+      }
+    } else {
       displayTime = '00min 00sec';
-      setTimeup(true);
     }
 
     setFinalDisplayTime(displayTime);

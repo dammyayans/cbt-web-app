@@ -8,11 +8,9 @@ const AdminQuestion = ({details, sn}) => {
   return (
     <div className="">
       <p className="text-[22px] mb-6">Question {sn}</p>
-      <p className="text-[22px] mb-[40px]">
-        {/* What is the name of the anchor of the TV program “Who wants to be a
-        millionaire?” */}
-        {question}
-      </p>
+      <p
+        className="text-[22px] mb-[40px]"
+        dangerouslySetInnerHTML={{__html: question}}></p>
       <div>
         {option_a && <Option text={option_a} selected={answer === option_a} />}
         {option_b && <Option text={option_b} selected={answer === option_b} />}

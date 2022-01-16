@@ -62,7 +62,7 @@ const Button: React.FC<IButton> = ({
       {...rest}>
       {leftIcon && leftIcon}
       {loading ? (
-        <Loader />
+        <Loader className="ml-0" />
       ) : (
         <>
           {children}

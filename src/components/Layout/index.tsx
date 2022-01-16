@@ -19,7 +19,7 @@ const Layout = ({children}) => {
                 <p className="ml-2 text-white">University of Ilorin</p>
               </div>
               <p className="text-white mt-8 z-50 relative">
-                Lorem ipsum dolor sit amet conse ctetur adip isicing elit.
+                Welcome to University Of Ilorin CBT
               </p>
             </div>
           </div>

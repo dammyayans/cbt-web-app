@@ -91,13 +91,14 @@ const DashboardLayout = ({children, type}) => {
                   isActive={location.pathname === screens.lecturerDashboard}
                   icon={
                     <svg
-                      width={24}
-                      height={24}
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
-                        d="M22 20H11v-7h11v7zM9 20H2v-7h7v7zm13-9H2V4h20v7z"
-                        fill={
+                        d="M7.5 0.5V9.5H0.5V0.5H7.5ZM7.5 12.5V17.5H0.5V12.5H7.5ZM17.5 8.5V17.5H10.5V8.5H17.5ZM17.5 5.5H10.5V0.5H17.5V5.5Z"
+                        stroke={
                           location.pathname === screens.lecturerDashboard
                             ? '#000'
                             : '#fff'
@@ -170,13 +171,14 @@ const DashboardLayout = ({children, type}) => {
                   isActive={location.pathname === screens.adminDashboard}
                   icon={
                     <svg
-                      width={24}
-                      height={24}
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
-                        d="M22 20H11v-7h11v7zM9 20H2v-7h7v7zm13-9H2V4h20v7z"
-                        fill={
+                        d="M7.5 0.5V9.5H0.5V0.5H7.5ZM7.5 12.5V17.5H0.5V12.5H7.5ZM17.5 8.5V17.5H10.5V8.5H17.5ZM17.5 5.5H10.5V0.5H17.5V5.5Z"
+                        stroke={
                           location.pathname === screens.adminDashboard
                             ? '#000'
                             : '#fff'
