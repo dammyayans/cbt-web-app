@@ -12,15 +12,12 @@ const loginSchema = yup.object().shape({
 
 const loginLSchema = yup.object().shape({
   email: yup.string().email().required('Please enter your Email'),
-  password: yup
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Please enter your password')
-    .matches(
-      // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      /(?=.{8,})/,
-      'Must Contain 8 Characters',
-    ),
+  password: yup.string().required('Please enter your password'),
+  // .matches(
+  //   // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+  //   /(?=.{3,})/,
+  //   'Must Contain 3 Characters',
+  // ),
 });
 
 const loginASchema = yup.object().shape({

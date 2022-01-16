@@ -28,7 +28,7 @@ export const ProtectRoute = ({children}) => {
   useEffect(() => {
     if (!loading && !user) {
       //
-      if (location.pathname !== '/login') {
+      if (!location.pathname.includes('/login')) {
         navigate('/login');
       }
       const {token} = cookies;

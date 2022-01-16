@@ -1,5 +1,4 @@
 const screens = {
-  createAccount: '/create-account',
   selectExam: '/select-exam',
   test: '/test',
   // lectuerer

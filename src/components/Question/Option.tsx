@@ -7,7 +7,7 @@ const Option = ({text, selected, ...props}) => {
       {...props}
       className={cn(
         `rounded-[10px] opt-btn py-3 flex mb-5 px-[22px] items-center w-full`,
-        {'bg-royalblue opt-btn-selected': selected},
+        {'bg-primary opt-btn-selected': selected},
         {'bg-white opt-btn-unselected': !selected},
       )}>
       <span

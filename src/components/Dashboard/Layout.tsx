@@ -259,7 +259,7 @@ const DashboardLayout = ({children, type}) => {
                 </NavLink>
               </div>
             )}
-            <div className="w-full mt-auto mb-[50px] pt-[10px] border-t-[3px] border-[#2768C9]">
+            <div className="w-full mt-auto mb-[50px] pt-[50px] border-t-[3px] border-[#c5ccff]">
               <button
                 className="nav-link logout-btn"
                 onClick={() => signOut(type === 'lec' ? 'lecturer' : 'admin')}

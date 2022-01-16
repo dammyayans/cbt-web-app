@@ -5,9 +5,15 @@ import Button from './Button';
 interface ModalProps {
   isVisible: boolean;
   title: string;
+  contentClassName?: string;
 }
 
-const MainModal: React.FC<ModalProps> = ({children, isVisible, title}) => (
+const MainModal: React.FC<ModalProps> = ({
+  children,
+  isVisible,
+  title,
+  contentClassName,
+}) => (
   <div
     className={cn(
       'fixed top-0 left-0 w-full h-full bg-[#999999] bg-opacity-70 z-10 flex flex-col items-center justify-end transition-all duration-500 md:justify-center',
@@ -19,9 +25,15 @@ const MainModal: React.FC<ModalProps> = ({children, isVisible, title}) => (
       )}
       //   onClick={onClose}
     />
-    <div className=" bg-white w-[90%] mx-auto md:w-[560px] p-8 overflow-y-auto md:relative md:z-20">
+    <div
+      className={`bg-white w-[90%] mx-auto md:w-[560px] p-8 overflow-y-auto md:relative md:z-20 ${contentClassName}`}>
       <div>
-        <h3 className="text-xl font-bold mb-7">{title}</h3>
+        <h3
+          className={cn('text-xl font-bold mb-7', {
+            'text-danger': title === 'Message',
+          })}>
+          {title}
+        </h3>
         <div>{children}</div>
       </div>
     </div>

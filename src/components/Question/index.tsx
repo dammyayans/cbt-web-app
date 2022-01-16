@@ -2,9 +2,17 @@ import React, {useState} from 'react';
 import Option from './Option';
 import './index.css';
 
-const Question = ({details, number}) => {
+const Question = ({details, number, overview, setOverview, overviewKey}) => {
   const {img, question, options} = details || {};
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+
+  const handleSelectedAnswer = opt => {
+    const modifiedOVerview = overview.map(el =>
+      el.no === number ? {...el, type: 'done', selectedAnswer: opt} : el,
+    );
+    setOverview(modifiedOVerview);
+    localStorage.setItem(overviewKey, JSON.stringify(modifiedOVerview));
+  };
+
   return (
     <div className="">
       <p className="text-[22px] mb-6">Question {number}</p>
@@ -16,14 +24,17 @@ const Question = ({details, number}) => {
       <hr className="text-[#E0E0E0] mb-[40px]" />
       {options?.length ? (
         <div>
-          {options.map((opt, _) => (
-            <Option
-              key={_}
-              onClick={() => setSelectedAnswer(opt)}
-              text={opt}
-              selected={selectedAnswer === opt}
-            />
-          ))}
+          {options.map(
+            (opt, _) =>
+              opt && (
+                <Option
+                  key={_}
+                  onClick={() => handleSelectedAnswer(opt)}
+                  text={opt}
+                  selected={overview[number - 1]?.selectedAnswer === opt}
+                />
+              ),
+          )}
         </div>
       ) : null}
     </div>

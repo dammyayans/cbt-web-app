@@ -13,18 +13,32 @@ import classNames from 'classnames';
 import ConfirmModal from 'components/SmallModal';
 import useFetch, {CachePolicies} from 'use-http';
 import API from 'constants/api';
-import {useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router';
 import {useUser} from 'context/user-context';
 import {getItemFromLocalStorage} from 'constants/index';
+import toast from 'react-hot-toast';
+import {useAuth} from 'context/auth-context';
+import Loader from 'components/Loader';
+import MainModal from 'components/MainModal';
 
 const Test = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const {user} = useUser();
+  const {studentSignOut} = useAuth();
+
+  //localstorage keys
   const userQuestionslKey = `${user?.matric}-${params.id}`;
-  const {data, loading} = useFetch(
+  const overviewKey = `${user?.matric}-${params.id}-${params.type}-overview`;
+  const durationKey = `${user?.matric}-${params.id}-${params.type}-timeLeft`;
+
+  const {data, loading, error} = useFetch(
     API.getQuestions(params.id, params.type),
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
+  );
+  const {post: postAnswers, loading: sLoading} = useFetch(
+    API.submitAssessment(params.id, params.type),
   );
 
   const [questionsDetails, setQuestionsDetatils] = useState({
@@ -35,7 +49,7 @@ const Test = () => {
     courseTitle: '',
   });
 
-  // state for question indicators
+  // state for question indicators including selected answer
   const [overview, setOverview] = useState([]);
 
   // state for current question
@@ -44,6 +58,7 @@ const Test = () => {
   // timer hook
   const [timer, lessThan10, timeUp] = useCountDownTimer({
     timestamp: 60 * questionsDetails?.duration,
+    durationKey,
   });
 
   // state for confirm modal
@@ -51,7 +66,6 @@ const Test = () => {
 
   useEffect(() => {
     const userQuestionsDetails = getItemFromLocalStorage(userQuestionslKey);
-    console.log(userQuestionsDetails);
     if (userQuestionsDetails) {
       // setLoading()
       setQuestionsDetatils(userQuestionsDetails);
@@ -64,16 +78,24 @@ const Test = () => {
   }, [data]);
 
   useEffect(() => {
-    questionsDetails?.questions?.length
-      ? setOverview(
-          Array.from(Array(questionsDetails?.questions?.length).keys()).map(
-            n => ({
-              no: n + 1,
-              type: 'default',
-            }),
-          ),
-        )
-      : [];
+    const overviewFromLocalStorage = getItemFromLocalStorage(overviewKey);
+    if (overviewFromLocalStorage) {
+      setOverview(overviewFromLocalStorage);
+      // setCurrentQuestionIndex(
+      //   overviewFromLocalStorage?.findIndex(
+      //     ov => ov.type?.toLowerCase()?.includes('current') + 1,
+      //   ) || 0,
+      // );
+    } else if (questionsDetails?.questions?.length) {
+      let initOVerview = questionsDetails?.questions.map((n, _) => ({
+        no: _ + 1,
+        questionId: n.id,
+        type: 'default',
+        selectedAnswer: '',
+      }));
+      setOverview(initOVerview);
+      localStorage.setItem(overviewKey, JSON.stringify(initOVerview));
+    }
   }, [questionsDetails]);
 
   //next & previous question functions
@@ -84,6 +106,7 @@ const Test = () => {
         : prev => prev + 1,
     );
   };
+
   const handlePrevious = () => {
     setCurrentQuestionIndex(
       currentQuestionIndex === 0
@@ -94,18 +117,64 @@ const Test = () => {
 
   const handleOnOverviewBox = index => {
     setCurrentQuestionIndex(index - 1);
-    setOverview(
-      overview.map(el => (el.no === index ? {...el, type: 'done'} : el)),
+  };
+
+  const logOut = typ => {
+    localStorage.clear();
+    studentSignOut();
+    navigate(
+      typ === 'messgae'
+        ? `/login/${user?.firstName} ${user?.lastName}/${params.type}`
+        : 'login',
     );
   };
 
+  const handleSubmit = async () => {
+    const answers = overview
+      .filter(ov => ov.selectedAnswer)
+      .map(ov => ({id: ov.questionId, answer: ov.selectedAnswer}));
+    const dataToPost = {
+      questionAmount: questionsDetails?.questionAmount,
+      answers,
+    };
+    try {
+      const res = await postAnswers(dataToPost);
+      if (res?.status === 'success') {
+        logOut('messgae');
+      }
+    } catch (e) {
+      toast.error(String(e));
+    }
+  };
+  useEffect(() => {
+    if (timeUp && !error) {
+      handleSubmit();
+    }
+  }, [timeUp]);
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => logOut(''), 4000);
+    }
+  }, [timeUp]);
   return (
     <AnimatedContainer>
       <ConfirmModal
         type="confirm"
         isVisible={showModal}
         onClose={() => setShowModal(false)}
+        examType={params.type}
+        onYes={handleSubmit}
+        loading={sLoading}
       />
+      <MainModal isVisible={Boolean(error)} title="Message">
+        <div>
+          <p>
+            Sorry {user?.firstName} {user?.lastName} you cannot take this{' '}
+            {params.type.toUpperCase()} again
+          </p>
+          <p>You are being logged out..</p>
+        </div>
+      </MainModal>
       <Header
         avatar={
           user?.avatar ||
@@ -115,92 +184,110 @@ const Test = () => {
         lastname={user?.lastName}
         matricNo={user?.matric}
       />
-      <div className="grid grid-cols-1 md:grid-cols-3 h-full">
-        <div className="col-span-2 bg-whitesmoke mt-[72px]">
-          <div className="mt-14">
-            <div className="px-4 md:px-14">
-              <h2 className="text-3xl mb-10">
-                {questionsDetails?.courseCode?.toUpperCase()} -{' '}
-                {questionsDetails?.courseTitle}
-              </h2>
-            </div>
-            <div className="h-[435px] overflow-y-scroll px-4 md:px-14">
-              {questionsDetails?.questions?.length ? (
-                <Question
-                  number={currentQuestionIndex + 1}
-                  details={questionsDetails?.questions[currentQuestionIndex]}
-                />
-              ) : null}
-            </div>
-            <div className="flex justify-center my-12">
-              <Button
-                onClick={handlePrevious}
-                className="mr-14 bg-mediumblue  py-[10px]">
-                Previous
-              </Button>
-              <Button onClick={handleNext} className="bg-mediumblue py-[10px]">
-                Next
-              </Button>
-            </div>
-          </div>
+      {!questionsDetails.courseTitle && loading ? (
+        <div className="flex h-screen justify-center items-center">
+          <Loader className="text-primary h-20 w-20 my-10 mb-0" />
         </div>
-        <div className="mt-[72px] sticky">
-          <div className="mt-14 px-4 md:px-14">
-            <div className="flex animate-pulse">
-              {lessThan10 ? <TimerIconDanger /> : <TimerIcon />}
-              <div className="ml-3">
-                <p
-                  className={classNames('text-3xl', {
-                    'text-danger': lessThan10,
-                  })}>
-                  {timer}
-                </p>
-                <p
-                  className={classNames('text-xl', {
-                    'text-[#666666]': !lessThan10,
-                    'text-danger': lessThan10,
-                  })}>
-                  remaining
-                </p>
+      ) : (
+        !error && (
+          <div className="grid grid-cols-1 md:grid-cols-3 md:h-screen md:overflow-y-hidden">
+            <div className="col-span-2 bg-whitesmoke mt-[72px]">
+              <div className="mt-10 h-full">
+                <div className="px-4 md:px-14">
+                  <h2 className="text-3xl mb-10">
+                    {questionsDetails?.courseCode?.toUpperCase()} -{' '}
+                    {questionsDetails?.courseTitle}
+                  </h2>
+                </div>
+                <div className="h-[62%] overflow-y-scroll px-4 md:px-14">
+                  {questionsDetails?.questions?.length ? (
+                    <Question
+                      number={currentQuestionIndex + 1}
+                      details={
+                        questionsDetails?.questions[currentQuestionIndex]
+                      }
+                      setOverview={setOverview}
+                      overview={overview}
+                      overviewKey={overviewKey}
+                    />
+                  ) : null}
+                </div>
+                <div className="flex justify-center my-12">
+                  <Button
+                    onClick={handlePrevious}
+                    className="mr-14 bg-primary py-[10px]">
+                    Previous
+                  </Button>
+                  <Button onClick={handleNext} className="bg-primary py-[10px]">
+                    Next
+                  </Button>
+                </div>
               </div>
             </div>
-            <p className="mt-5 text-danger text-[15px] mb-36">
-              {lessThan10 ? 'You have less than 10 minutes!' : ''}
-            </p>
-            <div className="h-[435px] overflow-y-scroll">
-              <p className="text-[15px]">You have answered:</p>
-              <p className="mb-7 text-xl">
-                3 of {questionsDetails?.questionAmount} questions
-              </p>
-              <p className="mb-7 text-[15px]">Questions Overview:</p>
-              <div className="flex flex-wrap">
-                {overview.map(n => (
-                  // <div key>
-                  <OverviewBox
-                    onClick={() => handleOnOverviewBox(n.no)}
-                    key={n.no}
-                    type={
-                      n.no === currentQuestionIndex + 1 ? 'current' : n.type
-                    }>
-                    {n.no}
-                  </OverviewBox>
-                ))}
-              </div>
-            </div>
+            <div className="mt-[72px]">
+              <div className="mt-10 px-4 md:px-14 h-full">
+                <div className="flex animate-pulse">
+                  {lessThan10 ? <TimerIconDanger /> : <TimerIcon />}
+                  <div className="ml-3">
+                    <p
+                      className={classNames('text-3xl', {
+                        'text-danger': lessThan10,
+                      })}>
+                      {timer}
+                    </p>
+                    <p
+                      className={classNames('text-xl', {
+                        'text-[#666666]': !lessThan10,
+                        'text-danger': lessThan10,
+                      })}>
+                      remaining
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-5 text-danger text-[15px] h-[20%]">
+                  {lessThan10 ? 'You have less than 10 minutes!' : ''}
+                </p>
+                <div className="h-[47.5%] overflow-y-scroll">
+                  <p className="text-[15px]">You have answered:</p>
+                  <p className="mb-7 text-xl">
+                    {overview?.filter(ov => ov.type === 'done')?.length} of{' '}
+                    {questionsDetails?.questionAmount} questions
+                  </p>
+                  <p className="mb-7 text-[15px]">Questions Overview:</p>
+                  <div className="flex flex-wrap">
+                    {overview.map(n => (
+                      // <div key>
+                      <OverviewBox
+                        onClick={() => handleOnOverviewBox(n.no)}
+                        key={n.no}
+                        type={
+                          n.no === currentQuestionIndex + 1 && n.type === 'done'
+                            ? 'doneCurrent'
+                            : n.no === currentQuestionIndex + 1
+                            ? 'current'
+                            : n.type
+                        }>
+                        {n.no}
+                      </OverviewBox>
+                    ))}
+                  </div>
+                </div>
 
-            <div className="flex justify-center mt-4 mb-4">
-              <Button
-                isDisabled={!lessThan10}
-                className={classNames('py-[10px]', {
-                  'opacity-40': !lessThan10,
-                })}
-                onClick={() => setShowModal(true)}>
-                End Exam
-              </Button>
+                <div className="flex justify-center mt-4 mb-4">
+                  <Button
+                    isDisabled={!lessThan10}
+                    className={classNames('py-[10px]', {
+                      'opacity-40': !lessThan10,
+                    })}
+                    onClick={() => setShowModal(true)}>
+                    End Exam
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      )}
     </AnimatedContainer>
   );
 };

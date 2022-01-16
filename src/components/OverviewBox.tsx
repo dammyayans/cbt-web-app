@@ -19,10 +19,13 @@ const OverviewBox: React.FC<IOverviewButton> = ({
       className={cn(
         `h-6 w-6 flex justify-center items-center text-[13px] mr-2 mb-2 rounded-[3.8px]`,
         {
-          'bg-lightsteelblue text-black':
-            type === 'default' || type === 'current',
+          'bg-primary text-white border-2 border-[#0870D4] op-2 animate-pulse':
+            type === 'doneCurrent',
         },
-        {'bg-mediumblue text-white': type === 'done'},
+        {
+          'bg-lightblue text-black': type === 'default' || type === 'current',
+        },
+        {'bg-primary text-white': type === 'done'},
         {'border-2 border-[#0870D4] op-2 animate-pulse': type === 'current'},
       )}>
       {children}

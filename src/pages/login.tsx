@@ -11,6 +11,8 @@ import {useUser} from 'context/user-context';
 import Layout from 'components/Layout';
 import {Navigate} from 'react-router-dom';
 import toast from 'react-hot-toast';
+import MainModal from 'components/MainModal';
+import {useNavigate, useParams} from 'react-router';
 
 interface IFormValue {
   matric: string;
@@ -18,9 +20,12 @@ interface IFormValue {
 }
 
 const Login = () => {
+  const params = useParams();
+  const navigate = useNavigate();
   const {authenticate} = useAuth();
   const {user, setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
+  const [modal, setModal] = useState(params.name ? true : false);
   const {
     register,
     handleSubmit,
@@ -56,6 +61,23 @@ const Login = () => {
 
   return (
     <Layout>
+      <MainModal
+        isVisible={modal}
+        contentClassName="max-w-[420px]"
+        title="Submitted">
+        <p className="mb-[39px]">
+          {params?.name}, You have successfully submitted your {params?.type}.
+          Kindly exit the hall.
+        </p>
+        <Button
+          className="mx-auto"
+          onClick={() => {
+            navigate('/login');
+            setModal(false);
+          }}>
+          CLOSE
+        </Button>
+      </MainModal>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="px-4 md:pl-10 max-w-[417px]">

@@ -15,8 +15,8 @@ module.exports = {
       },
       colors: {
         ...colors,
-        primary: '#2A26F4',
-        danger: '#D43228',
+        primary: '#000050',
+        danger: '#E72525',
         success: '#3FF50F',
         warning: '#FFC107',
         gray: '#666666',

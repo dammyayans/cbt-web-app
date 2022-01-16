@@ -44,6 +44,17 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     }
   };
 
+  const studentSignOut = () => {
+    try {
+      removeCookies('token');
+      removeCookies('type');
+      removeCookies('studentDetails');
+      setIsAuth('');
+    } catch (e) {
+      console.log({object: e});
+    }
+  };
+
   const authenticate = async (
     token: string,
     type: string,
@@ -68,7 +79,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
 
   return (
     <AuthContext.Provider
-      value={{isAuth, setIsAuth, login, signOut, authenticate}}>
+      value={{isAuth, setIsAuth, login, signOut, studentSignOut, authenticate}}>
       {children}
     </AuthContext.Provider>
   );

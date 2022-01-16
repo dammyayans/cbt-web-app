@@ -7,6 +7,8 @@ export const API = {
   getStartedCourses: `${BASE_URL}/api/v1/auth/students/assessments/start`,
   getQuestions: (courseId, type) =>
     `${BASE_URL}/api/v1/auth/students/courses/${courseId}/questions?type=${type}`,
+  submitAssessment: (courseId, type) =>
+    `${BASE_URL}/api/v1/auth/students/courses/${courseId}/answers/${type}`,
 
   // lecturer
   lecLogin: `${BASE_URL}/api/v1/auth/lecturers/login`,

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #0e56c0;
-  --clr-primary: #0e56c0;
+  --primary: #000050;
+  --clr-primary: #000050;
   --clr-white: #ffffff;
 }
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');

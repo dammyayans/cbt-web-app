@@ -10,6 +10,7 @@ type ModalProps = {
   loading?: boolean;
   message?: string;
   isDelete?: boolean;
+  examType?: string;
 };
 
 const SmallModal = ({
@@ -20,6 +21,7 @@ const SmallModal = ({
   loading,
   message,
   isDelete = false,
+  examType,
 }: ModalProps) => (
   <div
     className={cn(
@@ -37,7 +39,9 @@ const SmallModal = ({
         <div>
           <p className="text-xl">Confirmation</p>
           <p className="text-[15px] mt-2">
-            {message ? message : 'Are you sure you want to submit now?'}
+            {message
+              ? message
+              : `Are you sure you want to end the ${examType?.toUpperCase()} now?`}
           </p>
           <div className="flex justify-center mt-12">
             <Button

@@ -26,6 +26,7 @@ function App() {
       <Routes>
         {/* student routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/login/:name/:type" element={<Login />} />
         <Route
           element={
             <PrivateRoute type="student">

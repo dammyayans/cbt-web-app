@@ -1,3 +1,4 @@
+import {getItemFromLocalStorage} from 'constants/index';
 import {useCallback, useEffect, useState} from 'react';
 
 import useInterval from './useInterval';
@@ -7,9 +8,10 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   const [timeStamp, setTimeStamp] = useState(
     props.timestamp ? props.timestamp : 0,
   );
+  const currentDuration = getItemFromLocalStorage(props.durationKey);
   useEffect(() => {
-    setTimeStamp(props.timestamp);
-  }, [props.timestamp]);
+    setTimeStamp(currentDuration ? currentDuration : props.timestamp);
+  }, [props.timestamp, currentDuration]);
   // Delay Required
   const [delay] = useState(props.delay ? props.delay : 1000);
 
@@ -33,6 +35,7 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   useInterval(() => {
     if (timeStamp > 0) {
       setTimeStamp(timeStamp - 1);
+      localStorage.setItem(props.durationKey, String(timeStamp - 1));
     } else if (sendOnce) {
       if (props.timerCallback) {
         props.timerCallback(true);

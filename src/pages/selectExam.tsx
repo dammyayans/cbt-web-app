@@ -20,8 +20,8 @@ const SelectExam = () => {
   const startedCourses = data?.startedCourses;
   return (
     <Layout>
-      <div className="flex justify-between items-center">
-        <div className="px-4 max-w-[417px] w-full">
+      <div className="flex justify-between items-center flex-wrap w-full">
+        <div className="px-4 max-w-[100%] md:max-w-[60%] w-full">
           <h1 className="font-extrabold text-black text-4xl">Select Course</h1>
           <p className="text-gray mt-2 mb-5 text-[18px]">
             Select a course and start your exam
@@ -75,30 +75,32 @@ const SelectExam = () => {
           </div>
         </div>
         {selected ? (
-          <div className="border-2 border-border-gray p-4 rounded-[7px] transition-all duration-500">
-            <h2 className="font-extrabold text-black text-2xl mb-5">
+          <div className="border-2 border-primary rounded-[10px] transition-all duration-500">
+            <h2 className="font-extrabold text-black text-[15px] pt-5 pb-[10px] px-5 border-b-2 border-b-primary">
               Assessment Details
             </h2>
-            <p className="text-lg mb-2">
-              Course Code:{' '}
-              <span className="font-bold">
-                {selected?.course?.courseCode?.toUpperCase()}
-              </span>
-            </p>
-            <p className="text-lg mb-2">
-              Course Code:{' '}
-              <span className="font-bold">
-                {selected?.course?.courseTitle?.toUpperCase()}
-              </span>
-            </p>
-            <p className="text-lg mb-2">
-              Duration:{' '}
-              <span className="font-bold"> {selected?.duration} minutes</span>
-            </p>
-            <p className="text-lg mb-2">
-              Total Questions:{' '}
-              <span className="font-bold">{selected?.amount}</span>
-            </p>
+            <div className="p-5">
+              <p className="text-[12px] mb-2">
+                Course Code:{' '}
+                <span className="font-bold">
+                  {selected?.course?.courseCode?.toUpperCase()}
+                </span>
+              </p>
+              <p className="text-[12px] mb-2">
+                Course Code:{' '}
+                <span className="font-bold">
+                  {selected?.course?.courseTitle?.toUpperCase()}
+                </span>
+              </p>
+              <p className="text-[12px] mb-2">
+                Duration:{' '}
+                <span className="font-bold"> {selected?.duration} minutes</span>
+              </p>
+              <p className="text-[12px] mb-2">
+                Total Questions:{' '}
+                <span className="font-bold">{selected?.amount}</span>
+              </p>
+            </div>
           </div>
         ) : null}
       </div>
