@@ -125,7 +125,7 @@ const Test = () => {
     navigate(
       typ === 'messgae'
         ? `/login/${user?.firstName} ${user?.lastName}/${params.type}`
-        : 'login',
+        : '/login',
     );
   };
 
