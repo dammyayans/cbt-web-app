@@ -58,6 +58,7 @@ const SmallModal = ({
             </Button>
             <Button
               onClick={onClose}
+              isDisabled={loading}
               type="button"
               hoverStyle={false}
               className={classNames(
