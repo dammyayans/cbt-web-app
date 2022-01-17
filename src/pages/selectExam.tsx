@@ -72,7 +72,7 @@ const SelectExam = () => {
                   </span>
                 </p>
                 <p className="text-[12px] mb-2">
-                  Course Code:{' '}
+                  Course Title:{' '}
                   <span className="font-bold">
                     {selected?.course?.courseTitle?.toUpperCase()}
                   </span>
