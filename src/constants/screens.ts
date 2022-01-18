@@ -14,7 +14,7 @@ const screens = {
   adminCourses: '/admin/courses',
   adminStudents: '/admin/students',
   adminCourseDetails: '/admin/courses/:id',
-  adminResults: '/admin/results',
+  adminResults: '/admin/courses/results/:id/:courseCode/:courseTitle',
   // uploadDocuments: (type = ':type') => `/profile/upload-document/${type}`,
   resetPassword: '/reset-password',
 };

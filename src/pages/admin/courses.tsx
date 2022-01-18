@@ -99,8 +99,20 @@ const Courses = () => {
       return (
         <div className="flex justify-end">
           <Button
+            onClick={() =>
+              navigate(
+                `results/${row.courseID}/${row.courseCode}/${row.courseTitle}`,
+              )
+            }
+            className="py-1 rounded-[5px] text-xs px-[10px] border-0 text-blackk bg-lightblue mr-[15px]"
+            hoverStyle={false}>
+            Results
+          </Button>
+
+          <Button
             onClick={() => navigate(row.courseID)}
-            className="py-1 rounded-none px-2">
+            className="py-1 rounded-[5px] text-xs px-[10px] border-0 "
+            hoverStyle={false}>
             More
           </Button>
         </div>
