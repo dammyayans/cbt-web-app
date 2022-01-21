@@ -11,6 +11,8 @@ import {useParams} from 'react-router';
 import useFetch, {CachePolicies} from 'use-http';
 import ConfirmModal from 'components/SmallModal';
 import toast from 'react-hot-toast';
+import screens from 'constants/screens';
+import {Link} from 'react-router-dom';
 
 const CourseDetailsL = () => {
   const [openTab, setOpenTab] = useState(1);
@@ -75,7 +77,13 @@ const CourseDetailsL = () => {
           <div className="flex mt-6 justify-between items-center">
             <div className="flex-auto w-2/3">
               <div className="relative">
-                <p className="text-xl mb-2">{course?.courseCode}</p>
+                <p className="text-xl mb-2">
+                  {' '}
+                  <Link className="text-primary" to={screens.lecturerCourses}>
+                    Courses
+                  </Link>{' '}
+                  / {course?.courseCode}
+                </p>
 
                 <div className="flex">
                   <p className="text-[15px] mr-4">{course?.unit} Credit</p>

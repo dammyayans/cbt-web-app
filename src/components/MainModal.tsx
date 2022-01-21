@@ -25,18 +25,22 @@ const MainModal: React.FC<ModalProps> = ({
       )}
       //   onClick={onClose}
     />
-    <div
-      className={`bg-white w-[90%] mx-auto md:w-[560px] p-8 overflow-y-auto md:relative md:z-20 ${contentClassName}`}>
-      <div>
-        <h3
-          className={cn('text-xl font-bold mb-7', {
-            'text-danger': title === 'Message' || title === 'Time Up!!',
-          })}>
-          {title}
-        </h3>
-        <div>{children}</div>
+    {title ? (
+      <div
+        className={`bg-white w-[90%] mx-auto md:w-[560px] p-8 overflow-y-auto md:relative md:z-20 ${contentClassName}`}>
+        <div>
+          <h3
+            className={cn('text-xl font-bold mb-7', {
+              'text-danger': title === 'Message' || title === 'Time Up!!',
+            })}>
+            {title}
+          </h3>
+          <div>{children}</div>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div>{children}</div>
+    )}
   </div>
 );
 

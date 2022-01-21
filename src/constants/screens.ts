@@ -7,6 +7,7 @@ const screens = {
   lecturerCourses: '/lecturer/courses',
   lecturerSettings: '/lecturer/settings',
   lecturerCourseDetails: '/lecturer/courses/:id',
+  lecturerResults: '/lecturer/courses/results/:id/:courseCode/:courseTitle',
   // admin
   adminLogin: '/admin/login',
   adminDashboard: '/admin/dashboard',
@@ -15,6 +16,7 @@ const screens = {
   adminStudents: '/admin/students',
   adminCourseDetails: '/admin/courses/:id',
   adminResults: '/admin/courses/results/:id/:courseCode/:courseTitle',
+  enrollCourses: '/admin/enroll',
   // uploadDocuments: (type = ':type') => `/profile/upload-document/${type}`,
   resetPassword: '/reset-password',
 };

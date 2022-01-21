@@ -46,9 +46,9 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
 
   const studentSignOut = () => {
     try {
-      removeCookies('token');
-      removeCookies('type');
       removeCookies('studentDetails');
+      removeCookies('type');
+      removeCookies('token');
       setIsAuth('');
     } catch (e) {
       console.log({object: e});

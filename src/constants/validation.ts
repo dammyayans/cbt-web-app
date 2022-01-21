@@ -231,6 +231,21 @@ const addQuestionSchema = yupResolver(
   }),
 );
 
+const enrollmentSchema = yupResolver(
+  yup.object().shape({
+    excelFile: yup.object(),
+    // .shape({
+    //   name: yup.string().required(),
+    // })
+    // .required('File required')
+    // .typeError('Please Select a file'),
+    //   courseId: yup
+    //     .string()
+    //     .required('Please select a course')
+    //     .typeError('Please select a course'),
+  }),
+);
+
 const validation = {
   loginSchema: yupResolver(loginSchema),
   loginLSchema: yupResolver(loginLSchema),
@@ -240,6 +255,7 @@ const validation = {
   addStudentSchema,
   changeLPassword: yupResolver(changeLPassword),
   addQuestionSchema,
+  enrollmentSchema,
 
   // forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   // resetPassword: yupResolver(resetPassword),

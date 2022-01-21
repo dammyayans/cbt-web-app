@@ -52,7 +52,7 @@ const LecturerLogin = () => {
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
   if (redirectToReferrer === true) {
-    return <Navigate to={screens.lecturerDashboard} />;
+    return <Navigate to={screens.lecturerCourses} />;
   }
   return (
     <AnimatedContainer>

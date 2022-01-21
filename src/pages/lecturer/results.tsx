@@ -1,4 +1,4 @@
-import {useState} from 'react';
+// import React, {useState} from 'react';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
@@ -8,7 +8,7 @@ import DashboardLayout from 'components/Dashboard/Layout';
 import useFetch, {CachePolicies} from 'use-http';
 import API from 'constants/api';
 // import validation from 'constants/validation';
-import {useNavigate} from 'react-router';
+// import {useNavigate} from 'react-router';
 // import screens from 'constants/screens';
 import Table from 'react-tailwind-table';
 import tableStyling from 'constants/tableStyling';
@@ -16,7 +16,6 @@ import Loader from 'components/Loader';
 import {useParams} from 'react-router';
 import {Link} from 'react-router-dom';
 import screens from 'constants/screens';
-import ConfirmModal from 'components/SmallModal';
 
 const col = [
   {
@@ -49,30 +48,14 @@ const col = [
   },
 ];
 
-const Results = () => {
-  const navigate = useNavigate();
+const LecResults = () => {
+  // const navigate = useNavigate();
   const params = useParams();
-  const [showModal, setShowModal] = useState(false);
   const {data, loading: gLoading} = useFetch(
-    API.getResults(params.id),
+    API.getLecResults(params.id),
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
-  const {post: postCourse, loading: rLoading} = useFetch(API.addCourse);
-
-  const onRelease = async () => {
-    //   try {
-    //     const res = await postCourse(data);
-    //     if (res?.status.toLowerCase() === 'success') {
-    //       get();
-    //       setShowModal(false);
-    //       reset();
-    //       navigate(screens.adminResults);
-    //     }
-    //   } catch (e) {
-    //     toast.error(String(e));
-    //   }
-  };
 
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'grade') {
@@ -83,27 +66,17 @@ const Results = () => {
   };
 
   return (
-    <DashboardLayout type="admin">
-      <ConfirmModal
-        type="confirm"
-        isDelete
-        message={`Are you sure you want to Delete ${params?.courseTitle} Questions?`}
-        onYes={onRelease}
-        loading={rLoading}
-        isVisible={showModal}
-        onClose={() => setShowModal(false)}
-      />
+    <DashboardLayout type="lec">
+      {/* <MainModal isVisible={showModal} title="Add Course">
+       
+      </MainModal> */}
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
         <h3 className="font-bold text-3xl pt-8">Results</h3>
         <div className="flex flex-wrap mt-6 justify-between">
           <div className="flex-auto w-2/3">
             <div className="relative">
-              {/* <input
-                placeholder="Search lecturer..."
-                className="px-6 py-2 text-base border bg-white border-border-gray rounded-[10px] outline-none w-full"
-              /> */}
               <p>
-                <Link className="text-primary" to={screens.adminCourses}>
+                <Link className="text-primary" to={screens.lecturerCourses}>
                   Courses
                 </Link>{' '}
                 / {params?.courseTitle} - {params?.courseCode}
@@ -111,9 +84,9 @@ const Results = () => {
             </div>
           </div>
           <div className="flex-auto flex justify-end w-1/3">
-            <Button type="button" onClick={() => setShowModal(true)}>
-              Release Result
-            </Button>
+            {/* <Button type="button" onClick={() => setShowModal(true)}>
+              Modify Result
+            </Button> */}
           </div>
         </div>
         <div className="my-8 relative">
@@ -136,4 +109,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default LecResults;

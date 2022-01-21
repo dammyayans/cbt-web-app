@@ -18,6 +18,8 @@ import Students from 'pages/admin/students';
 import Settings from 'pages/lecturer/settings';
 import CourseDetailsL from 'pages/lecturer/courseDetails';
 import Results from 'pages/admin/results';
+import LecResults from 'pages/lecturer/results';
+import Enrollment from 'pages/admin/enrollment';
 
 function App() {
   useScrollToTop();
@@ -79,6 +81,14 @@ function App() {
           }
           path={screens.lecturerCourseDetails}
         />
+        <Route
+          element={
+            <PrivateRoute type="lecturer">
+              <LecResults />
+            </PrivateRoute>
+          }
+          path={screens.lecturerResults}
+        />
 
         {/* admin routes */}
         <Route path="admin/login" element={<AdminLogin />} />
@@ -132,6 +142,14 @@ function App() {
           path={screens.adminResults}
         />
 
+        <Route
+          element={
+            <PrivateRoute type="admin">
+              <Enrollment />
+            </PrivateRoute>
+          }
+          path={screens.enrollCourses}
+        />
         {/* </Route> */}
       </Routes>
 

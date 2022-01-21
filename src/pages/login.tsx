@@ -22,7 +22,7 @@ interface IFormValue {
 const Login = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const {authenticate} = useAuth();
+  const {authenticate, isAuth} = useAuth();
   const {user, setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const [modal, setModal] = useState(false);
@@ -50,10 +50,10 @@ const Login = () => {
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
-    if (user) {
+    if (user && isAuth) {
       setRedirectToReferrer(true);
     }
-  }, [user]);
+  }, [user, isAuth]);
 
   useEffect(() => {
     if (params.name) {

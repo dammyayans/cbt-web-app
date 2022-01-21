@@ -9,6 +9,8 @@ import React, {useState} from 'react';
 import {useParams} from 'react-router';
 import useFetch, {CachePolicies} from 'use-http';
 import toast from 'react-hot-toast';
+import {Link} from 'react-router-dom';
+import screens from 'constants/screens';
 
 const CourseDetails = () => {
   const [openTab, setOpenTab] = useState(1);
@@ -94,7 +96,12 @@ const CourseDetails = () => {
           <div className="flex flex-wrap mt-6 justify-between items-center">
             <div className="flex-auto w-full md:w-1/2">
               <div className="relative">
-                <p className="text-xl mb-2">{course?.courseCode}</p>
+                <p className="text-xl mb-2">
+                  <Link className="text-primary" to={screens.adminCourses}>
+                    Courses
+                  </Link>{' '}
+                  / {course?.courseCode}
+                </p>
 
                 <div className="flex">
                   <p className="text-[15px] mr-4">{course?.unit} Credit</p>
@@ -160,16 +167,18 @@ const CourseDetails = () => {
                 {caQuestions?.length ? (
                   <div>
                     <p className="text-lg text-right">
-                      Status:{' '}
                       <span
-                        className={cn('font-bold capitalize', {
-                          'text-warning':
-                            caQuestions[0].approvalStatus === 'pending',
-                          'text-danger':
-                            caQuestions[0].approvalStatus === 'declined',
-                          'text-success':
-                            caQuestions[0].approvalStatus === 'approved',
-                        })}>
+                        className={cn(
+                          'font-bold capitalize py-2 px-5 border rounded-[10px]',
+                          {
+                            'text-warning border-warmGray-900':
+                              caQuestions[0].approvalStatus === 'pending',
+                            'text-danger border-danger':
+                              caQuestions[0].approvalStatus === 'declined',
+                            'text-success border-success':
+                              caQuestions[0].approvalStatus === 'approved',
+                          },
+                        )}>
                         {caQuestions[0].approvalStatus}
                       </span>
                     </p>

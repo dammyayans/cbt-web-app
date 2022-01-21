@@ -19,6 +19,8 @@ export const API = {
     `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions`,
   courseDetails: (courseId, type) =>
     `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions?type=${type}`,
+  getLecResults: courseId =>
+    `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/results`,
 
   // admin
   adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
@@ -36,6 +38,8 @@ export const API = {
     `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/questions`,
   getResults: courseId =>
     `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/results`,
+  enrollStudents: courseId =>
+    `${BASE_URL}/api/v1/auth/admins/enrollments/students/courses/${courseId}/uploads`,
 };
 
 export default API;

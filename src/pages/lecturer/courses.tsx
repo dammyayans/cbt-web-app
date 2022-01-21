@@ -110,7 +110,11 @@ const Courses = () => {
             View questions
           </Button>
           <Button
-            // onClick={() => navigate(row.courseID)}
+            onClick={() =>
+              navigate(
+                `results/${row.courseID}/${row.courseCode}/${row.courseTitle}`,
+              )
+            }
             className="py-1 text-[10px] border-0 rounded-[5px] px-1"
             hoverStyle={false}>
             View results

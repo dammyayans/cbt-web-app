@@ -286,10 +286,10 @@ const Test = () => {
 
                 <div className="flex justify-center mt-4 mb-4">
                   <Button
-                    isDisabled={!lessThan10}
+                    // isDisabled={true || !lessThan10}
                     hoverStyle={lessThan10}
                     className={classNames('py-[10px]', {
-                      'opacity-40': !lessThan10,
+                      // 'opacity-40': true || !lessThan10,
                     })}
                     onClick={() => setShowModal(true)}>
                     End Exam
