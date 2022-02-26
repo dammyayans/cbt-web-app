@@ -40,6 +40,8 @@ export const API = {
     `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/results`,
   enrollStudents: courseId =>
     `${BASE_URL}/api/v1/auth/admins/enrollments/students/courses/${courseId}/uploads`,
+  releaseCourseResult: courseId =>
+    `${BASE_URL}/api/v1/auth/admins/courses/${courseId}/results`,
 };
 
 export default API;

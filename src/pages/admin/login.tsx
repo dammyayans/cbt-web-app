@@ -52,7 +52,7 @@ const AdminLogin = () => {
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
   if (redirectToReferrer === true) {
-    return <Navigate to={screens.adminDashboard} />;
+    return <Navigate to={screens.adminlecturers} />;
   }
   return (
     <AnimatedContainer>

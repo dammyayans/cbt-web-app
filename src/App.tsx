@@ -29,6 +29,7 @@ function App() {
       <Routes>
         {/* student routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/login/:name/:type" element={<Login />} />
         <Route
           element={

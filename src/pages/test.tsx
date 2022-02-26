@@ -208,7 +208,7 @@ const Test = () => {
                     {questionsDetails?.courseTitle}
                   </h2>
                 </div>
-                <div className="h-[50vh] overflow-y-scroll px-4 md:px-14">
+                <div className="h-[59vh] overflow-y-scroll px-4 md:px-14">
                   {questionsDetails?.questions?.length ? (
                     <Question
                       number={currentQuestionIndex + 1}

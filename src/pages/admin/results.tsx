@@ -3,7 +3,6 @@ import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
 
-// import toast from 'react-hot-toast';
 // import {useForm} from 'react-hook-form';
 import useFetch, {CachePolicies} from 'use-http';
 import API from 'constants/api';
@@ -17,6 +16,7 @@ import {useParams} from 'react-router';
 import {Link} from 'react-router-dom';
 import screens from 'constants/screens';
 import ConfirmModal from 'components/SmallModal';
+import toast from 'react-hot-toast';
 
 const col = [
   {
@@ -58,20 +58,20 @@ const Results = () => {
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
-  const {post: postCourse, loading: rLoading} = useFetch(API.addCourse);
+  const {post: releaseResult, loading: rLoading} = useFetch(
+    API.releaseCourseResult(params.id),
+  );
 
   const onRelease = async () => {
-    //   try {
-    //     const res = await postCourse(data);
-    //     if (res?.status.toLowerCase() === 'success') {
-    //       get();
-    //       setShowModal(false);
-    //       reset();
-    //       navigate(screens.adminResults);
-    //     }
-    //   } catch (e) {
-    //     toast.error(String(e));
-    //   }
+    try {
+      const res = await releaseResult(data);
+      if (res?.status.toLowerCase() === 'success') {
+        setShowModal(false);
+        navigate(screens.adminResults);
+      }
+    } catch (e) {
+      toast.error(String(e));
+    }
   };
 
   const rowcheck = (row, column, display_value) => {
@@ -87,7 +87,7 @@ const Results = () => {
       <ConfirmModal
         type="confirm"
         isDelete
-        message={`Are you sure you want to Delete ${params?.courseTitle} Questions?`}
+        message={`Are you sure you want to Release ${params?.courseTitle} Result?`}
         onYes={onRelease}
         loading={rLoading}
         isVisible={showModal}

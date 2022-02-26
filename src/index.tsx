@@ -9,7 +9,7 @@ import AppProviders from 'context';
 
 ReactDOM.render(
   <React.StrictMode>
-   <BrowserRouter>
+    <BrowserRouter>
       <CookiesProvider>
         <AppProviders>
           <App />
@@ -17,7 +17,7 @@ ReactDOM.render(
       </CookiesProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

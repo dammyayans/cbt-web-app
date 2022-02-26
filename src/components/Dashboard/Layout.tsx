@@ -167,7 +167,7 @@ const DashboardLayout = ({children, type}) => {
             ) : (
               // admin nav links
               <div className="nav-links">
-                <NavLink
+                {/* <NavLink
                   isActive={location.pathname === screens.adminDashboard}
                   icon={
                     <svg
@@ -188,7 +188,7 @@ const DashboardLayout = ({children, type}) => {
                   }
                   to={screens.adminDashboard}>
                   Dashboard
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   isActive={location.pathname === screens.adminlecturers}
                   icon={
