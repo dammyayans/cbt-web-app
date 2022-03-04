@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import Option from './Option';
 import './index.css';
 
+const keyWord = '________';
+
 const Question = ({details, number, overview, setOverview, overviewKey}) => {
   const {img, question, options} = details || {};
   const handleSelectedAnswer = opt => {
@@ -36,12 +38,51 @@ const Question = ({details, number, overview, setOverview, overviewKey}) => {
   //   return () => document.removeEventListener('keypress', () => null);
   // }, [number, details.options, overview]);
 
+  const splitedQuestion = question?.split(keyWord) || [];
+
   return (
     <div className="">
       <p className="text-[22px] mb-6">Question {number}</p>
-      <p
+      {/* <p
         className="text-[22px] mb-[40px]"
-        dangerouslySetInnerHTML={{__html: question}}></p>
+        dangerouslySetInnerHTML={{__html: question}}></p> */}
+
+      {question?.includes(keyWord) ? (
+        <div className="flex items-center mb-[40px]">
+          {splitedQuestion.map((sen, i) =>
+            i === splitedQuestion.length - 1 ? (
+              <p
+                key={i}
+                className="text-[22px]"
+                dangerouslySetInnerHTML={{
+                  __html: sen,
+                }}
+              />
+            ) : (
+              <div key={i} className="flex items-center">
+                <p
+                  className="text-[22px]"
+                  dangerouslySetInnerHTML={{
+                    __html: sen,
+                  }}
+                />
+                <input
+                  type="text"
+                  onChange={e => handleSelectedAnswer(e.target.value)}
+                  className="border-b-2 border-b-primary mr-1"
+                />{' '}
+              </div>
+            ),
+          )}
+        </div>
+      ) : (
+        <p
+          className="text-[22px] mb-[40px]"
+          dangerouslySetInnerHTML={{
+            __html: question,
+          }}
+        />
+      )}
       <hr className="text-[#E0E0E0] mb-[40px]" />
       {options?.length ? (
         <div>
