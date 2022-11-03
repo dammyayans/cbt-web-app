@@ -73,7 +73,7 @@ const Question = ({details, number, overview, setOverview, overviewKey}) => {
                 <input
                   type="text"
                   onChange={e => handleSelectedAnswer(e.target.value)}
-                  className="border-b-2 border-b-primary mr-1 bg-transparent outline-none"
+                  className="border-b-2 border-b-primary mr-1 bg-transparent outline-none mx-2"
                   value={overview[number - 1]?.selectedAnswer}
                 />{' '}
               </div>

@@ -55,9 +55,10 @@ const SelectExam = () => {
                     }`}
                   </button>
                 ))
-              ) : null}
-              <div className="min-h-[100px] text-primary">
+              ) : (
                 <p>No Course at the moment</p>
+              )}
+              <div className="min-h-[100px] text-primary">
                 <button
                   onClick={studentSignOut}
                   type="button"
