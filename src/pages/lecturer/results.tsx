@@ -8,7 +8,7 @@ import DashboardLayout from 'components/Dashboard/Layout';
 import useFetch, {CachePolicies} from 'use-http';
 import API from 'constants/api';
 // import validation from 'constants/validation';
-// import {useNavigate} from 'react-router';
+import {useNavigate} from 'react-router';
 // import screens from 'constants/screens';
 import Table from 'react-tailwind-table';
 import tableStyling from 'constants/tableStyling';
@@ -49,7 +49,7 @@ const col = [
 ];
 
 const LecResults = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const params = useParams();
   const {data, loading: gLoading} = useFetch(
     API.getLecResults(params.id),
@@ -71,7 +71,12 @@ const LecResults = () => {
        
       </MainModal> */}
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-        <h3 className="font-bold text-3xl pt-8">Results</h3>
+        <span
+          onClick={() => navigate(-1)}
+          className="pt-8 text-lg text-primary cursor-pointer">
+          Go back
+        </span>
+        <h3 className="font-bold text-3xl mt-3">Results</h3>
         <div className="flex flex-wrap mt-6 justify-between">
           <div className="flex-auto w-2/3">
             <div className="relative">

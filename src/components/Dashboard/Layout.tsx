@@ -2,14 +2,15 @@ import {useEffect, useState} from 'react';
 import {useLocation} from 'react-router';
 
 import NavLink from './NavLink';
-import DashboardHeader from 'components/DashboardHeader';
 
+import DashboardHeader from 'components/DashboardHeader';
 import {useAuth} from 'context/auth-context';
 import logo from 'assets/images/unilorin-logo.png';
 import screens from 'constants/screens';
 import './index.css';
 import {useAdmin} from 'context/admin-context';
 import {useLecturer} from 'context/lecturer-context';
+
 const Hamburger = () => (
   <svg
     width="31"
@@ -130,6 +131,36 @@ const DashboardLayout = ({children, type}) => {
                   }
                   to={screens.lecturerCourses}>
                   My Courses
+                </NavLink>
+                <NavLink
+                  isActive={location.pathname.includes(screens.lecturerImages)}
+                  icon={
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M22.5 18V16.5H20.9242C20.8275 16.0305 20.6411 15.5841 20.3752 15.1852L21.4928 14.0677L20.4323 13.0073L19.3148 14.1248C18.9159 13.8589 18.4695 13.6725 18 13.5757V12H16.5V13.5757C16.0305 13.6725 15.5841 13.8589 15.1852 14.1248L14.0677 13.0073L13.0073 14.0677L14.1248 15.1852C13.8589 15.5841 13.6725 16.0305 13.5757 16.5H12V18H13.5757C13.6725 18.4695 13.8589 18.9159 14.1248 19.3148L13.0073 20.4323L14.0677 21.4928L15.1852 20.3752C15.5841 20.6411 16.0305 20.8275 16.5 20.9242V22.5H18V20.9242C18.4695 20.8275 18.9159 20.6411 19.3148 20.3752L20.4323 21.4928L21.4928 20.4323L20.3752 19.3148C20.6411 18.9159 20.8275 18.4695 20.9242 18H22.5ZM17.25 19.5C16.805 19.5 16.37 19.368 16 19.1208C15.63 18.8736 15.3416 18.5222 15.1713 18.111C15.001 17.6999 14.9564 17.2475 15.0432 16.811C15.13 16.3746 15.3443 15.9737 15.659 15.659C15.9737 15.3443 16.3746 15.13 16.811 15.0432C17.2475 14.9564 17.6999 15.001 18.111 15.1713C18.5222 15.3416 18.8736 15.63 19.1208 16C19.368 16.37 19.5 16.805 19.5 17.25C19.4994 17.8466 19.2622 18.4185 18.8403 18.8403C18.4185 19.2622 17.8466 19.4994 17.25 19.5Z"
+                        fill={
+                          location.pathname.includes(screens.lecturerImages)
+                            ? '#000'
+                            : '#fff'
+                        }
+                      />
+                      <path
+                        d="M18.75 3.75H16.5V3C16.4988 2.60254 16.3404 2.2217 16.0593 1.94065C15.7783 1.6596 15.3975 1.50119 15 1.5H9C8.60254 1.50119 8.2217 1.6596 7.94065 1.94065C7.6596 2.2217 7.50119 2.60254 7.5 3V3.75H5.25C4.85254 3.75119 4.4717 3.9096 4.19065 4.19065C3.9096 4.4717 3.75119 4.85254 3.75 5.25V21C3.75119 21.3975 3.9096 21.7783 4.19065 22.0593C4.4717 22.3404 4.85254 22.4988 5.25 22.5H10.5V21H5.25V5.25H7.5V7.5H16.5V5.25H18.75V9.75H20.25V5.25C20.2488 4.85254 20.0904 4.4717 19.8093 4.19065C19.5283 3.9096 19.1475 3.75119 18.75 3.75ZM15 6H9V3H15V6Z"
+                        fill={
+                          location.pathname.includes(screens.lecturerImages)
+                            ? '#000'
+                            : '#fff'
+                        }
+                      />
+                    </svg>
+                  }
+                  to={screens.lecturerImages}>
+                  Upload Images
                 </NavLink>
                 <NavLink
                   isActive={location.pathname.includes(

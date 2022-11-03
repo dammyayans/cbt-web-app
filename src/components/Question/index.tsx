@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
 import Option from './Option';
 import './index.css';
 
-const keyWord = '________';
+const keyWord = '___';
 
 const Question = ({details, number, overview, setOverview, overviewKey}) => {
-  const {img, question, options} = details || {};
+  const {image, question, options} = details || {};
   const handleSelectedAnswer = opt => {
     const modifiedOVerview = overview.map(el =>
       el.no === number ? {...el, type: 'done', selectedAnswer: opt} : el,
@@ -42,10 +41,15 @@ const Question = ({details, number, overview, setOverview, overviewKey}) => {
 
   return (
     <div className="">
-      <p className="text-[22px] mb-6">Question {number}</p>
-      {/* <p
+      <div className="mb-6">
+        <p className="text-[22px] ">Question {number}</p>
+        {/* <p
         className="text-[22px] mb-[40px]"
         dangerouslySetInnerHTML={{__html: question}}></p> */}
+        {image ? (
+          <img src={image} alt={question} className="h-[200px] my-4" />
+        ) : null}
+      </div>
 
       {question?.includes(keyWord) ? (
         <div className="flex items-center mb-[40px]">
@@ -69,7 +73,8 @@ const Question = ({details, number, overview, setOverview, overviewKey}) => {
                 <input
                   type="text"
                   onChange={e => handleSelectedAnswer(e.target.value)}
-                  className="border-b-2 border-b-primary mr-1"
+                  className="border-b-2 border-b-primary mr-1 bg-transparent outline-none"
+                  value={overview[number - 1]?.selectedAnswer}
                 />{' '}
               </div>
             ),

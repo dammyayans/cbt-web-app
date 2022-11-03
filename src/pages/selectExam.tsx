@@ -4,6 +4,7 @@ import Layout from 'components/Layout';
 import Loader from 'components/Loader';
 import API from 'constants/api';
 import screens from 'constants/screens';
+import {useAuth} from 'context/auth-context';
 import React, {useState} from 'react';
 import toast from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom';
@@ -18,6 +19,8 @@ const SelectExam = () => {
     [],
   );
   const startedCourses = data?.startedCourses;
+  const {studentSignOut} = useAuth();
+
   return (
     <Layout>
       <div className="w-full">
@@ -52,11 +55,16 @@ const SelectExam = () => {
                     }`}
                   </button>
                 ))
-              ) : (
-                <div className="min-h-[100px] text-primary">
-                  <p>No Course at the moment</p>
-                </div>
-              )}
+              ) : null}
+              <div className="min-h-[100px] text-primary">
+                <p>No Course at the moment</p>
+                <button
+                  onClick={studentSignOut}
+                  type="button"
+                  className=" text-primary text-sm font-bold ml-auto mr-8 my-4 logout-btn-top">
+                  Log Out
+                </button>
+              </div>
             </div>
           </div>
           {selected ? (

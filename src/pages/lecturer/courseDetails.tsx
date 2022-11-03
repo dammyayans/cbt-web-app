@@ -1,20 +1,22 @@
 import cn from 'classnames';
+import React, {useState} from 'react';
+import {useNavigate, useParams} from 'react-router';
+import useFetch, {CachePolicies} from 'use-http';
+import toast from 'react-hot-toast';
+import {Link} from 'react-router-dom';
+
 import AdminQuestion from 'components/AdminQuestion';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
 import Loader from 'components/Loader';
 import API from 'constants/api';
-import questions from 'constants/Questions';
-import React, {useState} from 'react';
-import {useParams} from 'react-router';
-import useFetch, {CachePolicies} from 'use-http';
+// import questions from 'constants/Questions';
 import ConfirmModal from 'components/SmallModal';
-import toast from 'react-hot-toast';
 import screens from 'constants/screens';
-import {Link} from 'react-router-dom';
 
 const CourseDetailsL = () => {
+  const navigate = useNavigate();
   const [openTab, setOpenTab] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
@@ -44,6 +46,7 @@ const CourseDetailsL = () => {
     try {
       const res = await deleteQuestions();
       if (res?.status.toLowerCase() === 'success') {
+        // eslint-disable-next-line no-unused-expressions
         openTab === 1 ? getCA() : getExam();
         setShowModal(false);
       }
@@ -73,7 +76,12 @@ const CourseDetailsL = () => {
         </AnimatedContainer>
       ) : (
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-          <h3 className="font-bold text-3xl pt-8">{course?.courseTitle}</h3>
+          <span
+            onClick={() => navigate(-1)}
+            className="pt-8 text-lg text-primary cursor-pointer">
+            Go back
+          </span>
+          <h3 className="font-bold text-3xl mt-3">{course?.courseTitle}</h3>
           <div className="flex mt-6 justify-between items-center">
             <div className="flex-auto w-2/3">
               <div className="relative">
@@ -104,6 +112,7 @@ const CourseDetailsL = () => {
           <h3 className="font-bold text-3xl mt-6 mb-4">Questions</h3>
           <div className="d">
             <button
+              type="button"
               onClick={() => setOpenTab(1)}
               className={cn('py-2 px-8 mr-2 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 1,
@@ -111,6 +120,7 @@ const CourseDetailsL = () => {
               CA
             </button>
             <button
+              type="button"
               onClick={() => setOpenTab(2)}
               className={cn('py-2 px-8 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 2,
@@ -123,7 +133,7 @@ const CourseDetailsL = () => {
               <div className="bg-white rounded-b-[15px] p-7 mb-4">
                 {caQuestions?.length ? (
                   <div>
-                    <p className="text-lg text-right">
+                    {/* <p className="text-lg text-right">
                       Status:{' '}
                       <span
                         className={cn('font-bold capitalize', {
@@ -136,7 +146,7 @@ const CourseDetailsL = () => {
                         })}>
                         {caQuestions[0].approvalStatus}
                       </span>
-                    </p>
+                    </p> */}
                     {caQuestions.map((q, ind) => (
                       <AdminQuestion
                         key={q.questionID}
@@ -169,7 +179,7 @@ const CourseDetailsL = () => {
                 )}>
                 {examQuestions?.length ? (
                   <div>
-                    <p className="text-lg text-right">
+                    {/* <p className="text-lg text-right">
                       Status:{' '}
                       <span
                         className={cn('font-bold capitalize', {
@@ -182,7 +192,7 @@ const CourseDetailsL = () => {
                         })}>
                         {examQuestions[0].approvalStatus}
                       </span>
-                    </p>
+                    </p> */}
                     {examQuestions.map((q, ind) => (
                       <AdminQuestion
                         key={q.questionID}

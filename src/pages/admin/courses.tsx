@@ -271,7 +271,7 @@ const Courses = () => {
             }
             rows={data && data.courses ? data.courses : []}
             styling={tableStyling}
-            hovered={true}
+            hovered
             row_render={rowcheck}
           />
         </div>

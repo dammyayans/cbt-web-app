@@ -1,22 +1,22 @@
+/* eslint-disable camelcase */
 import {useState} from 'react';
+import useFetch, {CachePolicies} from 'use-http';
+// import {useForm} from 'react-hook-form';
+// import validation from 'constants/validation';
+import Table from 'react-tailwind-table';
+import toast from 'react-hot-toast';
+import {useParams, useNavigate} from 'react-router';
+import {Link} from 'react-router-dom';
+
+// import screens from 'constants/screens';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
-
-// import {useForm} from 'react-hook-form';
-import useFetch, {CachePolicies} from 'use-http';
-import API from 'constants/api';
-// import validation from 'constants/validation';
-import {useNavigate} from 'react-router';
-// import screens from 'constants/screens';
-import Table from 'react-tailwind-table';
 import tableStyling from 'constants/tableStyling';
 import Loader from 'components/Loader';
-import {useParams} from 'react-router';
-import {Link} from 'react-router-dom';
+import API from 'constants/api';
 import screens from 'constants/screens';
 import ConfirmModal from 'components/SmallModal';
-import toast from 'react-hot-toast';
 
 const col = [
   {
@@ -74,7 +74,7 @@ const Results = () => {
     }
   };
 
-  const rowcheck = (row, column, display_value) => {
+  const rowcheck = (_, column, display_value) => {
     if (column.field === 'grade') {
       return display_value?.toUpperCase();
     }
@@ -94,7 +94,12 @@ const Results = () => {
         onClose={() => setShowModal(false)}
       />
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-        <h3 className="font-bold text-3xl pt-8">Results</h3>
+        <span
+          onClick={() => navigate(-1)}
+          className="pt-8 text-lg text-primary cursor-pointer">
+          Go back
+        </span>
+        <h3 className="font-bold text-3xl mt-3">Results</h3>
         <div className="flex flex-wrap mt-6 justify-between">
           <div className="flex-auto w-2/3">
             <div className="relative">
@@ -127,7 +132,7 @@ const Results = () => {
             }
             rows={data && data.data ? data.data : []}
             styling={tableStyling}
-            hovered={true}
+            hovered
             row_render={rowcheck}
           />
         </div>

@@ -8,6 +8,8 @@ const screens = {
   lecturerSettings: '/lecturer/settings',
   lecturerCourseDetails: '/lecturer/courses/:id',
   lecturerResults: '/lecturer/courses/results/:id/:courseCode/:courseTitle',
+  lecturerImages: '/lecturer/images',
+
   // admin
   adminLogin: '/admin/login',
   adminDashboard: '/admin/dashboard',

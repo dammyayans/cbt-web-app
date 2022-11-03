@@ -92,7 +92,7 @@ const Courses = () => {
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'action') {
       return (
-        <div className="flex justify-end">
+        <div className="flex">
           <Button
             onClick={() => {
               setCourseID(row.courseID);
@@ -308,7 +308,7 @@ const Courses = () => {
             }
             rows={data && data.data ? data.data : []}
             styling={tableStyling}
-            hovered={true}
+            hovered
             row_render={rowcheck}
           />
         </div>

@@ -1,8 +1,11 @@
-import useScrollToTop from 'hooks/useScrollToTop';
 import {Route, Routes} from 'react-router';
+import {Toaster} from 'react-hot-toast';
+
+import PrivateRoute from './PrivateRoute';
+
+import useScrollToTop from 'hooks/useScrollToTop';
 import Login from 'pages/login';
 import SelectExam from 'pages/selectExam';
-import PrivateRoute from './PrivateRoute';
 import Test from 'pages/test';
 import LecturerLogin from 'pages/lecturer/lecturerlogin';
 import DashboardHome from 'pages/lecturer/dashboard';
@@ -11,7 +14,6 @@ import ADashboardHome from 'pages/admin/dashboard';
 import Lecturers from 'pages/admin/lecturers';
 import screens from 'constants/screens';
 import AdminLogin from 'pages/admin/login';
-import {Toaster} from 'react-hot-toast';
 import Courses from 'pages/admin/courses';
 import CourseDetails from 'pages/admin/courseDetails';
 import Students from 'pages/admin/students';
@@ -20,6 +22,7 @@ import CourseDetailsL from 'pages/lecturer/courseDetails';
 import Results from 'pages/admin/results';
 import LecResults from 'pages/lecturer/results';
 import Enrollment from 'pages/admin/enrollment';
+import LecImages from 'pages/lecturer/images';
 
 function App() {
   useScrollToTop();
@@ -89,6 +92,15 @@ function App() {
             </PrivateRoute>
           }
           path={screens.lecturerResults}
+        />
+
+        <Route
+          element={
+            <PrivateRoute type="lecturer">
+              <LecImages />
+            </PrivateRoute>
+          }
+          path={screens.lecturerImages}
         />
 
         {/* admin routes */}

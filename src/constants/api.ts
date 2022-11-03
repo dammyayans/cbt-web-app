@@ -21,7 +21,7 @@ export const API = {
     `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/questions?type=${type}`,
   getLecResults: courseId =>
     `${BASE_URL}/api/v1/auth/lecturers/courses/${courseId}/results`,
-
+  myImages: `${BASE_URL}/api/v1/auth/lecturers/questions/image`,
   // admin
   adminLogin: `${BASE_URL}/api/v1/auth/admins/login`,
   // with auth

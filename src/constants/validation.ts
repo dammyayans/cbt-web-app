@@ -1,5 +1,4 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import {isValidPhoneNumber} from 'libphonenumber-js';
 import * as yup from 'yup';
 
 const loginSchema = yup.object().shape({
@@ -246,6 +245,12 @@ const enrollmentSchema = yupResolver(
   }),
 );
 
+const addImageSchema = yupResolver(
+  yup.object().shape({
+    title: yup.string().required('Please an image title'),
+  }),
+);
+
 const validation = {
   loginSchema: yupResolver(loginSchema),
   loginLSchema: yupResolver(loginLSchema),
@@ -256,6 +261,7 @@ const validation = {
   changeLPassword: yupResolver(changeLPassword),
   addQuestionSchema,
   enrollmentSchema,
+  addImageSchema,
 
   // forgotPasswordSchema: yupResolver(forgotPasswordSchema),
   // resetPassword: yupResolver(resetPassword),

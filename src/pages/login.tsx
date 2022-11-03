@@ -2,17 +2,18 @@
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import useFetch from 'use-http';
-import {useAuth} from 'context/auth-context';
+import {Navigate} from 'react-router-dom';
+import toast from 'react-hot-toast';
+import {useNavigate, useParams} from 'react-router';
+
 import screens from 'constants/screens';
-import Button from 'components/Button';
 import API from 'constants/api';
 import validation from 'constants/validation';
 import {useUser} from 'context/user-context';
 import Layout from 'components/Layout';
-import {Navigate} from 'react-router-dom';
-import toast from 'react-hot-toast';
+import {useAuth} from 'context/auth-context';
 import MainModal from 'components/MainModal';
-import {useNavigate, useParams} from 'react-router';
+import Button from 'components/Button';
 
 interface IFormValue {
   matric: string;

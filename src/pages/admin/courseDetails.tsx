@@ -1,21 +1,22 @@
 import cn from 'classnames';
+import useFetch, {CachePolicies} from 'use-http';
+import React, {useState} from 'react';
+import {useNavigate, useParams} from 'react-router';
+import toast from 'react-hot-toast';
+import {Link} from 'react-router-dom';
+
 import AdminQuestion from 'components/AdminQuestion';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
 import Loader from 'components/Loader';
 import API from 'constants/api';
-import React, {useState} from 'react';
-import {useParams} from 'react-router';
-import useFetch, {CachePolicies} from 'use-http';
-import toast from 'react-hot-toast';
-import {Link} from 'react-router-dom';
 import screens from 'constants/screens';
 
 const CourseDetails = () => {
   const [openTab, setOpenTab] = useState(1);
   // const [showModal, setShowModal] = useState(false);
-  const [status, setStatus] = useState('');
+  // const [status, setStatus] = useState('');
   const [startStatus, setStartStatus] = useState('');
   const params = useParams();
   const {
@@ -32,30 +33,31 @@ const CourseDetails = () => {
     {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
     [],
   );
-  const {post: postStatus, loading: pLoading} = useFetch(
-    API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
-  );
+  // const {post: postStatus, loading: pLoading} = useFetch(
+  //   API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
+  // );
   const {post: postStartCourse, loading: sLoading} = useFetch(
     API.adminStartCourse(params.id),
   );
+  const navigate = useNavigate();
 
   const course = data?.data.course;
   const caQuestions = data?.data.questions;
   const examQuestions = data2?.data.questions;
 
-  const handleStatus = async status => {
-    setStatus(status);
-    try {
-      const res = await postStatus({
-        approvalStatus: status,
-      });
-      if (res?.status.toLowerCase() === 'success') {
-        openTab === 1 ? getCA() : getExam();
-      }
-    } catch (e) {
-      toast.error(String(e));
-    }
-  };
+  // const handleStatus = async status => {
+  //   setStatus(status);
+  //   try {
+  //     const res = await postStatus({
+  //       approvalStatus: status,
+  //     });
+  //     if (res?.status.toLowerCase() === 'success') {
+  //       openTab === 1 ? getCA() : getExam();
+  //     }
+  //   } catch (e) {
+  //     toast.error(String(e));
+  //   }
+  // };
 
   const handleStartStatus = async (status, start) => {
     setStartStatus(status);
@@ -92,7 +94,12 @@ const CourseDetails = () => {
         </AnimatedContainer>
       ) : (
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
-          <h3 className="font-bold text-3xl pt-8">{course?.courseTitle}</h3>
+          <span
+            onClick={() => navigate(-1)}
+            className="pt-8 text-lg text-primary cursor-pointer">
+            Go back
+          </span>
+          <h3 className="font-bold text-3xl mt-3">{course?.courseTitle}</h3>
           <div className="flex flex-wrap mt-6 justify-between items-center">
             <div className="flex-auto w-full md:w-1/2">
               <div className="relative">
@@ -110,36 +117,34 @@ const CourseDetails = () => {
               </div>
             </div>
             <div className="flex-auto flex justify-end w-full md:w-1/2">
-              {examQuestions?.length &&
-              examQuestions[0].approvalStatus === 'approved' ? (
-                <Button
-                  hoverStyle={false}
-                  type="button"
-                  loading={startStatus === 'exam' && sLoading}
-                  className="px-2 mr-2 bg-lightblue border-0 text-blackk"
-                  onClick={() =>
-                    handleStartStatus(
-                      'exam',
-                      !examQuestions[0].isStarted ? true : false,
-                    )
-                  }>
-                  {examQuestions[0].isStarted ? 'Hide' : 'Show'} Exam
-                </Button>
-              ) : null}
-              {caQuestions?.length &&
-              caQuestions[0].approvalStatus === 'approved' ? (
+              {
+                examQuestions?.length ? (
+                  // examQuestions[0].approvalStatus === 'approved' ?
+                  <Button
+                    hoverStyle={false}
+                    type="button"
+                    loading={startStatus === 'exam' && sLoading}
+                    className="px-2 mr-2 bg-lightblue border-0 text-blackk"
+                    onClick={() =>
+                      handleStartStatus('exam', !examQuestions[0]?.isStarted)
+                    }>
+                    {examQuestions[0]?.isStarted ? 'Hide' : 'Show'} Exam
+                  </Button>
+                ) : null
+
+                // : null
+              }
+              {caQuestions?.length ? (
+                // caQuestions[0].approvalStatus === 'approved' ?
                 <Button
                   hoverStyle={false}
                   type="button"
                   loading={startStatus === 'ca' && sLoading}
                   className="px-2"
                   onClick={() =>
-                    handleStartStatus(
-                      'ca',
-                      !caQuestions[0].isStarted ? true : false,
-                    )
+                    handleStartStatus('ca', !caQuestions[0]?.isStarted)
                   }>
-                  {caQuestions[0].isStarted ? 'Hide' : 'Show'} CA
+                  {caQuestions[0]?.isStarted ? 'Hide' : 'Show'} CA
                 </Button>
               ) : null}
             </div>
@@ -148,6 +153,7 @@ const CourseDetails = () => {
           <div className="d">
             <button
               onClick={() => setOpenTab(1)}
+              type="button"
               className={cn('py-4 px-14 mr-2 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 1,
               })}>
@@ -155,6 +161,7 @@ const CourseDetails = () => {
             </button>
             <button
               onClick={() => setOpenTab(2)}
+              type="button"
               className={cn('py-4 px-14 text-sm', {
                 'bg-white border-b-[3px] border-b-primary': openTab === 2,
               })}>
@@ -166,7 +173,7 @@ const CourseDetails = () => {
               <div className="bg-white rounded-b-[15px] p-7 mb-4">
                 {caQuestions?.length ? (
                   <div>
-                    <p className="text-lg text-right">
+                    {/* <p className="text-lg text-right">
                       <span
                         className={cn(
                           'font-bold capitalize py-2 px-5 border rounded-[10px]',
@@ -181,7 +188,7 @@ const CourseDetails = () => {
                         )}>
                         {caQuestions[0].approvalStatus}
                       </span>
-                    </p>
+                    </p> */}
                     {caQuestions.map((q, ind) => (
                       <AdminQuestion
                         key={q.questionID}
@@ -193,7 +200,7 @@ const CourseDetails = () => {
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}
-                <div className="flex mt-4 justify-end">
+                {/* <div className="flex mt-4 justify-end">
                   {caQuestions?.length ? (
                     <div className="flex">
                       <Button
@@ -216,7 +223,7 @@ const CourseDetails = () => {
                       </Button>
                     </div>
                   ) : null}
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (
@@ -227,7 +234,7 @@ const CourseDetails = () => {
                 )}>
                 {examQuestions?.length ? (
                   <div>
-                    <p className="text-lg text-right">
+                    {/* <p className="text-lg text-right">
                       Status:{' '}
                       <span
                         className={cn('font-bold capitalize', {
@@ -240,7 +247,7 @@ const CourseDetails = () => {
                         })}>
                         {examQuestions[0].approvalStatus}
                       </span>
-                    </p>
+                    </p> */}
                     {examQuestions.map((q, ind) => (
                       <AdminQuestion
                         key={q.questionID}
@@ -252,7 +259,7 @@ const CourseDetails = () => {
                 ) : (
                   <p className="text-center">No Question Found</p>
                 )}
-                <div className="flex my-4 justify-end">
+                {/* <div className="flex my-4 justify-end">
                   {examQuestions?.length ? (
                     <div className="flex">
                       <Button
@@ -275,7 +282,7 @@ const CourseDetails = () => {
                       </Button>
                     </div>
                   ) : null}
-                </div>
+                </div> */}
               </div>
             </div>
           )}
