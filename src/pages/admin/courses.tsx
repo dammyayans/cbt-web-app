@@ -1,17 +1,18 @@
+/* eslint-disable no-nested-ternary */
 import React, {useState} from 'react';
+import toast from 'react-hot-toast';
+import {useForm} from 'react-hook-form';
+import useFetch, {CachePolicies} from 'use-http';
+import {useNavigate} from 'react-router';
+import Table from 'react-tailwind-table';
+
+import validation from 'constants/validation';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
 import DashboardLayout from 'components/Dashboard/Layout';
 import MainModal from 'components/MainModal';
-import faculties from 'constants/faculties';
-import toast from 'react-hot-toast';
-import {useForm} from 'react-hook-form';
-import useFetch, {CachePolicies} from 'use-http';
 import API from 'constants/api';
-import validation from 'constants/validation';
-import {useNavigate} from 'react-router';
 import screens from 'constants/screens';
-import Table from 'react-tailwind-table';
 import tableStyling from 'constants/tableStyling';
 import Loader from 'components/Loader';
 
@@ -80,9 +81,9 @@ const Courses = () => {
     reset,
   } = useForm<IFormValue>({resolver: validation.addCourseSchema});
 
-  const onSubmit = async (data: IFormValue) => {
+  const onSubmit = async (formData: IFormValue) => {
     try {
-      const res = await postCourse(data);
+      const res = await postCourse(formData);
       if (res?.status.toLowerCase() === 'success') {
         get();
         setShowModal(false);
@@ -94,6 +95,7 @@ const Courses = () => {
     }
   };
 
+  // eslint-disable-next-line camelcase
   const rowcheck = (row, column, display_value) => {
     if (column.field === 'action') {
       return (

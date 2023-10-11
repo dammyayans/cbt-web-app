@@ -1,7 +1,8 @@
-import {getItemFromLocalStorage} from 'constants/index';
 import {useCallback, useEffect, useState} from 'react';
 
 import useInterval from './useInterval';
+
+import {getItemFromLocalStorage} from 'constants/index';
 
 const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   // For Total seconds
@@ -10,7 +11,7 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   );
   const currentDuration = getItemFromLocalStorage(props.durationKey);
   useEffect(() => {
-    setTimeStamp(currentDuration ? currentDuration : props.timestamp);
+    setTimeStamp(currentDuration || props.timestamp);
   }, [props.timestamp, currentDuration]);
   // Delay Required
   const [delay] = useState(props.delay ? props.delay : 1000);
@@ -26,7 +27,7 @@ const useCountDownTimer = (props): [string, boolean, boolean, () => void] => {
   // Flag for timer less than 10 minutes
   const [lessThan10, setLessThan10] = useState(false);
 
-  //Flag for timeup
+  // Flag for timeup
   const [timeup, setTimeup] = useState(false);
 
   // Flag for final display time format

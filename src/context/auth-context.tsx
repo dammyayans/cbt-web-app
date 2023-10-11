@@ -34,9 +34,9 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
     try {
       removeCookies('token');
       removeCookies('type');
-      type === 'admin' && removeCookies('adminDetails');
-      type === 'lecturer' && removeCookies('lecturerDetails');
-      type === 'student' && removeCookies('studentDetails');
+      if (type === 'admin') removeCookies('adminDetails');
+      if (type === 'lecturer') removeCookies('lecturerDetails');
+      if (type === 'student') removeCookies('studentDetails');
       setIsAuth('');
       // setTimeout(cb, 100); // fake async
     } catch (e) {
@@ -58,7 +58,7 @@ export const AuthProvider: React.FC = ({children}: PropsType) => {
   const authenticate = async (
     token: string,
     type: string,
-    details?: Object,
+    details?: Record<string, unknown>,
   ) => {
     try {
       // console.log('authenticating', token);

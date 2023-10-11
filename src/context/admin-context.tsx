@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {useCookies} from 'react-cookie';
 import {useNavigate, useLocation} from 'react-router';
-import toast from 'react-hot-toast';
 
 import {ContextValueType, PropsType} from '../types';
 
@@ -34,7 +33,8 @@ export const ProtectARoute = ({children}) => {
 
       // if (token) toast.error('Expire session!');
     }
-  }, [cookies, history, loading, admin]);
+  }, [cookies, loading, admin, location.pathname]);
+
   if (loading || (!admin && location.pathname !== '/admin/login')) {
     return (
       <div className="flex flex-col h-screen justify-center items-center text-primary">

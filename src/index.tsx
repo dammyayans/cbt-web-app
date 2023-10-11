@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import './index.css';
 import {CookiesProvider} from 'react-cookie';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
 import AppProviders from 'context';
 
 ReactDOM.render(

@@ -20,7 +20,8 @@ const PrivateRoute = ({children, type, ...rest}) => {
         )}
       </>
     );
-  } else if (type === 'lecturer') {
+  }
+  if (type === 'lecturer') {
     return (
       <>
         {isAuth === 'lecturer' ? (
@@ -31,7 +32,8 @@ const PrivateRoute = ({children, type, ...rest}) => {
         )}
       </>
     );
-  } else if (type === 'admin') {
+  }
+  if (type === 'admin') {
     return (
       <>
         {isAuth === 'admin' ? (
@@ -43,6 +45,7 @@ const PrivateRoute = ({children, type, ...rest}) => {
       </>
     );
   }
+  return null;
 };
 
 export default PrivateRoute;
