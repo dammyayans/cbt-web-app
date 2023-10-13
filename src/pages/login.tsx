@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import useFetch from 'use-http';

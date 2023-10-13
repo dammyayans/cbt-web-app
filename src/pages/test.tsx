@@ -87,7 +87,7 @@ const Test = () => {
       //   ) || 0,
       // );
     } else if (questionsDetails?.questions?.length) {
-      let initOVerview = questionsDetails?.questions.map((n, _) => ({
+      const initOVerview = questionsDetails?.questions.map((n, _) => ({
         no: _ + 1,
         questionId: n.id,
         type: 'default',

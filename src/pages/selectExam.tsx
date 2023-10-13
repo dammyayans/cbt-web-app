@@ -1,14 +1,16 @@
+/* eslint-disable no-nested-ternary */
 import cn from 'classnames';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import useFetch, {CachePolicies} from 'use-http';
+import toast from 'react-hot-toast';
+
 import Button from 'components/Button';
 import Layout from 'components/Layout';
 import Loader from 'components/Loader';
 import API from 'constants/api';
 import screens from 'constants/screens';
 import {useAuth} from 'context/auth-context';
-import React, {useState} from 'react';
-import toast from 'react-hot-toast';
-import {useNavigate} from 'react-router-dom';
-import useFetch, {CachePolicies} from 'use-http';
 
 const SelectExam = () => {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ const SelectExam = () => {
                 </div>
               ) : startedCourses?.length ? (
                 startedCourses.map((c, _) => (
+                  // eslint-disable-next-line react/button-has-type
                   <button
                     onClick={() => setSelected(c)}
                     key={_}

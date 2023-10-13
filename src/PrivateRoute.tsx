@@ -6,7 +6,7 @@ import {ProtectRoute} from 'context/user-context';
 import {ProtectLRoute} from 'context/lecturer-context';
 import {ProtectARoute} from 'context/admin-context';
 
-const PrivateRoute = ({children, type, ...rest}) => {
+const PrivateRoute = ({children, type}) => {
   const {isAuth} = useAuth();
   // ProtectRoute();
   if (type === 'student') {
