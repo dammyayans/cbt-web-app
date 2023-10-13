@@ -1,43 +1,43 @@
-import cn from 'classnames';
-import useFetch, {CachePolicies} from 'use-http';
-import React, {useState} from 'react';
-import {useNavigate, useParams} from 'react-router';
-import toast from 'react-hot-toast';
-import {Link} from 'react-router-dom';
+import cn from "classnames";
+import useFetch, { CachePolicies } from "use-http";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
-import AdminQuestion from 'components/AdminQuestion';
-import AnimatedContainer from 'components/AnimatedContainer';
-import Button from 'components/Button';
-import DashboardLayout from 'components/Dashboard/Layout';
-import Loader from 'components/Loader';
-import API from 'constants/api';
-import screens from 'constants/screens';
+import AdminQuestion from "components/AdminQuestion";
+import AnimatedContainer from "components/AnimatedContainer";
+import Button from "components/Button";
+import DashboardLayout from "components/Dashboard/Layout";
+import Loader from "components/Loader";
+import API from "constants/api";
+import screens from "constants/screens";
 
 const CourseDetails = () => {
   const [openTab, setOpenTab] = useState(1);
   // const [showModal, setShowModal] = useState(false);
   // const [status, setStatus] = useState('');
-  const [startStatus, setStartStatus] = useState('');
+  const [startStatus, setStartStatus] = useState("");
   const params = useParams();
   const {
     data,
     loading,
     get: getCA,
   } = useFetch(
-    API.adminCourseDetails(params.id, 'ca'),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    API.adminCourseDetails(params.id, "ca"),
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
-  const {data: data2, get: getExam} = useFetch(
-    API.adminCourseDetails(params.id, 'exam'),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+  const { data: data2, get: getExam } = useFetch(
+    API.adminCourseDetails(params.id, "exam"),
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
   // const {post: postStatus, loading: pLoading} = useFetch(
   //   API.adminCourseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
   // );
-  const {post: postStartCourse, loading: sLoading} = useFetch(
-    API.adminStartCourse(params.id),
+  const { post: postStartCourse, loading: sLoading } = useFetch(
+    API.adminStartCourse(params.id)
   );
   const navigate = useNavigate();
 
@@ -65,8 +65,8 @@ const CourseDetails = () => {
       const res = await postStartCourse(`start?type=${status}`, {
         isStarted: start,
       });
-      if (res?.status.toLowerCase() === 'success') {
-        status === 'ca' ? getCA() : getExam();
+      if (res?.status.toLowerCase() === "success") {
+        status === "ca" ? getCA() : getExam();
       }
     } catch (e) {
       toast.error(String(e));
@@ -96,7 +96,8 @@ const CourseDetails = () => {
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
           <span
             onClick={() => navigate(-1)}
-            className="pt-8 text-lg text-primary cursor-pointer">
+            className="pt-8 text-lg text-primary cursor-pointer"
+          >
             Go back
           </span>
           <h3 className="font-bold text-3xl mt-3">{course?.courseTitle}</h3>
@@ -106,7 +107,7 @@ const CourseDetails = () => {
                 <p className="text-xl mb-2">
                   <Link className="text-primary" to={screens.adminCourses}>
                     Courses
-                  </Link>{' '}
+                  </Link>{" "}
                   / {course?.courseCode}
                 </p>
 
@@ -123,12 +124,13 @@ const CourseDetails = () => {
                   <Button
                     hoverStyle={false}
                     type="button"
-                    loading={startStatus === 'exam' && sLoading}
+                    loading={startStatus === "exam" && sLoading}
                     className="px-2 mr-2 bg-lightblue border-0 text-blackk"
                     onClick={() =>
-                      handleStartStatus('exam', !examQuestions[0]?.isStarted)
-                    }>
-                    {examQuestions[0]?.isStarted ? 'Hide' : 'Show'} Exam
+                      handleStartStatus("exam", !examQuestions[0]?.isStarted)
+                    }
+                  >
+                    {examQuestions[0]?.isStarted ? "Hide" : "Show"} Exam
                   </Button>
                 ) : null
 
@@ -139,12 +141,13 @@ const CourseDetails = () => {
                 <Button
                   hoverStyle={false}
                   type="button"
-                  loading={startStatus === 'ca' && sLoading}
+                  loading={startStatus === "ca" && sLoading}
                   className="px-2"
                   onClick={() =>
-                    handleStartStatus('ca', !caQuestions[0]?.isStarted)
-                  }>
-                  {caQuestions[0]?.isStarted ? 'Hide' : 'Show'} CA
+                    handleStartStatus("ca", !caQuestions[0]?.isStarted)
+                  }
+                >
+                  {caQuestions[0]?.isStarted ? "Hide" : "Show"} CA
                 </Button>
               ) : null}
             </div>
@@ -154,17 +157,19 @@ const CourseDetails = () => {
             <button
               onClick={() => setOpenTab(1)}
               type="button"
-              className={cn('py-4 px-14 mr-2 text-sm', {
-                'bg-white border-b-[3px] border-b-primary': openTab === 1,
-              })}>
+              className={cn("py-4 px-14 mr-2 text-sm", {
+                "bg-white border-b-[3px] border-b-primary": openTab === 1,
+              })}
+            >
               CA
             </button>
             <button
               onClick={() => setOpenTab(2)}
               type="button"
-              className={cn('py-4 px-14 text-sm', {
-                'bg-white border-b-[3px] border-b-primary': openTab === 2,
-              })}>
+              className={cn("py-4 px-14 text-sm", {
+                "bg-white border-b-[3px] border-b-primary": openTab === 2,
+              })}
+            >
               Exam
             </button>
           </div>
@@ -230,8 +235,9 @@ const CourseDetails = () => {
             <div>
               <div
                 className={cn(
-                  'bg-white rounded-b-[15px] p-7 mb-4 transition-opacity',
-                )}>
+                  "bg-white rounded-b-[15px] p-7 mb-4 transition-opacity"
+                )}
+              >
                 {examQuestions?.length ? (
                   <div>
                     {/* <p className="text-lg text-right">

@@ -21,10 +21,9 @@ export const AdminContext = createContext<
     setAdmin: React.Dispatch<React.SetStateAction<null>>;
   }
 >({ setAdmin: () => null, admin: {} });
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAdmin = () => useContext(AdminContext);
 
-export const ProtectARoute = ({ children }: PropsType) => {
+export const ProtectARoute = ({ children }: any) => {
   const { admin, loading } = useAdmin();
   const navigate = useNavigate();
   const location = useLocation();

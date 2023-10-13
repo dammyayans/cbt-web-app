@@ -1,8 +1,7 @@
-import React from 'react';
-import AnimatedContainer from '../AnimatedContainer';
-import sideBanner from 'assets/images/side-banner.png';
-import logo from 'assets/images/unilorin-logo.png';
-const Layout = ({children}) => {
+import AnimatedContainer from "../AnimatedContainer";
+import sideBanner from "assets/images/side-banner.png";
+import logo from "assets/images/unilorin-logo.png";
+const Layout = ({ children }) => {
   return (
     <AnimatedContainer>
       <div className="min-h-screen h-full mr-4 md:mr-8">

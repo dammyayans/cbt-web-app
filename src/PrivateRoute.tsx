@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-
 import { useAuth } from "context/auth-context";
 import { ProtectRoute } from "context/user-context";
 import { ProtectLRoute } from "context/lecturer-context";
@@ -16,7 +15,6 @@ const PrivateRoute: React.FC<{ children?: React.ReactNode; type: string }> = ({
     return (
       <>
         {isAuth === "student" ? (
-          // children
           <ProtectRoute>{children}</ProtectRoute>
         ) : (
           <Navigate to="/login" />

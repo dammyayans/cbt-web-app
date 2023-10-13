@@ -1,5 +1,4 @@
-import DashboardLayout from 'components/Dashboard/Layout';
-import React from 'react';
+import DashboardLayout from "components/Dashboard/Layout";
 
 const DashboardHome = () => {
   return <DashboardLayout type="lec">home</DashboardLayout>;

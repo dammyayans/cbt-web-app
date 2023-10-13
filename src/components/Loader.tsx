@@ -1,12 +1,11 @@
-import classNames from 'classnames';
-import React from 'react';
+import classNames from "classnames";
 
-const Loader = ({className = ''}) => {
+const Loader = ({ className = "" }) => {
   return (
     <div
-      style={{borderTopColor: 'transparent'}}
+      style={{ borderTopColor: "transparent" }}
       className={classNames(
-        `w-5 ml-5 h-5 border-2 rotate  border-solid rounded-full animate-spin ${className}`,
+        `w-5 ml-5 h-5 border-2 rotate  border-solid rounded-full animate-spin ${className}`
       )}
     />
   );

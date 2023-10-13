@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   createContext,
   useState,
@@ -24,10 +23,9 @@ export const LecturerContext = createContext<
     setLecturer: React.Dispatch<React.SetStateAction<null>>;
   }
 >({ setLecturer: () => null });
-// eslint-disable-next-line react-refresh/only-export-components
 export const useLecturer = () => useContext(LecturerContext);
 
-export const ProtectLRoute = ({ children }: PropsType) => {
+export const ProtectLRoute = ({ children }: any) => {
   const { lecturer, loading } = useLecturer();
   const navigate = useNavigate();
   const location = useLocation();

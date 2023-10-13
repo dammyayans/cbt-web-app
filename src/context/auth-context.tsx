@@ -5,23 +5,12 @@ import { ContextValueType, PropsType } from "../types";
 
 import isJwtExpired from "constants/isJwtExpired";
 
-export const AuthContext = createContext<
-  ContextValueType & {
-    authenticate: (
-      token: string,
-      type: string,
-      details?: Record<string, unknown>
-    ) => void;
-    studentSignOut: () => void;
-    signOut: (type: string) => void;
-  }
->({
+export const AuthContext = createContext<ContextValueType & any>({
   authenticate: () => null,
   studentSignOut: () => null,
   signOut: () => null,
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<PropsType> = ({ children }) => {
@@ -117,7 +106,6 @@ export const AuthProvider: React.FC<PropsType> = ({ children }) => {
 //       router.replace(router.route, '/login', {shallow: true});
 //       toast.error('Expire session!');
 //     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, [isAuthenticated, isLoading]);
 
 //   if (

@@ -16,12 +16,15 @@ import isJwtExpired from "constants/isJwtExpired";
 // import API from 'constants/api';
 // import screens from 'constants/screens';
 
-export const UserContext = createContext<ContextValueType & { user: any }>({
+export const UserContext = createContext<
+  ContextValueType & { user: any; setUser: any }
+>({
   user: {},
+  setUser: () => null,
 });
 export const useUser = () => useContext(UserContext);
 
-export const ProtectRoute = ({ children }: PropsType) => {
+export const ProtectRoute = ({ children }: any) => {
   const { user, loading } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,7 +39,6 @@ export const ProtectRoute = ({ children }: PropsType) => {
       // const { token } = cookies;
       // if (token) toast.error('Expire session!');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies, history, loading, user, location.pathname]);
 
   // if (loading || (!user && window.location.pathname !== '/login')) {
