@@ -1,17 +1,17 @@
-import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const loginSchema = yup.object().shape({
-  matric: yup.string().required('Please enter your matric number'),
+  matric: yup.string().required("Please enter your matric number"),
   password: yup
     .string()
-    .required('Please enter your password')
-    .matches(/(?=.{3,})/, 'Must contain 3 characters'),
+    .required("Please enter your password")
+    .matches(/(?=.{3,})/, "Must contain 3 characters"),
 });
 
 const loginLSchema = yup.object().shape({
-  email: yup.string().email().required('Please enter your Email'),
-  password: yup.string().required('Please enter your password'),
+  email: yup.string().email().required("Please enter your Email"),
+  password: yup.string().required("Please enter your password"),
   // .matches(
   //   // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
   //   /(?=.{3,})/,
@@ -20,13 +20,13 @@ const loginLSchema = yup.object().shape({
 });
 
 const loginASchema = yup.object().shape({
-  username: yup.string().required('Please Enter your username'),
+  username: yup.string().required("Please Enter your username"),
   password: yup
     .string()
-    .required('Please Enter your password')
+    .required("Please Enter your password")
     .matches(
       /^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{8,}$/,
-      'Must Contain 8 Characters and One Number',
+      "Must Contain 8 Characters and One Number"
     ),
 });
 
@@ -90,115 +90,115 @@ const loginASchema = yup.object().shape({
 
 const addLecturerSchema = yupResolver(
   yup.object().shape({
-    email: yup.string().email().required('Please Enter their Email'),
+    email: yup.string().email().required("Please Enter their Email"),
     phoneNumber: yup
       .string()
-      .required('Phone number is required')
-      .typeError('Please Enter a Number')
+      .required("Phone number is required")
+      .typeError("Please Enter a Number")
       .matches(
         /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
-        'Enter a valid phone number',
+        "Enter a valid phone number"
       )
-      .min(10, 'Phone number must be at least 10 characters')
-      .max(15, 'Phone number must be at most 15 characters'),
+      .min(10, "Phone number must be at least 10 characters")
+      .max(15, "Phone number must be at most 15 characters"),
     firstName: yup
       .string()
-      .required('Please Enter their First Name')
-      .min(3, 'First name must be at least 3 characters'),
+      .required("Please Enter their First Name")
+      .min(3, "First name must be at least 3 characters"),
     lastName: yup
       .string()
-      .required('Please Enter their Last Name')
-      .typeError('Please Enter their Last Name')
-      .min(3, 'Last name must be at least 3 characters'),
+      .required("Please Enter their Last Name")
+      .typeError("Please Enter their Last Name")
+      .min(3, "Last name must be at least 3 characters"),
     faculty: yup
       .string()
-      .required('Please Select a faculty')
-      .typeError('Please Select a faculty'),
+      .required("Please Select a faculty")
+      .typeError("Please Select a faculty"),
     department: yup
       .string()
-      .required('Please Select a department')
-      .typeError('Please Select a department'),
-  }),
+      .required("Please Select a department")
+      .typeError("Please Select a department"),
+  })
 );
 const addCourseSchema = yupResolver(
   yup.object().shape({
     courseCode: yup
       .string()
-      .required('Please Enter a Course Code')
-      .min(3, 'First name must be at least 3 characters'),
+      .required("Please Enter a Course Code")
+      .min(3, "First name must be at least 3 characters"),
     courseTitle: yup
       .string()
-      .required('Please Enter a Course Title')
-      .typeError('Please Enter  Course Title')
-      .min(3, 'Last name must be at least 3 characters'),
+      .required("Please Enter a Course Title")
+      .typeError("Please Enter  Course Title")
+      .min(3, "Last name must be at least 3 characters"),
     unit: yup
       .string()
-      .required('Please Enter the Course Unit')
-      .typeError('Please Enter the Course Unit'),
+      .required("Please Enter the Course Unit")
+      .typeError("Please Enter the Course Unit"),
     lecturerID: yup
       .string()
-      .required('Please Select a Lecturer')
-      .typeError('Please Select a Lecturer'),
-  }),
+      .required("Please Select a Lecturer")
+      .typeError("Please Select a Lecturer"),
+  })
 );
 const addStudentSchema = yupResolver(
   yup.object().shape({
-    email: yup.string().email().required('Please Enter their Email'),
+    email: yup.string().email().required("Please Enter their Email"),
     phoneNumber: yup
       .string()
-      .required('Phone number is required')
-      .typeError('Please Enter a Number')
+      .required("Phone number is required")
+      .typeError("Please Enter a Number")
       .matches(
         /(^.{10,15}$)|(^[0]\d{10}$)|(^[+]?[234]\d{12}$)/,
-        'Enter a valid phone number',
+        "Enter a valid phone number"
       )
-      .min(10, 'Phone number must be at least 10 characters')
-      .max(15, 'Phone number must be at most 15 characters'),
+      .min(10, "Phone number must be at least 10 characters")
+      .max(15, "Phone number must be at most 15 characters"),
     firstName: yup
       .string()
-      .required('Please Enter their First Name')
-      .min(3, 'First name must be at least 3 characters'),
+      .required("Please Enter their First Name")
+      .min(3, "First name must be at least 3 characters"),
     lastName: yup
       .string()
-      .required('Please Enter their Last Name')
-      .typeError('Please Enter their Last Name')
-      .min(3, 'Last name must be at least 3 characters'),
+      .required("Please Enter their Last Name")
+      .typeError("Please Enter their Last Name")
+      .min(3, "Last name must be at least 3 characters"),
     faculty: yup
       .string()
-      .required('Please Select a faculty')
-      .typeError('Please Select a faculty'),
+      .required("Please Select a faculty")
+      .typeError("Please Select a faculty"),
     department: yup
       .string()
-      .required('Please Select a department')
-      .typeError('Please Select a department'),
+      .required("Please Select a department")
+      .typeError("Please Select a department"),
     level: yup
       .string()
-      .required('Please Select a level')
-      .typeError('Please Select a level'),
+      .required("Please Select a level")
+      .typeError("Please Select a level"),
     matric: yup
       .string()
-      .required('Please Enter their Matric Number')
-      .typeError('Please Enter their Matric Number')
-      .min(3, 'Last name must be at least 3 characters'),
-  }),
+      .required("Please Enter their Matric Number")
+      .typeError("Please Enter their Matric Number")
+      .min(3, "Last name must be at least 3 characters"),
+  })
 );
 
 const changeLPassword = yup.object().shape({
   oldPassword: yup
     .string()
-    .min(8, 'Old Password must be at least 8 characters')
-    .required('Old Password is required')
-    .matches(/^(?=.{8,})/, 'Must contain 8 characters'),
+    .min(8, "Old Password must be at least 8 characters")
+    .required("Old Password is required")
+    .matches(/^(?=.{8,})/, "Must contain 8 characters"),
   password: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Password is required')
-    .typeError('Password is required')
-    .matches(/^(?=.{8,})/, 'Must contain 8 characters'),
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required")
+    .typeError("Password is required")
+    .matches(/^(?=.{8,})/, "Must contain 8 characters"),
   confirmPassword: yup
     .string()
-    .required('Please confirm password')
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    .required("Please confirm password")
+    .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
 const addQuestionSchema = yupResolver(
@@ -211,23 +211,23 @@ const addQuestionSchema = yupResolver(
     // .typeError('Please Select a file'),
     duration: yup
       .string()
-      .required('Please enter a duration')
-      .typeError('Please enter a valid duration')
-      .matches(/^[0-9]*$/, 'Must be a valid duration'),
+      .required("Please enter a duration")
+      .typeError("Please enter a valid duration")
+      .matches(/^[0-9]*$/, "Must be a valid duration"),
     amount: yup
       .string()
       .required(
-        'Please enter the amount of questions to be answered by students',
+        "Please enter the amount of questions to be answered by students"
       )
       .typeError(
-        'Please enter the amount of questions to be answered by students',
+        "Please enter the amount of questions to be answered by students"
       )
-      .matches(/^[0-9]*$/, 'Must be a number'),
+      .matches(/^[0-9]*$/, "Must be a number"),
     type: yup
       .string()
-      .required('Please sselect question type')
-      .typeError('Please select question type'),
-  }),
+      .required("Please sselect question type")
+      .typeError("Please select question type"),
+  })
 );
 
 const enrollmentSchema = yupResolver(
@@ -242,13 +242,13 @@ const enrollmentSchema = yupResolver(
     //     .string()
     //     .required('Please select a course')
     //     .typeError('Please select a course'),
-  }),
+  })
 );
 
 const addImageSchema = yupResolver(
   yup.object().shape({
-    title: yup.string().required('Please an image title'),
-  }),
+    title: yup.string().required("Please an image title"),
+  })
 );
 
 const validation = {

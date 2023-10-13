@@ -1,85 +1,108 @@
-import React, {createContext, useContext, useState} from 'react';
-import {Cookies, useCookies} from 'react-cookie';
+import React, { createContext, useContext, useState } from "react";
+import { Cookies, useCookies } from "react-cookie";
 
-import {ContextValueType, PropsType} from '../types';
+import { ContextValueType, PropsType } from "../types";
 
-import isJwtExpired from 'constants/isJwtExpired';
+import isJwtExpired from "constants/isJwtExpired";
 
-export const AuthContext = createContext<ContextValueType>({});
+export const AuthContext = createContext<
+  ContextValueType & {
+    authenticate: (
+      token: string,
+      type: string,
+      details?: Record<string, unknown>
+    ) => void;
+    studentSignOut: () => void;
+    signOut: (type: string) => void;
+  }
+>({
+  authenticate: () => null,
+  studentSignOut: () => null,
+  signOut: () => null,
+});
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC = ({children}: PropsType) => {
+export const AuthProvider: React.FC<PropsType> = ({ children }) => {
   const [, setCookies, removeCookies] = useCookies([
-    'token',
-    'type',
-    'adminDetails',
-    'lecturerDetails',
-    'studentDetails',
+    "token",
+    "type",
+    "adminDetails",
+    "lecturerDetails",
+    "studentDetails",
   ]);
   const [isAuth, setIsAuth] = useState(() => {
     const cookies = new Cookies();
-    const token = cookies.get('token');
-    const type = cookies.get('type');
-    return !isJwtExpired(token) ? type : '';
+    const token = cookies.get("token");
+    const type = cookies.get("type");
+    return !isJwtExpired(token) ? type : "";
   });
 
-  const login = type => {
+  const login = (type: string) => {
     setIsAuth(type);
-    setCookies('type', type);
+    setCookies("type", type);
     // setTimeout(cb, 100); // fake async
   };
 
-  const signOut = type => {
+  const signOut = (type: string) => {
     try {
-      removeCookies('token');
-      removeCookies('type');
-      if (type === 'admin') removeCookies('adminDetails');
-      if (type === 'lecturer') removeCookies('lecturerDetails');
-      if (type === 'student') removeCookies('studentDetails');
-      setIsAuth('');
+      removeCookies("token");
+      removeCookies("type");
+      if (type === "admin") removeCookies("adminDetails");
+      if (type === "lecturer") removeCookies("lecturerDetails");
+      if (type === "student") removeCookies("studentDetails");
+      setIsAuth("");
       // setTimeout(cb, 100); // fake async
     } catch (e) {
-      console.log({object: e});
+      console.log({ object: e });
     }
   };
 
   const studentSignOut = () => {
     try {
-      removeCookies('studentDetails');
-      removeCookies('type');
-      removeCookies('token');
-      setIsAuth('');
+      removeCookies("studentDetails");
+      removeCookies("type");
+      removeCookies("token");
+      setIsAuth("");
     } catch (e) {
-      console.log({object: e});
+      console.log({ object: e });
     }
   };
 
   const authenticate = async (
     token: string,
     type: string,
-    details?: Record<string, unknown>,
+    details?: Record<string, unknown>
   ) => {
     try {
       // console.log('authenticating', token);
-      setCookies('token', token);
-      setCookies('type', type);
-      if (type === 'admin') setCookies('adminDetails', details);
-      if (type === 'lecturer') setCookies('lecturerDetails', details);
-      if (type === 'student') setCookies('studentDetails', details);
+      setCookies("token", token);
+      setCookies("type", type);
+      if (type === "admin") setCookies("adminDetails", details);
+      if (type === "lecturer") setCookies("lecturerDetails", details);
+      if (type === "student") setCookies("studentDetails", details);
       setIsAuth(type);
-      return Promise.resolve('');
+      return Promise.resolve("");
     } catch (error) {
       // console.log({error});
-      removeCookies('token');
-      removeCookies('type');
+      removeCookies("token");
+      removeCookies("type");
       return null;
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{isAuth, setIsAuth, login, signOut, studentSignOut, authenticate}}>
+      value={{
+        isAuth,
+        setIsAuth,
+        login,
+        signOut,
+        studentSignOut,
+        authenticate,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

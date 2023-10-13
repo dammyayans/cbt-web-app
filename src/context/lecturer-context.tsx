@@ -1,41 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   createContext,
   useState,
   useContext,
   useEffect,
   useCallback,
-} from 'react';
-import {useCookies} from 'react-cookie';
-import {useNavigate, useLocation} from 'react-router';
-import toast from 'react-hot-toast';
+} from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate, useLocation } from "react-router";
+import toast from "react-hot-toast";
 
-import {ContextValueType, PropsType} from '../types';
-import isJwtExpired from 'constants/isJwtExpired';
+import { ContextValueType, PropsType } from "../types";
+import isJwtExpired from "constants/isJwtExpired";
 
 // import isJwtExpired from 'constants/isJwtExpired';
 // import API from 'constants/api';
 // import screens from 'constants/screens';
 
-export const LecturerContext = createContext<ContextValueType>({});
+export const LecturerContext = createContext<
+  ContextValueType & {
+    lecturer?: any;
+    setLecturer: React.Dispatch<React.SetStateAction<null>>;
+  }
+>({ setLecturer: () => null });
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLecturer = () => useContext(LecturerContext);
 
-export const ProtectLRoute = ({children}) => {
-  const {lecturer, loading} = useLecturer();
+export const ProtectLRoute = ({ children }: PropsType) => {
+  const { lecturer, loading } = useLecturer();
   const navigate = useNavigate();
   const location = useLocation();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
     if (!loading && !lecturer) {
       //
-      if (location.pathname !== '/lecturer/login') {
-        navigate('/lecturer/login');
+      if (location.pathname !== "/lecturer/login") {
+        navigate("/lecturer/login");
       }
-      const {token} = cookies;
+      const { token } = cookies;
 
-      if (token) toast.error('Expire session!');
+      if (token) toast.error("Expire session!");
     }
-  }, [cookies, history, loading, lecturer]);
+  }, [cookies, history, loading, lecturer, location.pathname]);
 
   // if (loading || (!lecturer && window.location.pathname !== '/login')) {
   // if (loading || (!lecturer && location.pathname !== '/lecturer/login')) {
@@ -52,23 +60,23 @@ export const ProtectLRoute = ({children}) => {
   return children;
 };
 
-export const LecturerProvider: React.FC = ({children}: PropsType) => {
+export const LecturerProvider: React.FC<PropsType> = ({ children }) => {
   const [lecturer, setLecturer] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [cookies, , removeCookies] = useCookies(['token', 'lecturerDetails']);
+  const [cookies, , removeCookies] = useCookies(["token", "lecturerDetails"]);
   // const {get: getAdminProfile} = useFetch(API.adminProfile);
 
   const loadAdminFromCookies = useCallback(async () => {
-    const {token, lecturerDetails} = cookies;
+    const { token, lecturerDetails } = cookies;
     if (!isJwtExpired(token) && lecturerDetails) {
       try {
         setLoading(true);
 
         setLecturer(lecturerDetails);
       } catch (error) {
-        removeCookies('token');
-        removeCookies('lecturerDetails');
+        removeCookies("token");
+        removeCookies("lecturerDetails");
         setLecturer(null);
       } finally {
         setLoading(false);
@@ -90,7 +98,8 @@ export const LecturerProvider: React.FC = ({children}: PropsType) => {
         lecturer,
         setLecturer,
         // loadLecturerFromCookies,
-      }}>
+      }}
+    >
       {children}
     </LecturerContext.Provider>
   );
