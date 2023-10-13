@@ -1,51 +1,51 @@
-/* eslint-disable camelcase */
-import {useState} from 'react';
-import useFetch, {CachePolicies} from 'use-http';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
+import useFetch, { CachePolicies } from "use-http";
 // import {useForm} from 'react-hook-form';
 // import validation from 'constants/validation';
-import Table from 'react-tailwind-table';
-import toast from 'react-hot-toast';
-import {useParams, useNavigate} from 'react-router';
-import {Link} from 'react-router-dom';
+import Table from "react-tailwind-table";
+import toast from "react-hot-toast";
+import { useParams, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 // import screens from 'constants/screens';
-import AnimatedContainer from 'components/AnimatedContainer';
-import Button from 'components/Button';
-import DashboardLayout from 'components/Dashboard/Layout';
-import tableStyling from 'constants/tableStyling';
-import Loader from 'components/Loader';
-import API from 'constants/api';
-import screens from 'constants/screens';
-import ConfirmModal from 'components/SmallModal';
+import AnimatedContainer from "components/AnimatedContainer";
+import Button from "components/Button";
+import DashboardLayout from "components/Dashboard/Layout";
+import tableStyling from "constants/tableStyling";
+import Loader from "components/Loader";
+import API from "constants/api";
+import screens from "constants/screens";
+import ConfirmModal from "components/SmallModal";
 
 const col = [
   {
-    field: 'student.matric',
-    use: 'Matric No',
+    field: "student.matric",
+    use: "Matric No",
   },
   {
-    field: 'student.firstName',
-    use: 'First Name',
+    field: "student.firstName",
+    use: "First Name",
   },
   {
-    field: 'student.lastName',
-    use: 'Last Name',
+    field: "student.lastName",
+    use: "Last Name",
   },
   {
-    field: 'ca',
-    use: 'CA',
+    field: "ca",
+    use: "CA",
   },
   {
-    field: 'exam',
-    use: 'Exam',
+    field: "exam",
+    use: "Exam",
   },
   {
-    field: 'total',
-    use: 'Total',
+    field: "total",
+    use: "Total",
   },
   {
-    field: 'grade',
-    use: 'Grade',
+    field: "grade",
+    use: "Grade",
   },
 ];
 
@@ -53,19 +53,19 @@ const Results = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
-  const {data, loading: gLoading} = useFetch(
+  const { data, loading: gLoading } = useFetch(
     API.getResults(params.id),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
-  const {post: releaseResult, loading: rLoading} = useFetch(
-    API.releaseCourseResult(params.id),
+  const { post: releaseResult, loading: rLoading } = useFetch(
+    API.releaseCourseResult(params.id)
   );
 
   const onRelease = async () => {
     try {
       const res = await releaseResult(data);
-      if (res?.status.toLowerCase() === 'success') {
+      if (res?.status.toLowerCase() === "success") {
         setShowModal(false);
         navigate(screens.adminResults);
       }
@@ -74,8 +74,12 @@ const Results = () => {
     }
   };
 
-  const rowcheck = (_, column, display_value) => {
-    if (column.field === 'grade') {
+  const rowcheck = (
+    _: any,
+    column: { field: string },
+    display_value: string
+  ) => {
+    if (column.field === "grade") {
       return display_value?.toUpperCase();
     }
 
@@ -96,7 +100,8 @@ const Results = () => {
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
         <span
           onClick={() => navigate(-1)}
-          className="pt-8 text-lg text-primary cursor-pointer">
+          className="pt-8 text-lg text-primary cursor-pointer"
+        >
           Go back
         </span>
         <h3 className="font-bold text-3xl mt-3">Results</h3>
@@ -110,7 +115,7 @@ const Results = () => {
               <p>
                 <Link className="text-primary" to={screens.adminCourses}>
                   Courses
-                </Link>{' '}
+                </Link>{" "}
                 / {params?.courseTitle} - {params?.courseCode}
               </p>
             </div>

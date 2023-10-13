@@ -1,19 +1,19 @@
-import cn from 'classnames';
-import React, {useState} from 'react';
-import {useNavigate, useParams} from 'react-router';
-import useFetch, {CachePolicies} from 'use-http';
-import toast from 'react-hot-toast';
-import {Link} from 'react-router-dom';
+import cn from "classnames";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import useFetch, { CachePolicies } from "use-http";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
-import AdminQuestion from 'components/AdminQuestion';
-import AnimatedContainer from 'components/AnimatedContainer';
-import Button from 'components/Button';
-import DashboardLayout from 'components/Dashboard/Layout';
-import Loader from 'components/Loader';
-import API from 'constants/api';
+import AdminQuestion from "components/AdminQuestion";
+import AnimatedContainer from "components/AnimatedContainer";
+import Button from "components/Button";
+import DashboardLayout from "components/Dashboard/Layout";
+import Loader from "components/Loader";
+import API from "constants/api";
 // import questions from 'constants/Questions';
-import ConfirmModal from 'components/SmallModal';
-import screens from 'constants/screens';
+import ConfirmModal from "components/SmallModal";
+import screens from "constants/screens";
 
 const CourseDetailsL = () => {
   const navigate = useNavigate();
@@ -25,17 +25,17 @@ const CourseDetailsL = () => {
     loading,
     get: getCA,
   } = useFetch(
-    API.courseDetails(params.id, 'ca'),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    API.courseDetails(params.id, "ca"),
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
-  const {data: data2, get: getExam} = useFetch(
-    API.courseDetails(params.id, 'exam'),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+  const { data: data2, get: getExam } = useFetch(
+    API.courseDetails(params.id, "exam"),
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
-  const {delete: deleteQuestions, loading: delLoading} = useFetch(
-    API.courseDetails(params.id, openTab === 1 ? 'ca' : 'exam'),
+  const { delete: deleteQuestions, loading: delLoading } = useFetch(
+    API.courseDetails(params.id, openTab === 1 ? "ca" : "exam")
   );
 
   const course = data?.data.course;
@@ -45,8 +45,7 @@ const CourseDetailsL = () => {
   const onDelete = async () => {
     try {
       const res = await deleteQuestions();
-      if (res?.status.toLowerCase() === 'success') {
-        // eslint-disable-next-line no-unused-expressions
+      if (res?.status.toLowerCase() === "success") {
         openTab === 1 ? getCA() : getExam();
         setShowModal(false);
       }
@@ -78,7 +77,8 @@ const CourseDetailsL = () => {
         <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
           <span
             onClick={() => navigate(-1)}
-            className="pt-8 text-lg text-primary cursor-pointer">
+            className="pt-8 text-lg text-primary cursor-pointer"
+          >
             Go back
           </span>
           <h3 className="font-bold text-3xl mt-3">{course?.courseTitle}</h3>
@@ -86,10 +86,10 @@ const CourseDetailsL = () => {
             <div className="flex-auto w-2/3">
               <div className="relative">
                 <p className="text-xl mb-2">
-                  {' '}
+                  {" "}
                   <Link className="text-primary" to={screens.lecturerCourses}>
                     Courses
-                  </Link>{' '}
+                  </Link>{" "}
                   / {course?.courseCode}
                 </p>
 
@@ -114,17 +114,19 @@ const CourseDetailsL = () => {
             <button
               type="button"
               onClick={() => setOpenTab(1)}
-              className={cn('py-2 px-8 mr-2 text-sm', {
-                'bg-white border-b-[3px] border-b-primary': openTab === 1,
-              })}>
+              className={cn("py-2 px-8 mr-2 text-sm", {
+                "bg-white border-b-[3px] border-b-primary": openTab === 1,
+              })}
+            >
               CA
             </button>
             <button
               type="button"
               onClick={() => setOpenTab(2)}
-              className={cn('py-2 px-8 text-sm', {
-                'bg-white border-b-[3px] border-b-primary': openTab === 2,
-              })}>
+              className={cn("py-2 px-8 text-sm", {
+                "bg-white border-b-[3px] border-b-primary": openTab === 2,
+              })}
+            >
               Exam
             </button>
           </div>
@@ -147,13 +149,18 @@ const CourseDetailsL = () => {
                         {caQuestions[0].approvalStatus}
                       </span>
                     </p> */}
-                    {caQuestions.map((q, ind) => (
-                      <AdminQuestion
-                        key={q.questionID}
-                        details={q}
-                        sn={ind + 1}
-                      />
-                    ))}
+                    {caQuestions.map(
+                      (
+                        q: { questionID: React.Key | null | undefined },
+                        ind: number
+                      ) => (
+                        <AdminQuestion
+                          key={q.questionID}
+                          details={q}
+                          sn={ind + 1}
+                        />
+                      )
+                    )}
                   </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
@@ -164,7 +171,8 @@ const CourseDetailsL = () => {
                       type="button"
                       className="mr-2 px-2 bg-danger border-0"
                       hoverStyle={false}
-                      onClick={() => setShowModal(true)}>
+                      onClick={() => setShowModal(true)}
+                    >
                       Delete Questions
                     </Button>
                   ) : null}
@@ -175,8 +183,9 @@ const CourseDetailsL = () => {
             <div>
               <div
                 className={cn(
-                  'bg-white rounded-b-[15px] p-7 mb-4 transition-opacity',
-                )}>
+                  "bg-white rounded-b-[15px] p-7 mb-4 transition-opacity"
+                )}
+              >
                 {examQuestions?.length ? (
                   <div>
                     {/* <p className="text-lg text-right">
@@ -193,13 +202,18 @@ const CourseDetailsL = () => {
                         {examQuestions[0].approvalStatus}
                       </span>
                     </p> */}
-                    {examQuestions.map((q, ind) => (
-                      <AdminQuestion
-                        key={q.questionID}
-                        details={q}
-                        sn={ind + 1}
-                      />
-                    ))}
+                    {examQuestions.map(
+                      (
+                        q: { questionID: React.Key | null | undefined },
+                        ind: number
+                      ) => (
+                        <AdminQuestion
+                          key={q.questionID}
+                          details={q}
+                          sn={ind + 1}
+                        />
+                      )
+                    )}
                   </div>
                 ) : (
                   <p className="text-center">No Question Found</p>
@@ -210,7 +224,8 @@ const CourseDetailsL = () => {
                       type="button"
                       className="mr-2 px-2 bg-danger border-0"
                       hoverStyle={false}
-                      onClick={() => setShowModal(true)}>
+                      onClick={() => setShowModal(true)}
+                    >
                       Delete Questions
                     </Button>
                   ) : null}

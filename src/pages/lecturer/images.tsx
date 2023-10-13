@@ -1,4 +1,3 @@
-/* eslint-disable import/order */
 import React, {useState} from 'react';
 import AnimatedContainer from 'components/AnimatedContainer';
 import Button from 'components/Button';
@@ -40,11 +39,11 @@ function truncate(str, n) {
   return str.length > n ? str.slice(0, n - 1) + '...' : str;
 }
 function copy(text) {
-  var input = document.createElement('input');
+  const input = document.createElement('input');
   input.setAttribute('value', text);
   document.body.appendChild(input);
   input.select();
-  var result = document.execCommand('copy');
+  const result = document.execCommand('copy');
   document.body.removeChild(input);
   toast.success('Copied successfully');
   return result;

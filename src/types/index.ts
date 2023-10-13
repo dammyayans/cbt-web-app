@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export type PropsType = {
   children?: React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 };
-export type ContextValueType = {[key: string]: any};
+export type ContextValueType = { [key: string]: unknown };
 
-export type AuthScreenParams = {[key: string]: any};
+export type AuthScreenParams = { [key: string]: unknown };

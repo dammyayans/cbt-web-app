@@ -1,18 +1,21 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import {Navigate} from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
-import {useAuth} from 'context/auth-context';
-import {ProtectRoute} from 'context/user-context';
-import {ProtectLRoute} from 'context/lecturer-context';
-import {ProtectARoute} from 'context/admin-context';
+import { useAuth } from "context/auth-context";
+import { ProtectRoute } from "context/user-context";
+import { ProtectLRoute } from "context/lecturer-context";
+import { ProtectARoute } from "context/admin-context";
+import React from "react";
 
-const PrivateRoute = ({children, type, ...rest}) => {
-  const {isAuth} = useAuth();
+const PrivateRoute: React.FC<{ children?: React.ReactNode; type: string }> = ({
+  children,
+  type,
+}) => {
+  const { isAuth } = useAuth();
   // ProtectRoute();
-  if (type === 'student') {
+  if (type === "student") {
     return (
       <>
-        {isAuth === 'student' ? (
+        {isAuth === "student" ? (
           // children
           <ProtectRoute>{children}</ProtectRoute>
         ) : (
@@ -21,10 +24,10 @@ const PrivateRoute = ({children, type, ...rest}) => {
       </>
     );
   }
-  if (type === 'lecturer') {
+  if (type === "lecturer") {
     return (
       <>
-        {isAuth === 'lecturer' ? (
+        {isAuth === "lecturer" ? (
           // children
           <ProtectLRoute>{children}</ProtectLRoute>
         ) : (
@@ -33,10 +36,10 @@ const PrivateRoute = ({children, type, ...rest}) => {
       </>
     );
   }
-  if (type === 'admin') {
+  if (type === "admin") {
     return (
       <>
-        {isAuth === 'admin' ? (
+        {isAuth === "admin" ? (
           // children
           <ProtectARoute>{children}</ProtectARoute>
         ) : (

@@ -1,56 +1,56 @@
-import React, {useEffect, useState} from 'react';
-import AnimatedContainer from 'components/AnimatedContainer';
-import Header from 'components/Header';
-import SwipeableViews from 'react-swipeable-views';
-import Question from 'components/Question';
-import Button from 'components/Button';
-import {ReactComponent as TimerIcon} from 'assets/icons/timer.svg';
-import {ReactComponent as TimerIconDanger} from 'assets/icons/timer-danger.svg';
-import OverviewBox from 'components/OverviewBox';
-import useCountDownTimer from 'hooks/useCountDownTimer';
-import classNames from 'classnames';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import AnimatedContainer from "components/AnimatedContainer";
+import Header from "components/Header";
+import Question from "components/Question";
+import Button from "components/Button";
+import { ReactComponent as TimerIcon } from "assets/icons/timer.svg";
+import { ReactComponent as TimerIconDanger } from "assets/icons/timer-danger.svg";
+import OverviewBox from "components/OverviewBox";
+import useCountDownTimer from "hooks/useCountDownTimer";
+import classNames from "classnames";
 // import questions from 'constants/Questions';
-import ConfirmModal from 'components/SmallModal';
-import useFetch, {CachePolicies} from 'use-http';
-import API from 'constants/api';
-import {useNavigate, useParams} from 'react-router';
-import {useUser} from 'context/user-context';
-import {getItemFromLocalStorage} from 'constants/index';
-import toast from 'react-hot-toast';
-import {useAuth} from 'context/auth-context';
-import Loader from 'components/Loader';
-import MainModal from 'components/MainModal';
+import ConfirmModal from "components/SmallModal";
+import useFetch, { CachePolicies } from "use-http";
+import API from "constants/api";
+import { useNavigate, useParams } from "react-router";
+import { useUser } from "context/user-context";
+import { getItemFromLocalStorage } from "constants/index";
+import toast from "react-hot-toast";
+import { useAuth } from "context/auth-context";
+import Loader from "components/Loader";
+import MainModal from "components/MainModal";
 
 const Test = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const {user} = useUser();
-  const {studentSignOut} = useAuth();
+  const { user } = useUser();
+  const { studentSignOut } = useAuth();
 
   //localstorage keys
   const userQuestionslKey = `${user?.matric}-${params.id}`;
   const overviewKey = `${user?.matric}-${params.id}-${params.type}-overview`;
   const durationKey = `${user?.matric}-${params.id}-${params.type}-timeLeft`;
 
-  const {data, loading, error} = useFetch(
+  const { data, loading, error } = useFetch(
     API.getQuestions(params.id, params.type),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
-  const {post: postAnswers, loading: sLoading} = useFetch(
-    API.submitAssessment(params.id, params.type),
+  const { post: postAnswers, loading: sLoading } = useFetch(
+    API.submitAssessment(params.id, params.type)
   );
 
   const [questionsDetails, setQuestionsDetatils] = useState({
     questions: [],
     questionAmount: 0,
     duration: 0,
-    courseCode: '',
-    courseTitle: '',
+    courseCode: "",
+    courseTitle: "",
   });
 
   // state for question indicators including selected answer
-  const [overview, setOverview] = useState([]);
+  const [overview, setOverview] = useState<any[]>([]);
 
   // state for current question
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -87,23 +87,23 @@ const Test = () => {
       //   ) || 0,
       // );
     } else if (questionsDetails?.questions?.length) {
-      let initOVerview = questionsDetails?.questions.map((n, _) => ({
+      const initOVerview = questionsDetails?.questions.map((n: any, _) => ({
         no: _ + 1,
-        questionId: n.id,
-        type: 'default',
-        selectedAnswer: '',
+        questionId: n?.id,
+        type: "default",
+        selectedAnswer: "",
       }));
       setOverview(initOVerview);
       localStorage.setItem(overviewKey, JSON.stringify(initOVerview));
     }
-  }, [questionsDetails]);
+  }, [questionsDetails, overviewKey]);
 
   //next & previous question functions
   const handleNext = () => {
     setCurrentQuestionIndex(
       currentQuestionIndex === questionsDetails?.questions?.length - 1
         ? 0
-        : prev => prev + 1,
+        : (prev) => prev + 1
     );
   };
 
@@ -111,36 +111,36 @@ const Test = () => {
     setCurrentQuestionIndex(
       currentQuestionIndex === 0
         ? questionsDetails?.questions?.length - 1
-        : prev => prev - 1,
+        : (prev) => prev - 1
     );
   };
 
-  const handleOnOverviewBox = index => {
+  const handleOnOverviewBox = (index: number) => {
     setCurrentQuestionIndex(index - 1);
   };
 
-  const logOut = typ => {
+  const logOut = (typ: string) => {
     localStorage.clear();
     studentSignOut();
     navigate(
-      typ === 'messgae'
+      typ === "messgae"
         ? `/login/${user?.firstName} ${user?.lastName}/${params.type}`
-        : '/login',
+        : "/login"
     );
   };
 
   const handleSubmit = async () => {
     const answers = overview
-      .filter(ov => ov.selectedAnswer)
-      .map(ov => ({id: ov.questionId, answer: ov.selectedAnswer}));
+      .filter((ov: any) => ov?.selectedAnswer)
+      .map((ov: any) => ({ id: ov?.questionId, answer: ov?.selectedAnswer }));
     const dataToPost = {
       questionAmount: questionsDetails?.questionAmount,
       answers,
     };
     try {
       const res = await postAnswers(dataToPost);
-      if (res?.status === 'success') {
-        logOut('messgae');
+      if (res?.status === "success") {
+        logOut("messgae");
       }
     } catch (e) {
       toast.error(String(e));
@@ -150,11 +150,11 @@ const Test = () => {
     if (timeUp && !error) {
       handleSubmit();
     }
-  }, [timeUp]);
+  }, [timeUp, error]);
 
   useEffect(() => {
     if (error) {
-      setTimeout(() => logOut(''), 3000);
+      setTimeout(() => logOut(""), 3000);
     }
   }, [error]);
 
@@ -178,8 +178,8 @@ const Test = () => {
       <MainModal isVisible={Boolean(error)} title="Message">
         <div>
           <p>
-            Sorry {user?.firstName} {user?.lastName} you cannot take this{' '}
-            {params.type.toUpperCase()} again
+            Sorry {user?.firstName} {user?.lastName} you cannot take this{" "}
+            {params?.type?.toUpperCase()} again
           </p>
           <p>You are being logged out..</p>
         </div>
@@ -187,7 +187,7 @@ const Test = () => {
       <Header
         avatar={
           user?.avatar ||
-          'https://image.shutterstock.com/z/stock-photo-inmage-of-pensive-concentrated-woman-doctor-sitting-at-table-and-working-on-laptop-computer-2083183264.jpg'
+          "https://image.shutterstock.com/z/stock-photo-inmage-of-pensive-concentrated-woman-doctor-sitting-at-table-and-working-on-laptop-computer-2083183264.jpg"
         }
         firstname={user?.firstName}
         lastname={user?.lastName}
@@ -204,7 +204,7 @@ const Test = () => {
               <div className="mt-10 h-full">
                 <div className="px-4 md:px-14">
                   <h2 className="text-3xl mb-10">
-                    {questionsDetails?.courseCode?.toUpperCase()} -{' '}
+                    {questionsDetails?.courseCode?.toUpperCase()} -{" "}
                     {questionsDetails?.courseTitle}
                   </h2>
                 </div>
@@ -224,7 +224,8 @@ const Test = () => {
                 <div className="flex justify-center my-12">
                   <Button
                     onClick={handlePrevious}
-                    className="mr-14 bg-primary py-[10px]">
+                    className="mr-14 bg-primary py-[10px]"
+                  >
                     Previous
                   </Button>
                   <Button onClick={handleNext} className="bg-primary py-[10px]">
@@ -240,44 +241,47 @@ const Test = () => {
                     {lessThan10 ? <TimerIconDanger /> : <TimerIcon />}
                     <div className="ml-3">
                       <p
-                        className={classNames('text-3xl', {
-                          'text-danger': lessThan10,
-                        })}>
+                        className={classNames("text-3xl", {
+                          "text-danger": lessThan10,
+                        })}
+                      >
                         {timer}
                       </p>
                       <p
-                        className={classNames('text-xl', {
-                          'text-[#666666]': !lessThan10,
-                          'text-danger': lessThan10,
-                        })}>
+                        className={classNames("text-xl", {
+                          "text-[#666666]": !lessThan10,
+                          "text-danger": lessThan10,
+                        })}
+                      >
                         remaining
                       </p>
                     </div>
                   </div>
                   <p className="mt-5 text-danger text-[15px] h-[20%]">
-                    {lessThan10 ? 'You have less than 10 minutes!' : ''}
+                    {lessThan10 ? "You have less than 10 minutes!" : ""}
                   </p>
                 </div>
                 <div className="h-[43vh] overflow-y-scroll">
                   <p className="text-[15px]">You have answered:</p>
                   <p className="mb-7 text-xl">
-                    {overview?.filter(ov => ov.type === 'done')?.length} of{' '}
+                    {overview?.filter((ov) => ov.type === "done")?.length} of{" "}
                     {questionsDetails?.questionAmount} questions
                   </p>
                   <p className="mb-7 text-[15px]">Questions Overview:</p>
                   <div className="flex flex-wrap">
-                    {overview.map(n => (
+                    {overview.map((n: any) => (
                       // <div key>
                       <OverviewBox
-                        onClick={() => handleOnOverviewBox(n.no)}
+                        onClick={() => handleOnOverviewBox(n?.no)}
                         key={n.no}
                         type={
-                          n.no === currentQuestionIndex + 1 && n.type === 'done'
-                            ? 'doneCurrent'
+                          n.no === currentQuestionIndex + 1 && n.type === "done"
+                            ? "doneCurrent"
                             : n.no === currentQuestionIndex + 1
-                            ? 'current'
+                            ? "current"
                             : n.type
-                        }>
+                        }
+                      >
                         {n.no}
                       </OverviewBox>
                     ))}
@@ -288,10 +292,11 @@ const Test = () => {
                   <Button
                     // isDisabled={true || !lessThan10}
                     hoverStyle={lessThan10}
-                    className={classNames('py-[10px]', {
+                    className={classNames("py-[10px]", {
                       // 'opacity-40': true || !lessThan10,
                     })}
-                    onClick={() => setShowModal(true)}>
+                    onClick={() => setShowModal(true)}
+                  >
                     End Exam
                   </Button>
                 </div>

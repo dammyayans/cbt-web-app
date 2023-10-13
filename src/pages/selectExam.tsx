@@ -1,25 +1,27 @@
-import cn from 'classnames';
-import Button from 'components/Button';
-import Layout from 'components/Layout';
-import Loader from 'components/Loader';
-import API from 'constants/api';
-import screens from 'constants/screens';
-import {useAuth} from 'context/auth-context';
-import React, {useState} from 'react';
-import toast from 'react-hot-toast';
-import {useNavigate} from 'react-router-dom';
-import useFetch, {CachePolicies} from 'use-http';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import cn from "classnames";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useFetch, { CachePolicies } from "use-http";
+import toast from "react-hot-toast";
+
+import Button from "components/Button";
+import Layout from "components/Layout";
+import Loader from "components/Loader";
+import API from "constants/api";
+import screens from "constants/screens";
+import { useAuth } from "context/auth-context";
 
 const SelectExam = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState(null);
-  const {data, loading, get} = useFetch(
+  const [selected, setSelected] = useState<any>(null);
+  const { data, loading, get } = useFetch(
     API.getStartedCourses,
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
   const startedCourses = data?.startedCourses;
-  const {studentSignOut} = useAuth();
+  const { studentSignOut } = useAuth();
 
   return (
     <Layout>
@@ -38,18 +40,19 @@ const SelectExam = () => {
                   <Loader className="p-6 m-0" />
                 </div>
               ) : startedCourses?.length ? (
-                startedCourses.map((c, _) => (
+                startedCourses.map((c: any, _: any) => (
                   <button
                     onClick={() => setSelected(c)}
                     key={_}
                     className={cn(
                       `w-full rounded-[10px] border-2 py-4 pl-10 text-left text-sm text-black mb-6 cursor-pointer transition-all duration-300`,
                       {
-                        'bg-primary text-white border-primary font-bold active-shadow':
+                        "bg-primary text-white border-primary font-bold active-shadow":
                           selected === c,
-                        'border-border-gray': selected !== c,
-                      },
-                    )}>
+                        "border-border-gray": selected !== c,
+                      }
+                    )}
+                  >
                     {`${c?.course?.courseCode.toUpperCase()} ${c?.type?.toUpperCase()} - ${
                       c?.course?.courseTitle
                     }`}
@@ -62,7 +65,8 @@ const SelectExam = () => {
                 <button
                   onClick={studentSignOut}
                   type="button"
-                  className=" text-primary text-sm font-bold ml-auto mr-8 my-4 logout-btn-top">
+                  className=" text-primary text-sm font-bold ml-auto mr-8 my-4 logout-btn-top"
+                >
                   Log Out
                 </button>
               </div>
@@ -75,26 +79,26 @@ const SelectExam = () => {
               </h2>
               <div className="p-5">
                 <p className="text-[12px] mb-2">
-                  Course Code:{' '}
+                  Course Code:{" "}
                   <span className="font-bold">
                     {selected?.course?.courseCode?.toUpperCase()}
                   </span>
                 </p>
                 <p className="text-[12px] mb-2">
-                  Course Title:{' '}
+                  Course Title:{" "}
                   <span className="font-bold">
                     {selected?.course?.courseTitle?.toUpperCase()}
                   </span>
                 </p>
                 <p className="text-[12px] mb-2">
-                  Duration:{' '}
+                  Duration:{" "}
                   <span className="font-bold">
-                    {' '}
+                    {" "}
                     {selected?.duration} minutes
                   </span>
                 </p>
                 <p className="text-[12px] mb-2">
-                  Total Questions:{' '}
+                  Total Questions:{" "}
                   <span className="font-bold">{selected?.amount}</span>
                 </p>
               </div>
@@ -112,11 +116,12 @@ const SelectExam = () => {
             onClick={() =>
               selected
                 ? navigate(
-                    `${screens.test}/${selected?.courseID}/${selected?.type}`,
+                    `${screens.test}/${selected?.courseID}/${selected?.type}`
                   )
-                : toast.error('Please select a course')
+                : toast.error("Please select a course")
             }
-            type="submit">
+            type="submit"
+          >
             Start
           </Button>
         </div>

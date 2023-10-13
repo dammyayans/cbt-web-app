@@ -3,8 +3,9 @@ export const getItemFromLocalStorage = key => {
   return item?.includes('{') || item?.includes('[') ? JSON.parse(item) : item;
 };
 
-function getBrowserFullscreenElementProp() {
+export function getBrowserFullscreenElementProp() {
   if (typeof document.fullscreenElement !== 'undefined') {
     return 'fullscreenElement';
   }
+  return '';
 }

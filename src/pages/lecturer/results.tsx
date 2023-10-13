@@ -1,64 +1,63 @@
-// import React, {useState} from 'react';
-import AnimatedContainer from 'components/AnimatedContainer';
-import Button from 'components/Button';
-import DashboardLayout from 'components/Dashboard/Layout';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import AnimatedContainer from "components/AnimatedContainer";
+import DashboardLayout from "components/Dashboard/Layout";
 
-// import toast from 'react-hot-toast';
-// import {useForm} from 'react-hook-form';
-import useFetch, {CachePolicies} from 'use-http';
-import API from 'constants/api';
-// import validation from 'constants/validation';
-import {useNavigate} from 'react-router';
-// import screens from 'constants/screens';
-import Table from 'react-tailwind-table';
-import tableStyling from 'constants/tableStyling';
-import Loader from 'components/Loader';
-import {useParams} from 'react-router';
-import {Link} from 'react-router-dom';
-import screens from 'constants/screens';
+import useFetch, { CachePolicies } from "use-http";
+import API from "constants/api";
+import { useNavigate } from "react-router";
+import Table from "react-tailwind-table";
+import tableStyling from "constants/tableStyling";
+import Loader from "components/Loader";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import screens from "constants/screens";
 
 const col = [
   {
-    field: 'student.matric',
-    use: 'Matric No',
+    field: "student.matric",
+    use: "Matric No",
   },
   {
-    field: 'student.firstName',
-    use: 'First Name',
+    field: "student.firstName",
+    use: "First Name",
   },
   {
-    field: 'student.lastName',
-    use: 'Last Name',
+    field: "student.lastName",
+    use: "Last Name",
   },
   {
-    field: 'ca',
-    use: 'CA',
+    field: "ca",
+    use: "CA",
   },
   {
-    field: 'exam',
-    use: 'Exam',
+    field: "exam",
+    use: "Exam",
   },
   {
-    field: 'total',
-    use: 'Total',
+    field: "total",
+    use: "Total",
   },
   {
-    field: 'grade',
-    use: 'Grade',
+    field: "grade",
+    use: "Grade",
   },
 ];
 
 const LecResults = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const {data, loading: gLoading} = useFetch(
+  const { data, loading: gLoading } = useFetch(
     API.getLecResults(params.id),
-    {cachePolicy: CachePolicies.CACHE_AND_NETWORK},
-    [],
+    { cachePolicy: CachePolicies.CACHE_AND_NETWORK },
+    []
   );
 
-  const rowcheck = (row, column, display_value) => {
-    if (column.field === 'grade') {
+  const rowcheck = (
+    _row: any,
+    column: { field: string },
+    display_value: string
+  ) => {
+    if (column.field === "grade") {
       return display_value?.toUpperCase();
     }
 
@@ -73,7 +72,8 @@ const LecResults = () => {
       <AnimatedContainer className="md:px-8 px-4 container mx-auto w-full mt-[85px]">
         <span
           onClick={() => navigate(-1)}
-          className="pt-8 text-lg text-primary cursor-pointer">
+          className="pt-8 text-lg text-primary cursor-pointer"
+        >
           Go back
         </span>
         <h3 className="font-bold text-3xl mt-3">Results</h3>
@@ -83,7 +83,7 @@ const LecResults = () => {
               <p>
                 <Link className="text-primary" to={screens.lecturerCourses}>
                   Courses
-                </Link>{' '}
+                </Link>{" "}
                 / {params?.courseTitle} - {params?.courseCode}
               </p>
             </div>
