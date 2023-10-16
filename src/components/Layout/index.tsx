@@ -1,6 +1,7 @@
 import AnimatedContainer from "../AnimatedContainer";
 import sideBanner from "assets/images/side-banner.png";
 import logo from "assets/images/unilorin-logo.png";
+import React from "react";
 const Layout = ({ children }) => {
   return (
     <AnimatedContainer>

@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import PrivateRoute from "./PrivateRoute";

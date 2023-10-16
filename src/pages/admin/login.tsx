@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
@@ -13,8 +14,8 @@ import { Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 interface IFormValue {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
 const AdminLogin = () => {

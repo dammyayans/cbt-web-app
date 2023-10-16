@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 import { Navigate } from "react-router-dom";
@@ -15,8 +15,8 @@ import MainModal from "components/MainModal";
 import Button from "components/Button";
 
 interface IFormValue {
-  matric: string;
-  password: string;
+  matric?: string;
+  password?: string;
 }
 
 const Login = () => {

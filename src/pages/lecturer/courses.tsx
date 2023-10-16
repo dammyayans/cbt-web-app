@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import React, { useState } from "react";
 import AnimatedContainer from "components/AnimatedContainer";
 import Button from "components/Button";
 import DashboardLayout from "components/Dashboard/Layout";
@@ -19,10 +19,10 @@ import { ReactComponent as DownloadIcon } from "assets/icons/download-icon.svg";
 import { useDropzone } from "react-dropzone";
 
 interface IFormValue {
-  excelFile: any;
-  duration: string;
-  amount: string;
-  type: string;
+  excelFile?: any;
+  duration?: string;
+  amount?: string;
+  type?: string;
 }
 
 const col = [

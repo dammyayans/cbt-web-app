@@ -2,7 +2,7 @@ import React from "react";
 
 import cn from "classnames";
 
-interface IOverviewButton extends React.PropsWithChildren {
+interface IOverviewButton {
   type?: string;
   onClick?: (() => null) | (() => void);
   className?: string;

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -17,11 +18,11 @@ import tableStyling from "constants/tableStyling";
 import Loader from "components/Loader";
 
 interface IFormValue {
-  courseCode: string;
-  courseTitle: string;
-  unit: string;
+  courseCode?: string;
+  courseTitle?: string;
+  unit?: string;
   status?: string;
-  lecturerID: string;
+  lecturerID?: string;
 }
 
 const col = [

@@ -1,31 +1,32 @@
-import AnimatedContainer from 'components/AnimatedContainer';
-import Button from 'components/Button';
-import DashboardLayout from 'components/Dashboard/Layout';
-import API from 'constants/api';
-import validation from 'constants/validation';
-import {useForm} from 'react-hook-form';
-import toast from 'react-hot-toast';
-import useFetch from 'use-http';
+import React from "react";
+import AnimatedContainer from "components/AnimatedContainer";
+import Button from "components/Button";
+import DashboardLayout from "components/Dashboard/Layout";
+import API from "constants/api";
+import validation from "constants/validation";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import useFetch from "use-http";
 
 interface IFormValue {
-  oldPassword: string;
-  password: string;
-  confirmPassword: string;
+  oldPassword?: string;
+  password?: string;
+  confirmPassword?: string;
 }
 
 const Settings = () => {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
-  } = useForm<IFormValue>({resolver: validation.changeLPassword});
-  const {patch: patchChangePassword, loading} = useFetch(API.changePassword);
+  } = useForm<IFormValue>({ resolver: validation.changeLPassword });
+  const { patch: patchChangePassword, loading } = useFetch(API.changePassword);
 
   const onSubmit = async (data: IFormValue) => {
     try {
       const res = await patchChangePassword(data);
-      if (res?.status === 'success') {
+      if (res?.status === "success") {
         reset();
       }
     } catch (e) {
@@ -41,7 +42,7 @@ const Settings = () => {
             <div className="mb-6">
               <p className="text-black mb-2 text-[18px]">Old Password</p>
               <input
-                {...register('oldPassword')}
+                {...register("oldPassword")}
                 type="password"
                 className=" px-6 py-1 border bg-white border-border-gray rounded-[10px] outline-none w-full md:w-[50%]"
               />
@@ -52,7 +53,7 @@ const Settings = () => {
             <div className="mb-6">
               <p className="text-black mb-2 text-[18px]">Password</p>
               <input
-                {...register('password')}
+                {...register("password")}
                 type="password"
                 className=" px-6 py-1 border bg-white border-border-gray rounded-[10px] outline-none w-full md:w-[50%]"
               />
@@ -63,7 +64,7 @@ const Settings = () => {
             <div className="">
               <p className="text-black mb-2 text-[18px]">Confirm Password</p>
               <input
-                {...register('confirmPassword')}
+                {...register("confirmPassword")}
                 type="password"
                 className=" px-6 py-1 border bg-white border-border-gray rounded-[10px] outline-none w-full md:w-[50%]"
               />
@@ -75,7 +76,8 @@ const Settings = () => {
               type="submit"
               onClick={() => null}
               loading={loading}
-              className="mt-[60px]">
+              className="mt-[60px]"
+            >
               Save
             </Button>
           </form>

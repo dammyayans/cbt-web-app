@@ -1,3 +1,5 @@
+import React from "react";
+
 const DashboardHeader = ({ avatar, name }) => {
   return (
     <div className="bg-white fixed border-b-4 right-0 left-0 md:left-[250px] border-b-primary z-10">

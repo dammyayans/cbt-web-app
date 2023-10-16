@@ -1,3 +1,4 @@
+import React from "react";
 import cn from "classnames";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,9 +53,8 @@ const SelectExam = () => {
                       }
                     )}
                   >
-                    {`${c?.course?.courseCode.toUpperCase()} ${c?.type?.toUpperCase()} - ${
-                      c?.course?.courseTitle
-                    }`}
+                    {`${c?.course?.courseCode.toUpperCase()} ${c?.type?.toUpperCase()} - ${c
+                      ?.course?.courseTitle}`}
                   </button>
                 ))
               ) : (

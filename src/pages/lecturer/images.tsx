@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AnimatedContainer from "components/AnimatedContainer";
 import Button from "components/Button";
 import DashboardLayout from "components/Dashboard/Layout";
@@ -17,7 +17,7 @@ import { ReactComponent as AddFile } from "assets/icons/add-file.svg";
 import { useDropzone } from "react-dropzone";
 
 interface IFormValue {
-  title: string;
+  title?: string;
 }
 
 const col = [

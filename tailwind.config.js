@@ -1,13 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
 
 module.exports = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  mode: "jit",
+  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     container: {
       center: true,
@@ -17,6 +13,7 @@ module.exports = {
         518: "518px",
       },
       colors: {
+        ...colors,
         primary: "#000050",
         danger: "#E72525",
         success: "#3FF50F",

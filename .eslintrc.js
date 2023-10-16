@@ -6,7 +6,7 @@ module.exports = {
     es6: true,
   },
   extends: ["eslint:recommended"],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  ignorePatterns: ["dist", ".eslintrc.js"],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "react"],
 };

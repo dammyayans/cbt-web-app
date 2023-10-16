@@ -1,11 +1,12 @@
-import Option from './Option';
-import './index.css';
+import React from "react";
+import Option from "./Option";
+import "./index.css";
 // import reactStringReplace from 'react-string-replace';
 
-const keyWord = '___';
+const keyWord = "___";
 
-const AdminQuestion = ({details, sn}) => {
-  const {image, question, option_a, option_b, option_c, option_d, answer} =
+const AdminQuestion = ({ details, sn }) => {
+  const { image, question, option_a, option_b, option_c, option_d, answer } =
     details || {};
 
   return (
@@ -14,7 +15,8 @@ const AdminQuestion = ({details, sn}) => {
       <div className="mb-[40px]">
         <p
           className="text-[22px] "
-          dangerouslySetInnerHTML={{__html: question}}></p>
+          dangerouslySetInnerHTML={{ __html: question }}
+        ></p>
         {image ? (
           <img src={image} alt={question} className="h-[200px] my-4" />
         ) : null}

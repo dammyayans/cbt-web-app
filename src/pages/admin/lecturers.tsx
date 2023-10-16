@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AnimatedContainer from "components/AnimatedContainer";
 import Button from "components/Button";
 import DashboardLayout from "components/Dashboard/Layout";
@@ -17,12 +17,12 @@ import tableStyling from "constants/tableStyling";
 import Loader from "components/Loader";
 
 interface IFormValue {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  department: string;
-  faculty: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  email?: string;
+  department?: string;
+  faculty?: string;
 }
 
 const col = [

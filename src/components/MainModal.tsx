@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-interface ModalProps extends React.PropsWithChildren {
+interface ModalProps {
   isVisible: boolean;
   title: string;
   contentClassName?: string;

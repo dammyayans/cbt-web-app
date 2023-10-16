@@ -1,11 +1,12 @@
-import classNames from 'classnames';
-import cn from 'classnames';
-import Button from './Button';
+import classNames from "classnames";
+import cn from "classnames";
+import Button from "./Button";
+import React from "react";
 
 type ModalProps = {
   isVisible: boolean;
   onClose: () => void;
-  type: 'submit' | 'confirm';
+  type: "submit" | "confirm";
   onYes?: () => void;
   loading?: boolean;
   message?: string;
@@ -25,17 +26,18 @@ const SmallModal = ({
 }: ModalProps) => (
   <div
     className={cn(
-      'fixed top-0 left-0 w-full h-full bg-[#999999] bg-opacity-70 z-10 flex flex-col items-center justify-end transition-all duration-500 md:justify-center',
-      {'transform translate-y-full': !isVisible},
-    )}>
+      "fixed top-0 left-0 w-full h-full bg-[#999999] bg-opacity-70 z-10 flex flex-col items-center justify-end transition-all duration-500 md:justify-center",
+      { "transform translate-y-full": !isVisible }
+    )}
+  >
     <div
       className={cn(
-        'bg-transparent flex-1 w-full md:absolute md:w-full md:h-full md:top-0 md:left-0 md:z-10',
+        "bg-transparent flex-1 w-full md:absolute md:w-full md:h-full md:top-0 md:left-0 md:z-10"
       )}
       //   onClick={onClose}
     />
     <div className=" bg-white w-[414px] p-8 overflow-y-auto md:relative md:z-20">
-      {type === 'confirm' ? (
+      {type === "confirm" ? (
         <div>
           <p className="text-xl">Confirmation</p>
           <p className="text-[15px] mt-2">
@@ -50,10 +52,11 @@ const SmallModal = ({
               onClick={onYes}
               hoverStyle={false}
               className={classNames(
-                'mr-7 border-none hover:text-white rounded-none',
-                {'bg-danger': isDelete},
-                {'bg-primary': !isDelete},
-              )}>
+                "mr-7 border-none hover:text-white rounded-none",
+                { "bg-danger": isDelete },
+                { "bg-primary": !isDelete }
+              )}
+            >
               YES
             </Button>
             <Button
@@ -62,10 +65,11 @@ const SmallModal = ({
               type="button"
               hoverStyle={false}
               className={classNames(
-                'border-none hover:text-white rounded-none',
-                {'bg-danger': !isDelete},
-                {'bg-gray': isDelete},
-              )}>
+                "border-none hover:text-white rounded-none",
+                { "bg-danger": !isDelete },
+                { "bg-gray": isDelete }
+              )}
+            >
               NO
             </Button>
           </div>
@@ -82,7 +86,8 @@ const SmallModal = ({
           <div className="flex justify-center mt-12">
             <Button
               type="button"
-              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none">
+              className="bg-primary mr-7 hover:bg-primary border-none hover:text-white rounded-none"
+            >
               CLOSE
             </Button>
           </div>

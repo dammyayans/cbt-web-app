@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 
@@ -13,8 +13,8 @@ import { Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 interface IFormValue {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 const LecturerLogin = () => {
