@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import cn from "classnames";
 import Button from "./Button";
-import React from "react";
 
 type ModalProps = {
   isVisible: boolean;

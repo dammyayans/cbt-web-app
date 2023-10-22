@@ -1,5 +1,4 @@
 import logo from "assets/images/unilorin-logo.png";
-import React from "react";
 
 const Header = ({ avatar, firstname, lastname = "", matricNo = "" }) => {
   return (

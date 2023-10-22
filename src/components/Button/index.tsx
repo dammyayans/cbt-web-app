@@ -1,4 +1,3 @@
-import React from "react";
 import cn from "classnames";
 import Loader from "components/Loader";
 import { PropsType } from "types";

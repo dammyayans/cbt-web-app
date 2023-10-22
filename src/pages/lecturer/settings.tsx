@@ -1,4 +1,3 @@
-import React from "react";
 import AnimatedContainer from "components/AnimatedContainer";
 import Button from "components/Button";
 import DashboardLayout from "components/Dashboard/Layout";

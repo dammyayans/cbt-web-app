@@ -1,4 +1,3 @@
-import React from "react";
 import Option from "./Option";
 import "./index.css";
 // import reactStringReplace from 'react-string-replace';

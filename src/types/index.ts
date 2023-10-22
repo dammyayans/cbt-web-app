@@ -1,5 +1,3 @@
-import React from "react";
-
 export type PropsType = {
   children?: React.ReactNode;
   [key: string]: unknown;

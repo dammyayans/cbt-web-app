@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AnimatedContainer from "components/AnimatedContainer";
 import Header from "components/Header";
 import Question from "components/Question";

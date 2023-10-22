@@ -3,7 +3,6 @@ import { useAuth } from "context/auth-context";
 import { ProtectRoute } from "context/user-context";
 import { ProtectLRoute } from "context/lecturer-context";
 import { ProtectARoute } from "context/admin-context";
-import React from "react";
 
 const PrivateRoute: React.FC<{ children?: React.ReactNode; type: string }> = ({
   children,
